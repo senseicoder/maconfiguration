@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  vars:
+    compte: cedric
+  tasks:
+    - name: installer les paquets nécessaires
+      apt: name=grc state=present
+    - name: copier les fichiers de configuration
+      copy: src=my.cnf dest=/home/{{ compte }}/.my.cnf owner={{ compte }} mode=0600
+      copy: src=grcat dest=/home/{{ compte }}/.grcat owner={{ compte }} mode=0600
