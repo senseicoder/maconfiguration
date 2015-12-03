@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  vars:
+    compte: cedric
+  roles:
+    - shell_mysql
