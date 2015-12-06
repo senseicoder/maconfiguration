@@ -1,0 +1,79 @@
+---
+- name: vieux gnome?
+  apt: name=gnome-session-flashback state=present
+- name: ajout apt_repository
+  apt_repository: repo='deb http://archive.canonical.com/ubuntu hardy partner' state=present
+- name: apt update et upgrade
+  apt: update_cache=yes upgrade=dist
+
+#libs
+- name: ibus
+  apt: name=ibus state=present
+- name: ibus-gtk
+  apt: name=ibus-gtk state=present
+- name: ibus-qt4
+  apt: name=ibus-qt4 state=present
+
+#outils
+- name: aptitude
+  apt: name=aptitude state=present
+- name: yakuake
+  apt: name=yakuake state=present
+- name: pwgen
+  apt: name=pwgen state=present
+- name: sshfs
+  apt: name=sshfs state=present
+- name: colordiff
+  apt: name=colordiff state=present
+- name: iotop
+  apt: name=iotop state=present
+- name: htop
+  apt: name=htop state=present
+- name: mytop
+  apt: name=mytop state=present
+- name: sharutils
+  apt: name=sharutils state=present
+- name: subversion
+  apt: name=subversion state=present
+
+#communication
+- name: pidgin
+  apt: name=pidgin state=present
+- name: skype
+  apt: name=skype state=present
+
+#réseau
+- name: gufw
+  apt: name=gufw state=present
+- name: ssmtp
+  apt: name=ssmtp state=present
+- name: openssh-server
+  apt: name=openssh-server state=present
+- name: wakeonlan
+  apt: name=wakeonlan state=present
+
+#net
+- name: ktorrent
+  apt: name=ktorrent state=present
+- name: nfs-common
+  apt: name=nfs-common state=present
+- name: lynx
+  apt: name=lynx state=present
+
+#video
+- name: mplayer
+  apt: name=mplayer state=present
+- name: mencoder
+  apt: name=mencoder state=present
+- name: totem
+  apt: name=totem state=present
+
+#svn
+#cp ssh/* ~/.ssh/
+/usr/bin/ssh-add /home/cedric/.ssh/svnKey /home/cedric/.ssh/id_rsa
+- name: svn co Ecriture
+  subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Ecritures dest=~/Ecritures
+- name: svn co Ecriture
+  subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash/ dest=~/bin
+- name: svn co Ecriture
+  subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Coeur dest=~/Coeur
