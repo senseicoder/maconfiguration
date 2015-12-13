@@ -17,3 +17,7 @@ TODO
 	        name: '{{ item }}'
 	        update_cache: True
 	        cache_valid_time: 300œ
+
+
+- name: vieux gnome?
+  apt: name=gnome-session-flashback state=present

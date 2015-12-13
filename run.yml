@@ -2,5 +2,8 @@
 - hosts: localhost
   vars:
     compte: cedric
+    basedir: /home/cedric
+    basedir_perso: /home/cedric/Perso/
   roles:
     - shell_mysql
+    - workstation
