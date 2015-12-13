@@ -4,6 +4,7 @@
     compte: cedric
     basedir: /home/cedric
     basedir_perso: /home/cedric/Perso/
+    module_lang: fr_FR.UTF-8
   roles:
     - shell_mysql
     - workstation
