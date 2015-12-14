@@ -1,5 +1,7 @@
 ---
 - name: installer les paquets nécessaires
+  sudo: True
+  sudo_user: root
   apt: name=grc state=present
 - name: copier le fichier Mysql
   copy: src=my.cnf dest=/home/{{ compte }}/.my.cnf owner={{ compte }} mode=0600

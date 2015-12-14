@@ -3,8 +3,9 @@
   vars:
     compte: cedric
     basedir: /home/cedric
-    basedir_perso: /home/cedric/Perso/
+    basedir_perso: /home/cedric/
     module_lang: fr_FR.UTF-8
   roles:
+    - apnees
     - shell_mysql
     - workstation

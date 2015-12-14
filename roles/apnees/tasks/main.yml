@@ -1,0 +1,32 @@
+---
+- set_fact: 
+    homedir: "/home/{{ compte }}"
+    giturl: "git://sleepyhead.git.sourceforge.net/gitroot/sleepyhead/sleepyhead"
+    tmpdir: "/tmp/sleepyhead"
+    confdir: "/home/{{ compte }}/.config/Jedimark"
+- set_fact: 
+    tmpexe: "{{ tmpdir }}/sleepyhead/SleepyHead"
+    destexe: "{{ homedir }}/bin/SleepyHead"
+
+- name: libs
+  sudo: True
+  sudo_user: root
+  with_items: [ build-essential, git-core, qt4-dev-tools, libqt4-opengl-dev, libqtwebkit-dev, zlib1g-dev, libqt5serialport5, libqt5serialport5-dev, libqt5webkit5-dev, libudev-dev ]
+  apt:
+    name: '{{ item }}'
+
+- name: git clone
+  git: repo={{ giturl }} dest={{ tmpdir }} accept_hostkey=True
+- name: build
+  shell: export QT_SELECT=qt5 && qmake && make -j3
+  args:
+    chdir: /tmp/sleepyhead
+- name: déplacement exécutable buildé
+  command: mv {{ tmpexe }} {{ destexe }} creates={{ destexe }} removes={{ tmpexe }}
+- name: nettoyage dossier temporaire
+  file: path={{ tmpdir }} state=absent
+
+- name: création dossier de conf
+  file: path={{ confdir }} state=directory mode=0700
+- name: copie fichier de configuration
+  copy: src=SleepyHead-Testing.conf dest={{ confdir }}/SleepyHead-Testing.conf owner={{ compte }} mode=0600
