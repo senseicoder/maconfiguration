@@ -58,9 +58,18 @@
 #- name: svn co bin
 #  subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash/ dest={{ basedir }}/bin
 - name: svn co Coeur
+<<<<<<< HEAD
+  subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Coeur dest={{ basedir_perso }}/Coeur
+  environment:
+    LANG: C #fr_FR.UTF-8
+    LC_ALL: C #fr_FR.UTF-8
+#- name: svn co Ecriture
+#  subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Ecritures dest={{ basedir_perso }}/Ecritures
+=======
   environment:
     LANG: en_US.UTF-8
     LC_ALL: en_US.UTF-8
   subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Coeur dest={{ basedir_perso }}/Coeur
 - name: svn co Ecriture
   subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Ecritures dest={{ basedir_perso }}/Ecritures
+>>>>>>> 6cb3f32cd02d445a0c21a2f5ac86c6be69eb7d5a
