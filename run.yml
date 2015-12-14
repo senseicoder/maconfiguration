@@ -6,6 +6,6 @@
     basedir_perso: /home/cedric/
     module_lang: fr_FR.UTF-8
   roles:
-    - apnees
-    - shell_mysql
+#    - apnees
+#    - shell_mysql
     - workstation

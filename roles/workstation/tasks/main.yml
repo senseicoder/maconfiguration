@@ -1,65 +1,66 @@
 ---
-- name: repository partner
-  sudo: True
-  sudo_user: root
-  apt_repository: repo='deb http://archive.canonical.com/ trusty partner' state=present
-- name: repository syncthing
-  sudo: True
-  sudo_user: root
-  apt_repository: repo='deb http://apt.syncthing.net/ syncthing release' state=present
-- name: apt update et upgrade
-  sudo: True
-  sudo_user: root
-  apt: update_cache=yes upgrade=dist
-- name: bash_aliases
-  copy: src=bash_aliases dest=/home/{{ compte }}/.bash_aliases owner={{ compte }} mode=0600
+# - name: repository partner
+#   sudo: True
+#   sudo_user: root
+#   apt_repository: repo='deb http://archive.canonical.com/ trusty partner' state=present
+# - name: repository syncthing
+#   sudo: True
+#   sudo_user: root
+#   apt_repository: repo='deb http://apt.syncthing.net/ syncthing release' state=present
+# - name: apt update et upgrade
+#   sudo: True
+#   sudo_user: root
+#   apt: update_cache=yes upgrade=dist
+# - name: bash_aliases
+#   copy: src=bash_aliases dest=/home/{{ compte }}/.bash_aliases owner={{ compte }} mode=0600
 
-- name: libs
-  sudo: True
-  sudo_user: root
-  with_items: [ ibus, ibus-gtk, ibus-qt4 ]
-  apt:
-    name: '{{ item }}'
-- name: outils
-  sudo: True
-  sudo_user: root
-  with_items: [ aptitude, pwgen, sshfs, colordiff, iotop, htop, mytop, sharutils, subversion, yakuake ]
-  apt:
-    name: '{{ item }}'
-- name: communication
-  sudo: True
-  sudo_user: root
-  with_items: [ pidgin, skype ]
-  apt:
-    name: '{{ item }}'
-- name: réseau
-  sudo: True
-  sudo_user: root
-  with_items: [ gufw, ssmtp, openssh-server, wakeonlan ]
-  apt:
-    name: '{{ item }}'
-- name: internet
-  sudo: True
-  sudo_user: root
-  with_items: [ ktorrent, nfs-common, lynx ]
-  apt:
-    name: '{{ item }}'
-- name: video
-  sudo: True
-  sudo_user: root
-  with_items: [ mplayer, mencoder, totem, handbrake ]
-  apt:
-    name: '{{ item }}'
+# - name: libs
+#   sudo: True
+#   sudo_user: root
+#   with_items: [ ibus, ibus-gtk, ibus-qt4 ]
+#   apt:
+#     name: '{{ item }}'
+# - name: outils
+#   sudo: True
+#   sudo_user: root
+#   with_items: [ aptitude, pwgen, sshfs, colordiff, iotop, htop, mytop, sharutils, subversion, yakuake ]
+#   apt:
+#     name: '{{ item }}'
+# - name: communication
+#   sudo: True
+#   sudo_user: root
+#   with_items: [ pidgin, skype ]
+#   apt:
+#     name: '{{ item }}'
+# - name: réseau
+#   sudo: True
+#   sudo_user: root
+#   with_items: [ gufw, ssmtp, openssh-server, wakeonlan ]
+#   apt:
+#     name: '{{ item }}'
+# - name: internet
+#   sudo: True
+#   sudo_user: root
+#   with_items: [ ktorrent, nfs-common, lynx ]
+#   apt:
+#     name: '{{ item }}'
+# - name: video
+#   sudo: True
+#   sudo_user: root
+#   with_items: [ mplayer, mencoder, totem, handbrake ]
+#   apt:
+#     name: '{{ item }}'
 
 #svn
 #cp ssh/* ~/.ssh/
 #/usr/bin/ssh-add /home/cedric/.ssh/svnKey /home/cedric/.ssh/id_rsa
 
-- name: svn co bin
-  subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash/ dest={{ basedir }}/bin
+#- name: svn co bin
+#  subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash/ dest={{ basedir }}/bin
 - name: svn co Coeur
   environment:
-    LANG: fr_FR.UTF-8
+    LANG: en_US.UTF-8
+    LC_ALL: en_US.UTF-8
   subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Coeur dest={{ basedir_perso }}/Coeur
-#- name: svn co Ecriture
-#  subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Ecritures dest={{ basedir_perso }}/Ecritures
+- name: svn co Ecriture
+  subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Ecritures dest={{ basedir_perso }}/Ecritures
