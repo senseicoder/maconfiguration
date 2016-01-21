@@ -9,8 +9,8 @@
     destexe: "{{ homedir }}/bin/SleepyHead"
 
 - name: libs
-  sudo: True
-  sudo_user: root
+  become: True
+  become_user: root
   with_items: [ build-essential, git-core, qt4-dev-tools, libqt4-opengl-dev, libqtwebkit-dev, zlib1g-dev, libqt5serialport5, libqt5serialport5-dev, libqt5webkit5-dev, libudev-dev ]
   apt:
     name: '{{ item }}'
