@@ -1,0 +1,40 @@
+#### static personnel
+
+Host gandi.ssh sftp.dc0.gpaas.net
+        ForwardX11 no
+        Hostname sftp.dc0.gpaas.net
+        User 105067
+        PubkeyAuthentication yes
+
+Host csoft resin.csoft.net
+        Hostname resin.csoft.net
+        User cedricg
+        ForwardX11 no
+
+Host nasext
+        Hostname nari.hd.free.fr
+        Port 4023
+        User root
+        ForwardX11 no
+        LocalForward 8181 127.0.0.1:8181
+        LocalForward 9394 127.0.0.1:8384
+
+Host m5ext
+        Hostname 78.227.58.53
+        Port 4022
+        ForwardX11 yes
+
+Host m5
+        Hostname 192.168.0.10 
+
+Host nas
+        Hostname 192.168.0.11
+        User root
+        ForwardX11 no
+        LocalForward 9394 127.0.0.1:8384
+
+Host sophie2
+        Hostname 151.236.59.82
+        User root
+        ForwardX11 no
+        PubkeyAuthentication yes

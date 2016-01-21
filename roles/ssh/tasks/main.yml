@@ -1,0 +1,11 @@
+---
+- set_fact: 
+    static_perso : "{{ lookup('file', 'perso.txt') }}"
+    static_epiconcept: "{{ lookup('file', 'epiconcept.txt') }}"
+    serveurs_oxa: "{{ lookup('url', 'http://doc.charenton.tld/oocarto/export_opensshconf.php')}}"
+
+#- action: uri url=http://doc.charenton.tld/oocarto/export_opensshconf.php return_content=yes
+#  register: serveurs_oxa
+
+#- template: src=config.ssh.j2 dest=/home/{{ compte }}/.ssh/config owner={{ compte }} mode=0600
+- template: src=files/config.ssh.j2 dest=/home/{{ compte }}/ssh_config owner={{ compte }} mode=0600

@@ -1,0 +1,104 @@
+#### static pour epiconcept
+# on peut surcharger tout ou partie d'un serveur ici
+
+# accès
+
+Host bastionssh #conf générique
+        ForwardAgent yes
+
+Host bastionssh #charenton
+        Hostname bastion2.admin.oxa.tld
+
+#Host bastionssh #nari
+#        Hostname 95.131.137.250 
+
+#Host bastionssh #vpn via rebond
+#        Hostname bastion2.admin.oxa.tld
+#        ProxyCommand ssh cedric@rebond nc -w 1 %h %p
+
+#Host bastionssh #vpn via faranth
+#        Hostname bastion2.admin.oxa.tld
+#        ProxyCommand ssh cedric@faranth nc -w 1 %h %p
+
+#Host bastionssh #direct depuis IP autorisée
+#        Hostname bastion2.admin.oxa.tld
+#        ProxyCommand ssh cedric@rebonddirect nc -w 1 %h %p
+
+Host rebonddirect
+        User cedric
+        Hostname sta.epiconcept.net
+        Port 22001
+        ForwardAgent yes
+
+Host faranth
+        Hostname 192.168.1.110
+        ForwardAgent yes
+
+# serveurs internes à conf spécifique
+
+Host esistn2
+        Hostname 10.1.15.39
+        ForwardAgent yes
+        Compression yes
+        ProxyCommand ssh esisgw1 nc.traditional -w 1 %h %p
+
+Host vooportal
+        Hostname sat01.admin
+        Port 22129
+        User cedric
+        ForwardAgent yes
+        ForwardX11 no
+        ProxyCommand ssh cedrica@bastion2 nc -w 1 %h %p
+
+Host ubuntu-build
+        Hostname ubuntu-build.charenton.tld
+        User chezsoi
+        ForwardAgent yes
+        PubkeyAuthentication no
+
+Host debian-build
+        User epiconcept_build
+        Hostname debian-build.charenton.tld
+        ForwardAgent yes
+
+Host neoforum
+        Hostname localhost
+        port 2201
+        ProxyCommand ssh -i ~/.ssh/id_rsa neoforum.epiconcept.fr nc -w 1 %h %p
+
+Host pandora
+        User root
+        Hostname pandora.charenton.tld
+
+# serveurs externes
+
+Host magic1
+        User root
+        ForwardAgent yes
+        Hostname 188.130.44.207
+        Port 8022
+
+Host alien
+        Hostname alien.epiconcept.net
+
+Host ovh3
+        User root
+        Hostname ovh3.epiconcept.fr
+
+Host dcm4chee
+        LocalForward 4081 127.0.0.1:80
+        LocalForward 8081 127.0.0.1:8080
+
+### Mongolie
+
+Host vzn1
+        Hostname 124.158.109.76
+        User khurelbaatar
+        PubkeyAuthentication no
+        ForwardX11 no
+
+Host vzn2
+        Hostname 124.158.112.73
+        User khurelbaatar
+        PubkeyAuthentication no
+        ForwardX11 no

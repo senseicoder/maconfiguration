@@ -1,0 +1,8 @@
+{% for srv in sshservers %}
+Host {{ srv.name }}
+	Hostname {{ srv.name }}.admin2.oxa.tld
+	ForwardAgent yes
+	Compression yes
+	ProxyCommand ssh bastionssh nc.traditional -w 1 %h %p
+
+{% endfor %}
