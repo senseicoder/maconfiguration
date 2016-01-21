@@ -2,11 +2,11 @@
 - hosts: localhost
   vars:
     compte: cedric
-    basedir: /home/cedric
-    basedir_perso: /home/cedric/
+    basedir: "/home/{{ compte }}"
+    basedir_perso: "/home/{{ compte }}"
     module_lang: fr_FR.UTF-8
   roles:
 #    - apnees
-#    - shell_mysql
-#    - workstation
+    - shell_mysql
+    - workstation
     - security

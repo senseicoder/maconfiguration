@@ -1,0 +1,6 @@
+[ui]
+username = Cedric Girard <c.girard@epiconcept.fr>
+verbose = True
+
+[trusted]
+users = root
