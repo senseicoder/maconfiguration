@@ -226,12 +226,9 @@
 		"/home/cedric/www/c/maconfiguration/roles/apnees",
 		"/home/cedric/www/c/maconfiguration/roles/apnees/files",
 		"/home/cedric/www/c/maconfiguration/roles/apnees/tasks",
-		"/home/cedric/www/c/maconfiguration/roles/security/tasks",
-		"/home/cedric/www/c/maconfiguration/roles/shell_mysql/tasks",
 		"/home/cedric/www/c/maconfiguration/roles/ssh",
 		"/home/cedric/www/c/maconfiguration/roles/ssh/files",
-		"/home/cedric/www/c/maconfiguration/roles/ssh/tasks",
-		"/home/cedric/www/c/maconfiguration/roles/workstation/tasks"
+		"/home/cedric/www/c/maconfiguration/roles/ssh/tasks"
 	],
 	"file_history":
 	[
@@ -473,8 +470,8 @@
 						"selection":
 						[
 							[
-								233,
-								233
+								551,
+								551
 							]
 						],
 						"settings":
