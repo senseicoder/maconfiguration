@@ -1,6 +1,7 @@
 TODO
 ####
 
+* ~/bin/public sur https://github.com/senseicoder/myscripts.git
 * http://repo2.charenton.tld/hg/patterns/4cgd/file/b510df81b072/apt-loop.yml::
 	
 	---
