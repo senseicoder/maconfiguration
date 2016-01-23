@@ -112,39 +112,11 @@
 	"buffers":
 	[
 		{
-			"file": "roles/ssh/tasks/main.yml",
+			"file": "play.sh",
 			"settings":
 			{
-				"buffer_size": 551,
-				"line_ending": "Unix",
-				"name": "---"
-			}
-		},
-		{
-			"file": "roles/ssh/files/config.ssh.j2",
-			"settings":
-			{
-				"buffer_size": 93,
-				"line_ending": "Unix",
-				"name": "{% block title %}{% endblock %}"
-			}
-		},
-		{
-			"file": "roles/ssh/files/perso.txt",
-			"settings":
-			{
-				"buffer_size": 820,
-				"line_ending": "Unix",
-				"name": "#### static personnel"
-			}
-		},
-		{
-			"file": "roles/ssh/files/epiconcept.txt",
-			"settings":
-			{
-				"buffer_size": 2311,
-				"line_ending": "Unix",
-				"name": "Host bastionssh"
+				"buffer_size": 55,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -226,12 +198,18 @@
 		"/home/cedric/www/c/maconfiguration/roles/apnees",
 		"/home/cedric/www/c/maconfiguration/roles/apnees/files",
 		"/home/cedric/www/c/maconfiguration/roles/apnees/tasks",
+		"/home/cedric/www/c/maconfiguration/roles/security",
+		"/home/cedric/www/c/maconfiguration/roles/security/tasks",
 		"/home/cedric/www/c/maconfiguration/roles/ssh",
 		"/home/cedric/www/c/maconfiguration/roles/ssh/files",
 		"/home/cedric/www/c/maconfiguration/roles/ssh/tasks"
 	],
 	"file_history":
 	[
+		"/home/cedric/www/c/maconfiguration/roles/ssh/files/epiconcept.txt",
+		"/home/cedric/www/c/maconfiguration/roles/ssh/files/perso.txt",
+		"/home/cedric/www/c/maconfiguration/roles/ssh/files/config.ssh.j2",
+		"/home/cedric/www/c/maconfiguration/roles/ssh/tasks/main.yml",
 		"/home/cedric/www/c/maconfiguration/roles/ssh/files/tiroir.j2",
 		"/home/cedric/www/c/maconfiguration/run.yml",
 		"/home/cedric/www/c/maconfiguration/roles/ssh/files/mncardio.txt",
@@ -355,11 +333,7 @@
 		"/tmp/sublime-svn-1433432271/SVN",
 		"/home/cedric/www/e/epiconcept_build/packages/system/epiconcept-arborescence/opt/epiconcept/epiconcept-arborescence/apache2/auth/2.2/authuser_ip",
 		"/home/cedric/www/e/epiconcept_build/packages/system/epiconcept-arborescence/DEBIAN/control",
-		"/home/cedric/www/e/epiconcept_build/packages/system/epiconcept-arborescence/etc/apache2/conf.d/errorManager",
-		"/home/cedric/www/e/epiconcept_build/packages/system/epiconcept-arborescence/etc/epiconcept-arborescence/zz_epiconcept_apc_M.ini",
-		"/tmp/sublime-svn-1432732119/SVN",
-		"/tmp/sublime-svn-1432732088/SVN",
-		"/home/cedric/www/e/epiconcept_build/packages/system/ZMQPROXY/php-zmq/install-sh"
+		"/home/cedric/www/e/epiconcept_build/packages/system/epiconcept-arborescence/etc/apache2/conf.d/errorManager"
 	],
 	"find":
 	{
@@ -459,122 +433,30 @@
 			[
 				{
 					"buffer": 0,
-					"file": "roles/ssh/tasks/main.yml",
-					"semi_transient": false,
+					"file": "play.sh",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 551,
+						"buffer_size": 55,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								551,
-								551
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"auto_name": "---",
-							"syntax": "Packages/YAML/YAML.tmLanguage"
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "roles/ssh/files/config.ssh.j2",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 93,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								28,
-								28
-							]
-						],
-						"settings":
-						{
-							"auto_name": "{% block title %}{% endblock %}",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "roles/ssh/files/perso.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 820,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								819,
-								819
-							]
-						],
-						"settings":
-						{
-							"auto_name": "#### static personnel",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 8,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "roles/ssh/files/epiconcept.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2311,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								80,
-								80
-							]
-						],
-						"settings":
-						{
-							"auto_name": "Host bastionssh",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 8,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
 					"type": "text"
 				}
 			]
