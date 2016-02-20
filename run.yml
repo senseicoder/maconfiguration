@@ -10,4 +10,5 @@
 #    - shell_mysql
 #    - workstation
 #    - security
-    - ssh
+#    - ssh
+    - { role: dev, become: yes, become_user: root }

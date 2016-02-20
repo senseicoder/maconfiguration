@@ -1,0 +1,36 @@
+---
+#source: https://docs.docker.com/engine/installation/linux/ubuntulinux/
+
+- set_facts:
+    compose_version: 1.6.0
+
+- apt_repository: repo='deb http://get.docker.io/ubuntu docker main' state=absent
+- file: path=/etc/apt/sources.list.d/docker.list state=absent
+- apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-trusty main' state=present
+- apt_key: keyserver=p80.pool.sks-keyservers.net id=58118E89F3A912897C070ADBF76221572C52609D
+
+- apt: name=lxc-docker state=absent
+  register: lxcdocker_removed
+- file: path=/var/lib/docker state=absent #sinon grosse charge IO quand on passe à docker-engine
+  when: lxcdocker_removed.changed
+
+- shell: uname -r
+  register: uname_r
+  changed_when: false
+
+- shell: uname -s
+  register: uname_s
+  changed_when: false
+
+- shell: uname -m
+  register: uname_m
+  changed_when: false
+
+- apt: name={{ item }} update_cache=yes state=present
+  with_items: ["apt-transport-https", "ca-certificates", "linux-image-extra-{{ uname_r.stdout }}", "docker-engine"]
+
+- get_url: 
+    url="https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }}" 
+    dest="/usr/local/bin/docker-compose" mode=0755
+
+- service: name=docker enabled=yes state=started
