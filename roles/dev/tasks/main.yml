@@ -1,7 +1,7 @@
 ---
 #source: https://docs.docker.com/engine/installation/linux/ubuntulinux/
 
-- set_facts:
+- set_fact:
     compose_version: 1.6.0
 
 - apt_repository: repo='deb http://get.docker.io/ubuntu docker main' state=absent
@@ -11,6 +11,8 @@
 
 - apt: name=lxc-docker state=absent
   register: lxcdocker_removed
+- service: name=docker enabled=no state=stopped
+  when: lxcdocker_removed.changed
 - file: path=/var/lib/docker state=absent #sinon grosse charge IO quand on passe à docker-engine
   when: lxcdocker_removed.changed
 
@@ -34,3 +36,6 @@
     dest="/usr/local/bin/docker-compose" mode=0755
 
 - service: name=docker enabled=yes state=started
+
+- file: path={{ basedir_perso }}/.config/git/ state=directory owner={{ compte }} group={{ compte }}
+- lineinfile: dest={{ basedir_perso }}/.config/git/ignore line="**/*.sublime-workspace" owner={{ compte }} group={{ compte }}
