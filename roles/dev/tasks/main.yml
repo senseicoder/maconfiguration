@@ -39,3 +39,11 @@
 
 - file: path={{ basedir_perso }}/.config/git/ state=directory owner={{ compte }} group={{ compte }}
 - lineinfile: dest={{ basedir_perso }}/.config/git/ignore line="**/*.sublime-workspace" owner={{ compte }} group={{ compte }}
+
+- shell: git config --global credential.helper cache
+  become: yes
+  become_user: "{{ compte }}"
+
+- shell: git config --global credential.helper 'cache --timeout=3600'
+  become: yes
+  become_user: "{{ compte }}"
