@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"una",
+				"uname_s"
+			],
+			[
 				"pdf",
 				"pdfmerge"
 			],
@@ -116,44 +120,27 @@
 	"buffers":
 	[
 		{
-			"contents": "#!/bin/bash\n\nsource ${0%/*}/scan_common.sh\n\nif [ -z \"$1\" ]; then\n	echo \"saisir un nom de fichier pour le scan\"\n	exit 1\nfi\nfinal=~/$1\npdf=/tmp/scan.pdf\n\nif [ -f \"$final\" ]; then \n	echo \"le fichier existe déjà\"\n	exit 1\nfi\n\nwhile [ -z \"$result\" ]; do \n	doscan $pdf\n	checkfile $pdf\ndone\n",
-			"file": "/home/cedric/bin/scan",
-			"file_size": 285,
-			"file_write_time": 130980523811498957,
+			"file": "roles/dev/tasks/main.yml",
 			"settings":
 			{
-				"buffer_size": 283,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "#!/bin/bash\n\nsource ${0%/*}/scan_common.sh\n\nif [ -z \"$1\" ]; then\n	echo \"saisir un nom de fichier pour le scan\"\n	exit 1\nfi\nfinal=~/$1\npdfmerge=/tmp/scan.pdf\ndir=/tmp/scan\nrm -rf $dir $pdfmerge\nmkdir $dir\n\nif [ -f \"$final\" ]; then \n	echo \"le fichier existe déjà\"\n	exit 1\nfi\n\ncount=1\nwhile [ -z \"$infini\" ]; do \n	while [ -z \"$result\" ]; do\n		pdf=$dir/$count.pdf\n		echo \"scan page $count\"\n		doscan $pdf\n		count=$(echo \"$count + 1\" | bc)\n\n		PS3='encore une page ? > '   # le prompt\n		LISTE=(\"[o]ui\" \"[n]on\")  # liste de choix disponibles\n		select CHOIX in \"${LISTE[@]}\" ; do\n			case $REPLY in\n				1|o) break;;\n				2|n) result=1; break;;\n			esac\n		done\n	done\n	pdfmerge $pdfmerge $dir/*\n	rm -rf $dir\n	result=\n	checkfile $pdfmerge $final\ndone",
-			"file": "/home/cedric/bin/scanm",
-			"file_size": 736,
-			"file_write_time": 130980534998858848,
-			"settings":
-			{
-				"buffer_size": 734,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "#!/bin/bash\n\n# doc\n# http://www.konradvoelkel.com/2013/03/scan-to-pdfa/\n# http://crunchbang.org/forums/viewtopic.php?id=13875\n\nfunction doscan()\n{\n	local tiff=/tmp/scan.tiff\n	local file=$1\n\n	rm -f $tiff $file\n	scanimage --progress --resolution=300 > $tiff\n	convert $tiff $file\n	rm -f $tiff \n	pdfsmall $file > /dev/null\n}\n\nfunction checkfile()\n{\n	local file=$1\n	local final=$2\n\n	echo \"regardez le fichier, et fermez la fenêtre pour continuer\"\n	evince $file\n\n	PS3='Fichier correct ? > '   # le prompt\n	LISTE=(\"[o]ui\" \"[n]on\")  # liste de choix disponibles\n	select CHOIX in \"${LISTE[@]}\" ; do\n		case $REPLY in\n			1|o) mv $file $final; exit 0; break;;\n			2|n) echo \"on recommence\"; break;;\n		esac\n	done\n}",
-			"file": "/home/cedric/bin/scan_common.sh",
-			"file_size": 701,
-			"file_write_time": 130980535484378843,
-			"settings":
-			{
-				"buffer_size": 700,
+				"buffer_size": 1260,
 				"line_ending": "Unix",
-				"name": "#!/bin/bash"
+				"name": "---"
 			}
 		},
 		{
-			"file": "todo.rst",
+			"file": "run.yml",
 			"settings":
 			{
-				"buffer_size": 618,
+				"buffer_size": 293,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "play.sh",
+			"settings":
+			{
+				"buffer_size": 58,
 				"line_ending": "Unix"
 			}
 		}
@@ -233,23 +220,23 @@
 	[
 		"/home/cedric/www/c/maconfiguration",
 		"/home/cedric/www/c/maconfiguration/roles",
-		"/home/cedric/www/c/maconfiguration/roles/apnees",
-		"/home/cedric/www/c/maconfiguration/roles/apnees/files",
-		"/home/cedric/www/c/maconfiguration/roles/apnees/tasks",
+		"/home/cedric/www/c/maconfiguration/roles/dev",
+		"/home/cedric/www/c/maconfiguration/roles/dev/tasks",
 		"/home/cedric/www/c/maconfiguration/roles/security",
-		"/home/cedric/www/c/maconfiguration/roles/security/tasks",
-		"/home/cedric/www/c/maconfiguration/roles/ssh",
-		"/home/cedric/www/c/maconfiguration/roles/ssh/files",
-		"/home/cedric/www/c/maconfiguration/roles/ssh/tasks"
+		"/home/cedric/www/c/maconfiguration/roles/security/tasks"
 	],
 	"file_history":
 	[
+		"/home/cedric/bin/scan",
+		"/home/cedric/bin/scanm",
+		"/home/cedric/bin/scan_common.sh",
+		"/home/cedric/www/c/maconfiguration/todo.rst",
+		"/home/cedric/www/c/maconfiguration/run.yml",
 		"/home/cedric/www/c/maconfiguration/roles/ssh/files/epiconcept.txt",
 		"/home/cedric/www/c/maconfiguration/roles/ssh/files/perso.txt",
 		"/home/cedric/www/c/maconfiguration/roles/ssh/files/config.ssh.j2",
 		"/home/cedric/www/c/maconfiguration/roles/ssh/tasks/main.yml",
 		"/home/cedric/www/c/maconfiguration/roles/ssh/files/tiroir.j2",
-		"/home/cedric/www/c/maconfiguration/run.yml",
 		"/home/cedric/www/c/maconfiguration/roles/ssh/files/mncardio.txt",
 		"/home/cedric/www/c/maconfiguration/roles/shell_mysql/tasks/main.yml",
 		"/home/cedric/www/c/maconfiguration/roles/apnees/tasks/main.yml",
@@ -257,7 +244,6 @@
 		"/home/cedric/www/c/maconfiguration/roles/workstation/tasks/main.yml",
 		"/home/cedric/www/c/maconfiguration/play.sh",
 		"/home/cedric/www/c/maconfiguration/roles/apnees/files/SleepyHead-Testing.conf",
-		"/home/cedric/www/c/maconfiguration/todo.rst",
 		"/home/cedric/Dropbox/Install/devweb.sh",
 		"/home/cedric/Dropbox/Install/dropbox.sh",
 		"/home/cedric/Dropbox/Install/japonais.sh",
@@ -368,10 +354,7 @@
 		"/home/cedric/www/e/OutilsInternes/ScriptsUnix/bdd/voodb",
 		"/home/cedric/bin/voodb.d/export_structure.php",
 		"/tmp/sublime-svn-1433432751/SVN",
-		"/tmp/sublime-svn-1433432271/SVN",
-		"/home/cedric/www/e/epiconcept_build/packages/system/epiconcept-arborescence/opt/epiconcept/epiconcept-arborescence/apache2/auth/2.2/authuser_ip",
-		"/home/cedric/www/e/epiconcept_build/packages/system/epiconcept-arborescence/DEBIAN/control",
-		"/home/cedric/www/e/epiconcept_build/packages/system/epiconcept-arborescence/etc/apache2/conf.d/errorManager"
+		"/tmp/sublime-svn-1433432271/SVN"
 	],
 	"find":
 	{
@@ -466,57 +449,58 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/home/cedric/bin/scan",
+					"file": "roles/dev/tasks/main.yml",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 283,
+						"buffer_size": 1260,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								221,
-								221
+								370,
+								370
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+							"auto_name": "---",
+							"syntax": "Packages/YAML/YAML.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/home/cedric/bin/scanm",
+					"file": "run.yml",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 734,
+						"buffer_size": 293,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								672,
-								672
+								259,
+								259
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+							"syntax": "Packages/YAML/YAML.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -527,60 +511,30 @@
 				},
 				{
 					"buffer": 2,
-					"file": "/home/cedric/bin/scan_common.sh",
+					"file": "play.sh",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 700,
+						"buffer_size": 58,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								15,
-								15
+								58,
+								58
 							]
 						],
 						"settings":
 						{
-							"auto_name": "#!/bin/bash",
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "todo.rst",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 618,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								74,
-								74
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -848,9 +802,13 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "",
+		"last_filter": "ansi",
 		"selected_items":
 		[
+			[
+				"ansi",
+				"~/www/e/ansible-deploy/ansible-deploy.sublime-project"
+			],
 			[
 				"outils",
 				"~/www/e/OutilsInternes/outilsinternes.sublime-project"
