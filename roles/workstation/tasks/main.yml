@@ -20,7 +20,7 @@
 - name: apt update et upgrade
   become: True
   become_user: root
-  apt: update_cache=yes upgrade=dist
+  apt: update_cache=yes upgrade=dist force=yes
   changed_when: false
 - name: bash_aliases
   copy: src=bash_aliases dest=/home/{{ compte }}/.bash_aliases owner=cedric mode=0600
@@ -67,6 +67,22 @@
   changed_when: false
 - name: mercurial configure
   copy: src=hgrc dest=/home/{{ compte }}/.hgrc owner=cedric mode=0600
+
+- name: installation kp cli
+  shell: pip install keepassx
+  become: True
+  become_user: root
+- name: configuration kp cli
+  lineinfile: dest="{{ basedir_perso }}/.bashrc" state=present line="export KP_DB_FILE={{ basedir_perso }}/Sync/Central/trousseau.kdb"
+
+- name: installation kpcli
+  become: True
+  become_user: root
+  with_items: [ kpcli, libterm-readline-gnu-perl, libdata-password-perl ]
+  apt:
+    name: '{{ item }}'
+- name: dépendances kpcli
+  shell: cpan Clipboard Capture::Tiny
 
 #svn
 #cp ssh/* ~/.ssh/
