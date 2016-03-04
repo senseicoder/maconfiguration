@@ -11,5 +11,4 @@ alias egrep='egrep --color=auto'
 
 alias antidote='/opt/Druide/Antidote8/Programmes64/Antidote8'
 
-alias keeenq='kp get "Keepass enquêtes" > /dev/null 2>&1'
-alias ecenq='kp -d /home/epiconcept/globe/Technique/divers/epi/EnqVOO2.kdb.kdb get'
+alias kpec="bin/kp -d ~/Sync/Central/trousseau.kdb getpwd 'Keepass enqu' | bin/kp -d /home/epiconcept/globe/Technique/divers/epi/EnqVOO2.kdb.kdb --stdin get"
