@@ -85,7 +85,12 @@
   apt:
     name: '{{ item }}'
 - name: dépendances kpcli
+  become: True
+  become_user: root
   shell: cpan Clipboard Capture::Tiny
+
+- name: configuration editor
+  lineinfile: dest="{{ basedir_perso }}/.bashrc" state=present line="export EDITOR=/usr/bin/nano"
 
 #svn
 #cp ssh/* ~/.ssh/
