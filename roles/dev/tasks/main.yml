@@ -39,6 +39,10 @@
 
 - file: path={{ basedir_perso }}/.config/git/ state=directory owner={{ compte }} group={{ compte }}
 - lineinfile: dest={{ basedir_perso }}/.config/git/ignore line="**/*.sublime-workspace" owner={{ compte }} group={{ compte }} create=yes state=present
+- lineinfile: dest={{ basedir_perso }}/.config/git/ignore line="**/*.retry" owner={{ compte }} group={{ compte }} create=yes state=present
+- lineinfile: dest=/etc/subversion/config line="global-ignores = .tags .tags_sorted_by_file *.*~ *.sublime-workspace .* *.retry" regexp="^global-ignores =" owner={{ compte }} group={{ compte }} create=yes state=present
+  become: yes
+  become_user: root
 
 #https://help.github.com/articles/caching-your-github-password-in-git/
 - shell: git config --global credential.helper 'cache --timeout=36000'

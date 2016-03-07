@@ -8,7 +8,7 @@
   roles:
 #    - apnees
 #    - shell_mysql
-    - workstation
+#    - workstation
 #    - security
 #    - ssh
-#    - { role: dev, become: yes, become_user: root }
+    - { role: dev, become: yes, become_user: root }
