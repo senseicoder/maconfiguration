@@ -17,6 +17,17 @@
   become: True
   become_user: root
   apt_repository: repo='deb http://apt.syncthing.net/ syncthing release' state=present
+
+  # https://www.spotify.com/fr/download/
+- name: repository spotify key
+  become: True
+  become_user: root
+  apt_key: keyserver=keyserver.ubuntu.com id=BBEBDCB318AD50EC6865090613B00F1FD2C19886
+- name: repository spotify 
+  become: True
+  become_user: root
+  apt_repository: repo='deb http://repository.spotify.com stable non-free' state=present
+
 - name: apt update et upgrade
   become: True
   become_user: root
@@ -108,6 +119,11 @@
 #   environment:
 #     LANG: en_US.UTF-8
 #     LC_ALL: en_US.UTF-8
+
+- name: 
+  become: True
+  become_user: root
+  apt: name=spotify-client state=latest
 
 - name: mercurial /etc after-commit
   become: True
