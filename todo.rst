@@ -1,6 +1,12 @@
 TODO
 ####
 
+* qarte::
+
+	sudo add-apt-repository ppa:vincent-vandevyvre/vvv
+	sudo apt-get update
+	sudo apt-get install qarte
+
 * virer aptitude search apt-xapian-index
 * ~/bin/public sur https://github.com/senseicoder/myscripts.git
 * conf git .gitconfig::
