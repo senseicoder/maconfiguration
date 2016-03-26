@@ -1,0 +1,32 @@
+HISTTIMEFORMAT="%D %H:%M "
+dirhistory=/home/$USER/.history
+if [ ! -d "$dirhistory" ]; then mkdir $dirhistory; fi
+HISTFILE=$dirhistory/$(date +%F_%H%M%S)
+HISTCONTROL=ignoreboth
+
+HISTFILESIZE=400000000
+HISTSIZE=10000
+PROMPT_COMMAND="history -a"
+
+shopt -s histappend
+force_color_prompt=yes
+
+function histo()
+{
+        filtre=$1
+        grep $filtre $dirhistory/*
+}
+
+export LANG='fr_FR.UTF-8'
+
+alias ls='ls --color=auto'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+
+http://mywiki.wooledge.org/BashFAQ/088
