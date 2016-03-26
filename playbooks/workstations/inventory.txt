@@ -1,0 +1,1 @@
+test	 ansible_user=test ansible_password=test ansible_connection=docker

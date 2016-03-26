@@ -1,0 +1,9 @@
+---
+
+- apt: name=mercurial update_cache=true state=present
+
+- name: mercurial configure
+  copy: src=hgrc dest=/home/{{ ansible_user }}/.hgrc owner={{ ansible_user }} mode=0600
+
+- name: mercurial configure
+  copy: src=hgrc dest=/root/.hgrc owner=root mode=0600

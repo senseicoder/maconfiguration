@@ -1,0 +1,6 @@
+---
+
+- name: repository syncthing
+  become: True
+  become_user: root
+  apt_repository: repo='deb http://apt.syncthing.net/ syncthing release' state=present

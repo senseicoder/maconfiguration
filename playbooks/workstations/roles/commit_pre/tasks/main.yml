@@ -1,0 +1,19 @@
+---
+
+- name: /etc sous mercurial ? 
+  command: hg status --cwd /etc
+  register: hg_etc_init
+  failed_when: false
+  changed_when: false
+
+- name: hg init sur /etc
+  command: hg init --cwd /etc
+  when: hg_etc_init.rc > 0
+
+- name: mercurial /etc before-commit
+  command: hg commit --cwd /etc -Am "workstation rattrapage"
+  register: commande
+  failed_when: commande.rc > 1
+  changed_when: commande.stdout != "nothing changed"
+  args:
+    chdir: /etc

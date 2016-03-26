@@ -1,9 +1,0 @@
----
-- name: installer les paquets nécessaires
-  become: True
-  become_user: root
-  apt: name=grc state=present
-- name: copier le fichier Mysql
-  copy: src=my.cnf dest=/home/{{ compte }}/.my.cnf owner={{ compte }} mode=0600
-- name: copier le fichier grcat
-  copy: src=grcat dest=/home/{{ compte }}/.grcat owner={{ compte }} mode=0600

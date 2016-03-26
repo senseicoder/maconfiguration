@@ -1,0 +1,9 @@
+---
+
+- name: mercurial /etc after-commit
+  command: hg commit --cwd /etc -Am "workstation role security"
+  register: commande
+  failed_when: commande.rc > 1
+  changed_when: commande.stdout != "nothing changed"
+  args:
+    chdir: /etc

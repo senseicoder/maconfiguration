@@ -1,0 +1,11 @@
+---
+# sublim text
+
+- set_fact:
+    subl_path_dest: "/home/cedric/.config/sublime-text-3/Installed Packages/Package Control.sublime-package"
+
+- name: configuration Sublim Text
+  get_url: >
+    url="https://packagecontrol.io/Package%20Control.sublime-package" 
+    dest="{{ subl_path_dest }}"
+    owner={{ compte }} group={{ compte }}

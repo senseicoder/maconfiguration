@@ -1,0 +1,16 @@
+---
+- hosts: all
+  vars:
+  roles:
+    - { role: mercurial, become: yes, become_user: root }
+    - { role: commit_pre, become: yes, become_user: root }
+    #- apnees
+    - workstation
+    #- { role: docker, become: yes, become_user: root }
+#    - git
+#    - keepass
+#    - security
+#    - spotify
+#    - sublimtext
+#    - svn
+    - { role: commit_post, become: yes, become_user: root }

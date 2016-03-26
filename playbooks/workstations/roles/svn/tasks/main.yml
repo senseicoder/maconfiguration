@@ -1,0 +1,6 @@
+--- 
+
+- name: configuration svn (ignore)
+  lineinfile: dest=/etc/subversion/config line="global-ignores = .tags .tags_sorted_by_file *.*~ *.sublime-workspace .* *.retry" regexp="^global-ignores =" owner={{ compte }} group={{ compte }} create=yes state=present
+  become: yes
+  become_user: root

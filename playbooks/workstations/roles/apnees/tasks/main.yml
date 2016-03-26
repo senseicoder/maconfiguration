@@ -1,9 +1,9 @@
 ---
 - set_fact: 
-    homedir: "/home/{{ compte }}"
+    homedir: "/home/{{ ansible_user }}"
     giturl: "git://sleepyhead.git.sourceforge.net/gitroot/sleepyhead/sleepyhead"
     tmpdir: "/tmp/sleepyhead"
-    confdir: "/home/{{ compte }}/.config/Jedimark"
+    confdir: "/home/{{ ansible_user }}/.config/Jedimark"
 - set_fact: 
     tmpexe: "{{ tmpdir }}/sleepyhead/SleepyHead"
     destexe: "{{ homedir }}/bin/SleepyHead"

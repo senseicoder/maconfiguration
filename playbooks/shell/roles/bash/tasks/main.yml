@@ -1,0 +1,15 @@
+---
+
+- set_fact:
+    filebash: /home/{{ ansible_user }}/.bashrc
+    dirbashd: /home/{{ ansible_user }}/.bash.d
+
+- name: création bash.d
+  file: path={{ dirbashd }} state=directory owner={{ ansible_user }} group={{ ansible_user }}
+- name: inclusion bash.d
+  lineinfile: dest={{ filebash }} regexp={{ dirbashd }} line="for i in {{ dirbashd }}; do . $i; done"
+- name: copie des fichiers de configuration
+  copy: src={{ item }} dest={{ dirbashd }}
+  with_items: [ confbase, alias, history ]
+- name: configuration editor
+  lineinfile: dest={{ filebash }} state=present line="export EDITOR=/usr/bin/vi"
