@@ -1,27 +1,7 @@
 ---
 
-- name: mercurial /etc before-commit
-  become: True
-  become_user: root
-  command: hg commit --cwd /etc -Am "maconfiguration rattrapage"
-  register: commande
-  failed_when: commande.rc > 1
-  changed_when: commande.stdout != "nothing changed"
-  args:
-    chdir: /etc
-
 #http://linuxfr.org/users/spack/journaux/openssh-useroaming-no
 - name: openssh roaming
   become: True
   become_user: root
   lineinfile: dest=/etc/ssh/ssh_config regexp="^UseRoaming " line="UseRoaming no" state=present
-
-- name: mercurial /etc after-commit
-  become: True
-  become_user: root
-  command: hg commit --cwd /etc -Am "maconfiguration role security"
-  register: commande
-  failed_when: commande.rc > 1
-  changed_when: commande.stdout != "nothing changed"
-  args:
-    chdir: /etc

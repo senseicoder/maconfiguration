@@ -10,7 +10,7 @@
   become_user: root
   apt_repository: repo='deb http://repository.spotify.com stable non-free' state=present
 
-- name: 
+- name: installation spotify
   become: True
   become_user: root
   apt: name=spotify-client state=latest

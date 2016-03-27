@@ -2,10 +2,15 @@
 # sublim text
 
 - set_fact:
-    subl_path_dest: "/home/cedric/.config/sublime-text-3/Installed Packages/Package Control.sublime-package"
+    subl_path: "{{ dirhome }}/.config/sublime-text-3/Installed Packages"
 
+- apt_repository: repo='ppa:webupd8team/sublime-text-3' state=present
+- apt_key: keyserver=p80.pool.sks-keyservers.net id=58118E89F3A912897C070ADBF76221572C52609D
+- apt: name=sublime-text-installer update_cache=yes state=latest
+
+- file: path={{ subl_path }} state=directory
 - name: configuration Sublim Text
   get_url: >
     url="https://packagecontrol.io/Package%20Control.sublime-package" 
-    dest="{{ subl_path_dest }}"
-    owner={{ compte }} group={{ compte }}
+    dest="{{ subl_path }}//Package Control.sublime-package"
+    owner={{ ansible_user }} group={{ ansible_user }}

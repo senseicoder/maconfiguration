@@ -3,7 +3,7 @@
   vars:
     compte: cedric
     basedir: "/home/{{ compte }}"
-    basedir_perso: "/home/{{ compte }}"
+    dirhome: "/home/{{ compte }}"
     module_lang: fr_FR.UTF-8
   roles:
 #    - apnees

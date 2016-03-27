@@ -1,19 +1,22 @@
 ---
-# git 
+# git
+
+- set_fact: 
+    dirconf: "/home/{{ ansible_user }}/.config/git"
 
 - name: fichier de configuration git
-  file: path={{ basedir_perso }}/.config/git/ state=directory owner={{ compte }} group={{ compte }}
+  file: path={{ dirconf }} state=directory owner={{ ansible_user }} group={{ ansible_user }}
 
 - name: configuration git (ignore 1)
-  lineinfile: dest={{ basedir_perso }}/.config/git/ignore line="**/*.sublime-workspace" owner={{ compte }} group={{ compte }} create=yes state=present
+  lineinfile: dest="{{ dirconf }}/ignore" line="**/*.sublime-workspace" owner={{ ansible_user }} group={{ ansible_user }} create=yes state=present
 
 - name: configuration git (ignore 2)
-  lineinfile: dest={{ basedir_perso }}/.config/git/ignore line="**/*.retry" owner={{ compte }} group={{ compte }} create=yes state=present
+  lineinfile: dest="{{ dirconf }}/ignore" line="**/*.retry" owner={{ ansible_user }} group={{ ansible_user }} create=yes state=present
 
 #https://help.github.com/articles/caching-your-github-password-in-git/
 - shell: git config --global credential.helper 'cache --timeout=36000'
   become: yes
-  become_user: "{{ compte }}"
+  become_user: "{{ ansible_user }}"
   changed_when: false
 
 - name: git configure

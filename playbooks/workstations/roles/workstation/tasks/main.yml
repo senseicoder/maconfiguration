@@ -6,6 +6,8 @@
   apt_repository: repo='deb http://archive.canonical.com/ trusty partner' state=present
 
 - name: autoriser i386 (pour skype)
+  become: True
+  become_user: root
   shell: dpkg --add-architecture i386
   changed_when: false
 
@@ -26,7 +28,7 @@
 - name: outils
   become: True
   become_user: root
-  with_items: [ aptitude, apt-transport-https, pwgen, sshfs, colordiff, iotop, htop, mytop, sharutils, subversion, yakuake, mercurial, git ]
+  with_items: [ aptitude, apt-transport-https, pwgen, sshfs, colordiff, iotop, htop, mytop, sharutils, subversion, yakuake, mercurial, git, python, python-pip, python-dev ]
   apt:
     name: '{{ item }}'
 - name: communication
@@ -61,12 +63,12 @@
 #- name: svn co bin
 # subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash/ dest={{ basedir }}/bin
 # - name: svn co Coeur
-#   subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Coeur dest={{ basedir_perso }}/Coeur
+#   subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Coeur dest={{ dirhome }}/Coeur
 #   environment:
 #     LANG: C #fr_FR.UTF-8
 #     LC_ALL: C #fr_FR.UTF-8
 # - name: svn co Ecriture
-#   subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Ecritures dest={{ basedir_perso }}/Ecritures
+#   subversion: repo=svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Ecritures dest={{ dirhome }}/Ecritures
 #   environment:
 #     LANG: en_US.UTF-8
 #     LC_ALL: en_US.UTF-8
