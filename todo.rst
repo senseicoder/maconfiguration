@@ -1,6 +1,27 @@
 TODO
 ####
 
+* todo
+
+  * Kpcli from mon fork
+  * Pas de /home en dur
+  * Docker de test, voir la 15.10
+  * Installer certains trucs que sur certains machines
+  * Séparer dev du reste 
+  * Appel qui joue tout
+  * Shell sur oxalide, Sophie,,, 
+  * Les SVN à deployer
+  * Supershell sur faranth, conf m5
+  * Conf thunderbird et ff
+  * Conf yakuake
+  * Clefs ssh
+  * SVN, git... 
+  * Partagés Syncthing
+  * Pidgin 
+  * Conf de chacun 
+  * Sleepyhead, liens libs m5, historique apt, revoir script original ansible
+  * Tester sur un vieux portable
+
 * qarte::
 
 	sudo add-apt-repository ppa:vincent-vandevyvre/vvv
