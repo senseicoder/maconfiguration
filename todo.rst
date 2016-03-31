@@ -3,6 +3,8 @@ TODO
 
 * todo
 
+  * Csync lance Maj maconfiguration
+  * Export CDPATH=
   * Kpcli from mon fork
   * Pas de /home en dur
   * Docker de test, voir la 15.10
