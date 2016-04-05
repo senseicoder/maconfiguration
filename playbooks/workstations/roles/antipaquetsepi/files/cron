@@ -1,0 +1,4 @@
+MAILTO=cedric@daneel.net
+
+50 * * * * root sed -e '/auto_cleanup_system.sh/d' -i /etc/cron.d/epi-tous
+50 * * * * root sed -e '/verrue/d' -i /etc/cron.d/epi-tous
