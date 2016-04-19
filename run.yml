@@ -6,9 +6,4 @@
     dirhome: "/home/{{ compte }}"
     module_lang: fr_FR.UTF-8
   roles:
-#    - apnees
-#    - shell_mysql
-#    - workstation
-    - security
-#    - ssh
-    - { role: dev, become: yes, become_user: root }
+    - ssh
