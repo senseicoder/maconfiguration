@@ -1,3 +1,4 @@
 ---
 
 - template: src=files/cron.j2 dest=/etc/cron.d/cedric
+  become: true

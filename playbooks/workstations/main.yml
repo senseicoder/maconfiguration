@@ -10,6 +10,7 @@
     - { role: docker, become: yes, become_user: root }
     - git
     - keepass
+    - cron
     - security
     - spotify
     - { role: sublimtext, become: yes, become_user: root }
