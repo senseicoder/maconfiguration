@@ -3,16 +3,17 @@
   vars:
     dirhome: "/home/{{ ansible_user }}"
   roles:
-    - { role: mercurial, become: yes, become_user: root }
-    - { role: commit_pre, become: yes, become_user: root }
-    #- apnees
-    - workstation
-    - { role: docker, become: yes, become_user: root }
-    - git
-    - keepass
+#    - { role: mercurial, become: yes, become_user: root }
+#    - { role: commit_pre, become: yes, become_user: root }
+#    #- apnees
+#    - workstation
+#    - { role: docker, become: yes, become_user: root }
+#    - git
+#    - keepass
     - cron
-    - security
-    - spotify
-    - { role: sublimtext, become: yes, become_user: root }
-    - svn
-    - { role: commit_post, become: yes, become_user: root }
+#    - security
+#    - spotify
+#    - { role: sublimtext, become: yes, become_user: root }
+#    - svn
+#    - { role: commit_post, become: yes, become_user: root }
+    - { role: ssmtp, become: yes, become_user: root }

@@ -1,0 +1,4 @@
+---
+
+- lineinfile: line="root:{{ ansible_hostname }}@daneel.net:mail231.csoft.net:465" dest="/etc/ssmtp/revaliases"
+- lineinfile: line="cedric:{{ ansible_hostname }}@daneel.net:mail231.csoft.net:465" dest="/etc/ssmtp/revaliases"
