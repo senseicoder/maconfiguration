@@ -28,7 +28,7 @@
 - name: outils
   become: True
   become_user: root
-  with_items: [ aptitude, apt-transport-https, pwgen, sshfs, colordiff, iotop, htop, mytop, sharutils, subversion, yakuake, mercurial, git, python, python-pip, python-dev ]
+  with_items: [ glance, aptitude, apt-transport-https, pwgen, sshfs, colordiff, iotop, htop, mytop, sharutils, subversion, yakuake, mercurial, git, python, python-pip, python-dev ]
   apt:
     name: '{{ item }}'
 - name: communication
