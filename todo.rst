@@ -3,6 +3,7 @@ TODO
 
 * todo
 
+  * ajout ~/bin/myscripts sur mes postes, et le mettre dans le PATH
   * Csync lance Maj maconfiguration
   * Export CDPATH=
   * Kpcli from mon fork
