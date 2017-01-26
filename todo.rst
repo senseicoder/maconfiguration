@@ -3,6 +3,7 @@ TODO
 
 * todo
 
+  * affichage formats raw : https://doc.ubuntu-fr.org/raw
   * Csync lance Maj maconfiguration
   * Export CDPATH=
   * Kpcli from mon fork
