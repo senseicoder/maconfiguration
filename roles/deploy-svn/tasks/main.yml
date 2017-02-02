@@ -1,0 +1,17 @@
+---
+
+#- subversion:
+#    repo: "{{ vcssource }}"
+#    dest: "{{ vcsdestdir }}"
+#    checkout: no
+#    update: no
+#  register: out  
+#- debug: var=out
+
+- name: déploiement SVN
+  subversion:
+    repo: "{{ vcssource }}"
+    dest: "{{ vcsdestdir }}"
+  register: out
+
+#- debug: var=out

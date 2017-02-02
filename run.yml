@@ -3,8 +3,9 @@
   vars:
     compte: cedric
     basedir: "/home/{{ compte }}"
-    dirhome: "/home/{{ compte }}"
     module_lang: fr_FR.UTF-8
   roles:
-    #- ssh à revoir
     - bash-completion
+    - { role: deploy-git, vcssource: "git@github.com:senseicoder/myscripts.git", vcsdestdir: "{{ basedir }}/bin/public" }
+    - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash", vcsdestdir: "{{ basedir }}/bin" }
+    - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/envdev", vcsdestdir: "{{ basedir }}/www" }
