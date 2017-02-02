@@ -8,7 +8,7 @@
 #  register: out  
 #- debug: var=out
 
-- name: déploiement SVN
+- name: repository {{ vcsdestdir }}
   subversion:
     repo: "{{ vcssource }}"
     dest: "{{ vcsdestdir }}"

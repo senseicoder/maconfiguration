@@ -1,6 +1,6 @@
 ---
 
-- name: repository installé
+- name: repository {{ vcsdestdir }}
   git:
     repo: "{{ vcssource }}"
     dest: "{{ vcsdestdir }}"
