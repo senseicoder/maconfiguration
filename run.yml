@@ -6,4 +6,5 @@
     dirhome: "/home/{{ compte }}"
     module_lang: fr_FR.UTF-8
   roles:
-    - ssh
+    #- ssh à revoir
+    - bash-completion

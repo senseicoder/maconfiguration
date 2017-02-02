@@ -1,0 +1,6 @@
+---
+
+- name: dépôt conf bash
+  template: 
+    src: bash_completion.j2
+    dest: "{{ basedir }}/.bash_completion"
