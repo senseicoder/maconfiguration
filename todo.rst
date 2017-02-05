@@ -3,6 +3,7 @@ TODO
 
 * todo
 
+  * install rlwrap pour prj
   * affichage formats raw : https://doc.ubuntu-fr.org/raw
   * ajout ~/bin/myscripts sur mes postes, et le mettre dans le PATH
   * Csync lance Maj maconfiguration
