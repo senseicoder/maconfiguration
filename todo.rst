@@ -3,6 +3,15 @@ TODO
 
 * todo
 
+  * alias::
+
+	alias antidote='/opt/Druide/Antidote8/Programmes64/Antidote8'
+	
+	alias kpec="kp -d ~/Sync/Central/trousseau.kdb getpwd 'Keepass enqu' | kp -d /home/epiconcept/globe/Technique/divers/epi/EnqVOO2.kdb.kdb --stdin"
+	alias kpadm="kp -d ~/Sync/Central/trousseau.kdb getpwd 'Keepass Admin' | kp -d /home/epiconcept/globe/Technique/divers/epi/Admin.kdb --stdin"
+	
+	alias presspap="xclip -selection clipboard"
+
   * xclip
   * install rlwrap pour prj
   * affichage formats raw : https://doc.ubuntu-fr.org/raw
