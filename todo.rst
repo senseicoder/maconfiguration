@@ -3,6 +3,7 @@ TODO
 
 * todo
 
+  * xclip
   * install rlwrap pour prj
   * affichage formats raw : https://doc.ubuntu-fr.org/raw
   * ajout ~/bin/myscripts sur mes postes, et le mettre dans le PATH
