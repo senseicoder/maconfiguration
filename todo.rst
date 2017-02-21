@@ -3,6 +3,7 @@ TODO
 
 * todo
 
+  * ~/Sync/infra-notes.wiki
   * alias::
 
 	alias antidote='/opt/Druide/Antidote8/Programmes64/Antidote8'
