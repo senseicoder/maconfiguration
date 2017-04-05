@@ -3,6 +3,7 @@ TODO
 
 * todo
 
+  * https://doc.ubuntu-fr.org/wakeonlan
   * ~/Sync/infra-notes.wiki
   * alias::
 
