@@ -3,6 +3,7 @@ TODO
 
 * todo
 
+  * apt shellcheck
   * https://doc.ubuntu-fr.org/wakeonlan
   * ~/Sync/infra-notes.wiki
   * alias::
