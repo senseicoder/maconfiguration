@@ -3,6 +3,7 @@ TODO
 
 * todo
 
+  * go https://tecadmin.net/install-go-on-ubuntu/
   * apt shellcheck
   * https://doc.ubuntu-fr.org/wakeonlan
   * ~/Sync/infra-notes.wiki
