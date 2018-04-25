@@ -3,6 +3,10 @@ TODO
 
 * todo
 
+  * vim, tree
+
+* todo
+
   * apt install mediainfo
   * keepassx2 sous ubuntu 14.04::
 

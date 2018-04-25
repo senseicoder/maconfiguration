@@ -1,12 +1,16 @@
 ---
-- hosts: localhost
+- hosts: all
   vars:
     compte: cedric
     basedir: "/home/{{ compte }}"
     module_lang: fr_FR.UTF-8
   roles:
+    - ubuntu-cleanup
+    - auth-init
+    - apt-init
     - bash-completion
-    - { role: deploy-git, vcssource: "git@github.com:senseicoder/myscripts.git", vcsdestdir: "{{ basedir }}/bin/public" }
-    - { role: deploy-git, vcssource: "git@github.com:Epiconcept-Paris/infra-notes.git", vcsdestdir: "{{ basedir }}/Sync/infra-notes" }
+    #- { role: deploy-git, vcssource: "git@github.com:senseicoder/myscripts.git", vcsdestdir: "{{ basedir }}/bin/public" }
+    #- { role: deploy-git, vcssource: "git@github.com:Epiconcept-Paris/infra-notes.git", vcsdestdir: "{{ basedir }}/Sync/infra-notes" }
+    - role: svn
     - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash", vcsdestdir: "{{ basedir }}/bin" }
     - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/envdev", vcsdestdir: "{{ basedir }}/www" }

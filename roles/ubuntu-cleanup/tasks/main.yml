@@ -1,0 +1,12 @@
+--- 
+
+- name: supprimer les dossiers par défaut dans /home/$user
+  file: state=absent path="{{ item }}"
+  with_items: 
+    - "{{ basedir }}/Documents"
+    - "{{ basedir }}/Images"
+    - "{{ basedir }}/Modèles"
+    - "{{ basedir }}/Musique"
+    - "{{ basedir }}/Public"
+    - "{{ basedir }}/Téléchargements"
+    - "{{ basedir }}/Vidéos"
