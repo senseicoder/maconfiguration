@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ansible-playbook run.yml  #--ask-become-pass -v
+ansible-playbook run.yml --ask-become-pass $@
