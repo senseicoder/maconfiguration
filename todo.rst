@@ -3,6 +3,8 @@ TODO
 
 * todo
 
+  * export des /etc en mercurial
+  * update-apt-xapian-index à virer
   * apt install mediainfo
   * keepassx2 sous ubuntu 14.04::
 
