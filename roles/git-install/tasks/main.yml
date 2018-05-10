@@ -1,0 +1,9 @@
+--- 
+
+- name: installation git
+  become: true
+  package: name=git state=latest
+
+- name: clef serveur Github
+  lineinfile: name=~/.ssh/known_hosts create=yes line={{ item }}
+  with_items: "{{lookup('file', 'github.com.pubkey') }}"

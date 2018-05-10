@@ -1,0 +1,10 @@
+--- 
+
+- name: installation svn
+  become: true
+  package: name=subversion state=latest
+
+- name: configuration svn (ignore)
+  lineinfile: dest=/etc/subversion/config line="global-ignores = .tags .tags_sorted_by_file *.*~ *.sublime-workspace .* *.retry" regexp="^global-ignores =" create=yes state=present
+  become: yes
+  become_user: root

@@ -1,0 +1,14 @@
+--- 
+
+#le module know_hosts n'a pas voulu fonctionner à l'instant
+#- name: clef serveur CSoft
+#  shell: cat files/resin.csoft.net.pubkey >> ~/.ssh/known_hosts
+
+- name: clef serveur CSoft
+  lineinfile: name=~/.ssh/known_hosts create=yes line={{ item }}
+  with_items: "{{lookup('file', 'resin.csoft.net.pubkey') }}"
+
+#  known_hosts:
+#    path: "{{ basedir }}/.ssh/known_hosts"
+#    name: csoft
+#    key: "{{ lookup('file', 'files/') }}"
