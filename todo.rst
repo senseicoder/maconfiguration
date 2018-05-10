@@ -3,6 +3,7 @@ TODO
 
 * todo
 
+  * cd ~/bin && composer up
   * export des /etc en mercurial
   * update-apt-xapian-index à virer
   * apt install mediainfo
