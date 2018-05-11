@@ -3,6 +3,7 @@ TODO
 
 * todo
 
+  * https://www.sublimetext.com/docs/3/linux_repositories.html#apt 
   * cd ~/bin && composer up
   * export des /etc en mercurial
   * update-apt-xapian-index à virer
