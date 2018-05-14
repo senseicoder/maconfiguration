@@ -3,6 +3,7 @@ TODO
 
 * todo
 
+  * auth SVN sur divers dossiers dont dépend ~/www
   * tâches changed à chaque tour::
 
 	TASK [auth-init : clef serveur CSoft] ****************************************************************************************************************
