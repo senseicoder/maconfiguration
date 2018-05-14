@@ -3,6 +3,17 @@ TODO
 
 * todo
 
+  * tâches changed à chaque tour::
+
+	TASK [auth-init : clef serveur CSoft] ****************************************************************************************************************
+	changed: [192.168.1.233] => (item=|1|a5H/JMcejN/5u0GbU9XIDhCxLjg=|NhSK2kIEKQB+/67T5cMHnWscGW4= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAx6joxZShbTzYijkjnJEDtutf7jx3gkP6soNW5R+yRAnyby0ZMMnODZl5lsr//FFZ+WhrLRzAor3LmV4pi2nBaXSbyHb/KxMuGGFBYe6484NuvsD/CiHS92V1zJAaLaq0Qgz0jfigPg/QV5g0sthERWl8a72u+hkY2v8K97w+X3M=
+	|1|o865NcsYG1SJD0DL5pCl5O7hyVQ=|/AflhBiZzeoNJuIF7VpvSl5y9Gg= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFDT00K1beztD/NR5dxtRx/JYCRckRenEADs95Abfamxhc+czUS2qqeWsfig5V2Rl+JwPy4YyaT+niFawYNNFus=                                                                               
+	|1|HHwtwGKhmDYyMpEZ/Na3xIvnpJc=|zhQCC9b1FtwhVFoWPSXIQRGqtYo= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFDT00K1beztD/NR5dxtRx/JYCRckRenEADs95Abfamxhc+czUS2qqeWsfig5V2Rl+JwPy4YyaT+niFawYNNFus=)                                                                              
+
+	TASK [git-install : clef serveur Github] *************************************************************************************************************
+	changed: [192.168.1.233] => (item=|1|SpOrlIU+xLEE0AMLX7krhGoc5/A=|BHPayCIH8dByRQFl7kmIgO+O5vo= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+	|1|XxLZLb13mFFIKObXG9kyO+iVEgA=|ouipOIumEBiVv9kvdYGrtHbLAfM= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==)
+
   * https://www.sublimetext.com/docs/3/linux_repositories.html#apt 
   * cd ~/bin && composer up
   * export des /etc en mercurial

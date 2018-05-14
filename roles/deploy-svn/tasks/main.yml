@@ -12,6 +12,7 @@
   subversion:
     repo: "{{ vcssource }}"
     dest: "{{ vcsdestdir }}"
+    force: yes
   register: out
 
 #- debug: var=out
