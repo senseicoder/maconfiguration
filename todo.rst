@@ -3,6 +3,18 @@ TODO
 
 * todo
 
+  * ansible
+  * apt keepassx light-locker
+  * non duplication dans kwown_hosts
+  * se connecter en "ubuntu via xorg", wayland n'est pas encore tout à fait stable
+  * récupérer trousseau.kdb
+  * firefox, auth compte central (confirmation par email)
+  * rescuetime, installer l'application et activer l'extension ff ensuite
+  * connexion compte google, double facteur via le portable
+  * pushbullet, connexion via compte google
+  * svn ls https://svn.epiconcept.fr/outils_internes #pour l'auth
+  * svn ls https://svn.epiconcept.fr/LIB_PARTAGEE
+  * passer au nouveau format keepass ou installer vieux keepassx ? compat client anddroid?
   * auth SVN sur divers dossiers dont dépend ~/www
   * tâches changed à chaque tour::
 
