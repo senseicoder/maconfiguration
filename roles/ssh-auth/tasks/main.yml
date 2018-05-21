@@ -1,0 +1,11 @@
+---
+
+- name: Création clef SSH
+  user:
+    name: "{{ compte }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+    ssh_key_file: .ssh/id_rsa
+
+
+

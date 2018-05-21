@@ -4,3 +4,7 @@
   become: True
   become_user: root
   apt_repository: repo='deb http://apt.syncthing.net/ syncthing release' state=present
+
+#- name: copie de la clef si absente ou différente
+#  ~/.ssh/id_rsa
+#  ~/Sync/Central/Refs/sshkeys/$(hostname)
