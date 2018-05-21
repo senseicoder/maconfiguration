@@ -14,6 +14,7 @@
     - apt-init
     - bash-completion
     - { role: ssh-auth, tags: ['ssh-auth'] }
+    - { role: linux-security, tags: ['linux-security'] }
 
     - role: svn-install
     - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash", vcsdestdir: "{{ basedir }}/bin" }
@@ -22,6 +23,8 @@
     - { role: git-install, tags: ['git-install'] }
     - { role: deploy-git, vcssource: "git@github.com:senseicoder/myscripts.git", vcsdestdir: "{{ basedir }}/bin/public" }
     - { role: deploy-git, vcssource: "git@github.com:Epiconcept-Paris/infra-notes.git", vcsdestdir: "{{ basedir }}/Sync/infra-notes", tags: ['encours'] }
+
+    - { role: mercurial-install, tags: ['mercurial-install'] }
 
     - { role: sublimtext-install, tags: ['sublimtext-install'] }
     - { role: rambox-install, tags: ['rambox-install'] }
