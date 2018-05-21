@@ -1,0 +1,33 @@
+---
+
+- set_fact:
+    tmpfile_keepass: /tmp/keepass.deb
+
+- name: retrait keepassx2
+  apt: 
+    name: keepassx
+    state: absent
+  become: true
+
+- name: install keepassxc
+  apt:
+    name: keepassxc
+    state: latest
+  become: true
+
+- name: téléchargement paquet
+  get_url: 
+    url: "{{ keepass_url }}"
+    dest: "{{ tmpfile_keepass }}"
+  changed_when: false
+
+- name: installation paquet
+  apt: 
+    deb: "{{ tmpfile_keepass }}"
+  become: true
+
+- name: nettoyage
+  file:
+    path: "{{ tmpfile_keepass }}"
+    state: absent
+  changed_when: false

@@ -7,8 +7,15 @@
   get_url: 
     url: "{{ rambox_url }}"
     dest: "{{ tmpfile_rambox }}"
+  changed_when: false
 
 - name: installation paquet
   apt: 
     deb: "{{ tmpfile_rambox }}"
   become: true
+
+- name: nettoyage
+  file:
+    path: "{{ tmpfile_rambox }}"
+    state: absent
+  changed_when: false
