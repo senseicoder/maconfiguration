@@ -1,5 +1,0 @@
-alias antidote='/opt/Druide/Antidote8/Programmes64/Antidote8'
-alias o='xdg-open'
-
-alias kpec="kp -d ~/Sync/Central/trousseau.kdb getpwd 'Keepass enqu' | kp -d /home/epiconcept/globe/Technique/divers/epi/EnqVOO2.kdb.kdb --stdin"
-alias kpadm="kp -d ~/Sync/Central/trousseau.kdb getpwd 'Keepass Admin' | kp -d /home/epiconcept/globe/Technique/divers/epi/Admin.kdb --stdin"

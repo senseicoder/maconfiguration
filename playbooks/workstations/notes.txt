@@ -1,7 +1,0 @@
-docker run -ti --name test ubuntu:trusty
-
-apt-get install python
-adduser test
-
-inventory : test     ansible_user=test ansible_password=test ansible_connection=docker
-ansible-playbook -i inventory.txt main.yml
