@@ -1,0 +1,28 @@
+---
+
+- name: déploiement clef
+  apt_key: url=https://syncthing.net/release-key.txt
+  become: yes
+- name: repository syncthing
+  become: True
+  become_user: root
+  apt_repository: repo='deb http://apt.syncthing.net/ syncthing release' state=present
+- name: déploiement paquet
+  apt: name=syncthing update_cache=yes state=latest
+  become: yes
+- name: activer le service
+  systemd:
+    state: started
+    enabled: True
+    name: syncthing@cedric
+    daemon_reload: yes
+  become: yes
+
+#  service: 
+#    name: syncthing
+#    state: started
+#    daemon_reload: true
+
+#- name: copie de la clef si absente ou différente
+#  ~/.ssh/id_rsa
+#  ~/Sync/Central/Refs/sshkeys/$(hostname)

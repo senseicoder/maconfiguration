@@ -22,3 +22,4 @@
 
     - { role: sublimtext-install, tags: ['sublimtext-install'] }
     - { role: rambox-install, tags: ['rambox-install'] }
+    - { role: syncthing-install, tags: ['syncthing-install'] }
