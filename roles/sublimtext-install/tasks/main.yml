@@ -1,0 +1,22 @@
+---
+
+- name: retrait ancien repository
+  apt_repository: repo='ppa:webupd8team/sublime-text-3' state=absent
+  become: yes
+- name: déploiement clef
+  apt_key: url=https://download.sublimetext.com/sublimehq-pub.gpg
+  become: yes
+- name: déploiement repository
+  apt_repository: repo='deb https://download.sublimetext.com/ apt/stable/' state=present
+  become: yes
+- name: déploiement paquet
+  apt: name=sublime-text update_cache=yes state=latest
+  become: yes
+
+- name: création dossier conf
+  file: path="{{ subl_path }}" state=directory
+- name: configuration Sublim Text
+  get_url: >
+    url="https://packagecontrol.io/Package%20Control.sublime-package" 
+    dest="{{ subl_path }}//Package Control.sublime-package"
+    owner={{ compte }} group={{ compte }}

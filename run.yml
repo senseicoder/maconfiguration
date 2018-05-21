@@ -9,6 +9,7 @@
     - { role: auth-init, tags: ['encours'] }
     - apt-init
     - bash-completion
+    - { role: ssh-auth, tags: ['ssh-auth'] }
 
     - role: svn-install
     - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash", vcsdestdir: "{{ basedir }}/bin" }
@@ -18,4 +19,4 @@
     - { role: deploy-git, vcssource: "git@github.com:senseicoder/myscripts.git", vcsdestdir: "{{ basedir }}/bin/public" }
     - { role: deploy-git, vcssource: "git@github.com:Epiconcept-Paris/infra-notes.git", vcsdestdir: "{{ basedir }}/Sync/infra-notes", tags: ['encours'] }
 
-    - { role: ssh-auth, tags: ['ssh-auth'] }
+    - { role: sublimtext-install, tags: ['sublimtext-install'] }

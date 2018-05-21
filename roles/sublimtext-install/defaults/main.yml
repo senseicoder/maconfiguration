@@ -1,0 +1,3 @@
+---
+
+subl_path: "{{ basedir }}/.config/sublime-text-3/Installed Packages"

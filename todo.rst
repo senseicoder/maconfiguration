@@ -3,6 +3,9 @@ TODO
 
 * todo
 
+  * droits sur les shells de ~/bin et ~/bin/public (via csync ?)
+  * conf ansible (no retry notamment)
+  * d'abord créer la clef ssh, et si elle a été créée, l'afficher (publique) en précisant qu'il faut la saisir dans github avant de déployer les repos (bon, ça marche si on déploie depuis un autre poste déjà configuré, mais faut que ça marche sans aussi)
   * ansible
   * apt keepassx light-locker
   * non duplication dans kwown_hosts
@@ -15,7 +18,7 @@ TODO
   * svn ls https://svn.epiconcept.fr/outils_internes #pour l'auth
   * svn ls https://svn.epiconcept.fr/LIB_PARTAGEE
   * passer au nouveau format keepass ou installer vieux keepassx ? compat client anddroid?
-  * auth SVN sur divers dossiers dont dépend ~/www
+  * auth SVN sur divers dossiers svn Epiconcept dont dépend ~/www
   * tâches changed à chaque tour::
 
 	TASK [auth-init : clef serveur CSoft] ****************************************************************************************************************
