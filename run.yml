@@ -29,3 +29,5 @@
     - { role: keepassx-install, tags: ['keepassx-install'] }
     - { role: kpcli-install, tags: ['kpcli-install'] }
     - { role: spotify-install, tags: ['spotify-install'] }
+
+    - { role: etc-commit, tags: ['always'] }
