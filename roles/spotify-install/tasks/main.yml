@@ -1,0 +1,11 @@
+---
+
+- name: déploiement clef
+  apt_key: keyserver=keyserver.ubuntu.com id=0DF731E45CE24F27EEEB1450EFDC8610341D9410
+  become: yes
+- name: déploiement repository
+  apt_repository: repo='deb http://repository.spotify.com stable non-free' state=present
+  become: yes
+- name: déploiement paquet
+  apt: name=spotify-client update_cache=yes state=latest
+  become: yes
