@@ -7,7 +7,7 @@
   changed_when: false
 
 - name: configuration kp cli
-  lineinfile: dest="{{ dirhome }}/.bashrc" state=present line="export KP_DB_FILE={{ dirhome }}/Sync/Central/trousseau.kdb"
+  lineinfile: dest="{{ basedir }}/.bashrc" state=present line="export KP_DB_FILE={{ dirhome }}/Sync/Central/trousseau.kdb"
 - copy: src=files/python_keepassx_main.py dest=/usr/local/lib/python2.7/dist-packages/keepassx/main.py
   become: True
   become_user: root

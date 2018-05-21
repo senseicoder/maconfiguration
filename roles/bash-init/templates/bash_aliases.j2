@@ -1,0 +1,8 @@
+#!/bin/bash
+
+dir={{ bashinclude_path }}
+if [ -d "$dir" ]; then
+	for file in $dir/*; do
+		. $file
+	done
+fi

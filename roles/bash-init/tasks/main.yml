@@ -1,0 +1,18 @@
+---
+
+- name: création dossier à inclure
+  file: 
+    path: "{{ bashinclude_path }}"
+    state: directory
+
+- name: conf bash d'inclusion
+  template:
+    src: bash_aliases.j2
+    dest: "{{ bashinclude_file }}"
+
+- name: fichiers bash de conf spécifiques
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ bashinclude_path }}"
+  with_items:
+    - alias

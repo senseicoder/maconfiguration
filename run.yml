@@ -7,6 +7,8 @@
     module_lang: fr_FR.UTF-8
   roles:
     - { role: ubuntu-cleanup, tags: ['ubuntu-cleanup' ] }
+    - { role: apt-paquets, tags: ['apt-paquets'] }
+    - { role: bash-init, tags: ['bash-init' ] }
     - { role: auth-init, tags: ['encours'] }
     - apt-init
     - bash-completion
@@ -24,3 +26,4 @@
     - { role: rambox-install, tags: ['rambox-install'] }
     - { role: syncthing-install, tags: ['syncthing-install'] }
     - { role: keepassx-install, tags: ['keepassx-install'] }
+    - { role: kpcli-install, tags: ['kpcli-install'] }

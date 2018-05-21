@@ -1,0 +1,4 @@
+---
+
+bashinclude_path: "{{ basedir }}/.bashrc.d"
+bashinclude_file: "{{ basedir }}/.bash_aliases"
