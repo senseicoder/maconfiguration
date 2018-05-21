@@ -5,8 +5,31 @@
   package: name=git state=latest
 
 - name: clef serveur Github
-  lineinfile: name=~/.ssh/known_hosts create=yes line={{ item }}
-  with_items: "{{lookup('file', 'github.com.pubkey') }}"
+  lineinfile: 
+    name: ~/.ssh/known_hosts
+    create: yes
+    state: present
+    line: "{{ lookup('file', item) }}"
+  with_items: 
+    - github.com.1.pubkey
+    - github.com.2.pubkey
+
+- set_fact: 
+    dirconf: "{{ basedir }}/.config/git"
+
+- name: fichier de configuration git
+  file: path={{ dirconf }} state=directory owner={{ compte }} group={{ compte }}
+
+- name: configuration git (ignore 1)
+  lineinfile: dest="{{ dirconf }}/ignore" line="**/*.sublime-workspace" owner={{ compte }} group={{ compte }} create=yes state=present
+
+- name: configuration git (ignore 2)
+  lineinfile: dest="{{ dirconf }}/ignore" line="**/*.retry" owner={{ compte }} group={{ compte }} create=yes state=present
 
 - name: configuration git
-  shell: git config --global user.email "c.girard@epiconcept.fr" ; git config --global user.name "Cédric Girard"
+  shell: "{{ item }}"
+  with_items:
+    - git config --global user.email "c.girard@epiconcept.fr"
+    - git config --global user.name "Cédric Girard"
+    - git config --global push.default matching
+  changed_when: false

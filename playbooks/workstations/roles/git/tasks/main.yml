@@ -2,10 +2,10 @@
 # git
 
 - set_fact: 
-    dirconf: "/home/{{ ansible_user }}/.config/git"
+    dirconf: "{{ basedir }}/.config/git"
 
 - name: fichier de configuration git
-  file: path={{ dirconf }} state=directory owner={{ ansible_user }} group={{ ansible_user }}
+  file: path={{ dirconf }} state=directory owner={{ compte }} group={{ compte }}
 
 - name: configuration git (ignore 1)
   lineinfile: dest="{{ dirconf }}/ignore" line="**/*.sublime-workspace" owner={{ ansible_user }} group={{ ansible_user }} create=yes state=present
