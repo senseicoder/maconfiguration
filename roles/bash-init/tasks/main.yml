@@ -16,3 +16,4 @@
     dest: "{{ bashinclude_path }}"
   with_items:
     - alias
+    - kpcli

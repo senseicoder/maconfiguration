@@ -8,7 +8,7 @@ TODO
   * conf ansible (no retry notamment)
   * d'abord créer la clef ssh, et si elle a été créée, l'afficher (publique) en précisant qu'il faut la saisir dans github avant de déployer les repos (bon, ça marche si on déploie depuis un autre poste déjà configuré, mais faut que ça marche sans aussi)
   * ansible
-  * apt keepassx light-locker
+  * apt light-locker
   * non duplication dans kwown_hosts
   * se connecter en "ubuntu via xorg", wayland n'est pas encore tout à fait stable
   * récupérer trousseau.kdb
@@ -52,22 +52,12 @@ TODO
   * apt shellcheck
   * https://doc.ubuntu-fr.org/wakeonlan
   * ~/Sync/infra-notes.wiki
-  * alias::
-
-	alias antidote='/opt/Druide/Antidote8/Programmes64/Antidote8'
-	
-	alias kpec="kp -d ~/Sync/Central/trousseau.kdb getpwd 'Keepass enqu' | kp -d /home/epiconcept/globe/Technique/divers/epi/EnqVOO2.kdb.kdb --stdin"
-	alias kpadm="kp -d ~/Sync/Central/trousseau.kdb getpwd 'Keepass Admin' | kp -d /home/epiconcept/globe/Technique/divers/epi/Admin.kdb --stdin"
-	
-	alias presspap="xclip -selection clipboard"
-
   * xclip
   * install rlwrap pour prj
   * affichage formats raw : https://doc.ubuntu-fr.org/raw
   * ajout ~/bin/myscripts sur mes postes, et le mettre dans le PATH
   * Csync lance Maj maconfiguration
   * Export CDPATH=
-  * Kpcli from mon fork
   * Pas de /home en dur
   * Docker de test, voir la 15.10
   * Installer certains trucs que sur certains machines
@@ -124,3 +114,8 @@ TODO
 
 - name: vieux gnome?
   apt: name=gnome-session-flashback state=present
+
+Après
+=====
+
+* keepass2 en cli pour remplacer l'actuel kp

@@ -1,26 +1,28 @@
 ---
 
+- name: installation pip
+  apt:
+    name: python-pip
+    state: latest
+  become: True
+
 - name: installation kp cli
   shell: pip install keepassx
   become: True
-  become_user: root
   changed_when: false
 
 - name: configuration kp cli
-  lineinfile: dest="{{ basedir }}/.bashrc" state=present line="export KP_DB_FILE={{ dirhome }}/Sync/Central/trousseau.kdb"
+  lineinfile: dest="{{ basedir }}/.bashrc" state=present line="export KP_DB_FILE={{ basedir }}/Sync/Central/trousseau.kdb"
 - copy: src=files/python_keepassx_main.py dest=/usr/local/lib/python2.7/dist-packages/keepassx/main.py
   become: True
-  become_user: root
 
 - name: installation kpcli
   become: True
-  become_user: root
   with_items: [ kpcli, libterm-readline-gnu-perl, libdata-password-perl ]
   apt:
     name: '{{ item }}'
 - name: dépendances kpcli
   become: True
-  become_user: root
   shell: cpan Clipboard Capture::Tiny
   changed_when: false
   
