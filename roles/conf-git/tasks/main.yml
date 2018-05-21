@@ -1,6 +1,0 @@
----
-
-- name: dépôt conf git
-  template: 
-    src: gitconfig.j2
-    dest: "{{ basedir }}/.gitconfig"

@@ -10,7 +10,7 @@
     - { role: ubuntu-cleanup, tags: ['ubuntu-cleanup' ] }
     - { role: apt-paquets, tags: ['apt-paquets'] }
     - { role: bash-init, tags: ['bash-init' ] }
-    - { role: auth-init, tags: ['encours'] }
+    - { role: auth-init, tags: ['auth-init'] }
     - apt-init
     - bash-completion
     - { role: ssh-auth, tags: ['ssh-auth'] }

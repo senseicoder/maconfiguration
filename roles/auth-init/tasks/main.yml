@@ -5,8 +5,15 @@
 #  shell: cat files/resin.csoft.net.pubkey >> ~/.ssh/known_hosts
 
 - name: clef serveur CSoft
-  lineinfile: name=~/.ssh/known_hosts create=yes line={{ item }}
-  with_items: "{{lookup('file', 'resin.csoft.net.pubkey') }}"
+  lineinfile: 
+    name: ~/.ssh/known_hosts
+    create: yes
+    state: present
+    line: "{{ lookup('file', item) }}"
+  with_items: 
+    - resin.csoft.net.1.pubkey
+    - resin.csoft.net.2.pubkey
+    - resin.csoft.net.3.pubkey
 
 #  known_hosts:
 #    path: "{{ basedir }}/.ssh/known_hosts"
