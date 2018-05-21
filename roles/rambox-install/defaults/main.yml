@@ -1,0 +1,4 @@
+---
+
+rambox_version: 0.5.17
+rambox_url: "https://github.com/saenzramiro/rambox/releases/download/{{ rambox_version }}/Rambox_{{ rambox_version }}-x64.deb"

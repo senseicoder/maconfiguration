@@ -3,6 +3,7 @@ TODO
 
 * todo
 
+  * https://www.in-nomine.org/2017/04/19/setting-up-sublimetext-3-for-ansible/
   * droits sur les shells de ~/bin et ~/bin/public (via csync ?)
   * conf ansible (no retry notamment)
   * d'abord créer la clef ssh, et si elle a été créée, l'afficher (publique) en précisant qu'il faut la saisir dans github avant de déployer les repos (bon, ça marche si on déploie depuis un autre poste déjà configuré, mais faut que ça marche sans aussi)

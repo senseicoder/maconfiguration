@@ -1,0 +1,14 @@
+---
+
+- set_fact:
+    tmpfile_rambox: /tmp/rambox.deb
+
+- name: téléchargement paquet {{ rambox_version }}
+  get_url: 
+    url: "{{ rambox_url }}"
+    dest: "{{ tmpfile_rambox }}"
+
+- name: installation paquet
+  apt: 
+    deb: "{{ tmpfile_rambox }}"
+  become: true

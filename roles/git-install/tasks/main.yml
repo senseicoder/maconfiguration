@@ -7,3 +7,6 @@
 - name: clef serveur Github
   lineinfile: name=~/.ssh/known_hosts create=yes line={{ item }}
   with_items: "{{lookup('file', 'github.com.pubkey') }}"
+
+- name: configuration git
+  shell: git config --global user.email "c.girard@epiconcept.fr" ; git config --global user.name "Cédric Girard"
