@@ -33,3 +33,10 @@
 
 - service: name=docker enabled=yes state=started
   become: true
+
+- name: Adding existing user '{{ compte }}' to group sudo
+  user: 
+    name: "{{ compte }}"
+    groups: docker
+    append: yes
+  become: true
