@@ -1,6 +1,12 @@
 TODO
 ####
 
+* urgent
+
+  * CPS
+  * svn-deploy qui bloque une fois les dossiers existants ?
+  * modules subl à installer
+
 * todo
 
   * https://www.in-nomine.org/2017/04/19/setting-up-sublimetext-3-for-ansible/

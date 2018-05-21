@@ -11,15 +11,15 @@
     - { role: apt-paquets, tags: ['apt-paquets'] }
     - { role: bash-init, tags: ['bash-init' ] }
     - { role: auth-init, tags: ['auth-init'] }
-    - apt-init
-    - bash-completion
+    - { role: apt-init }
+    - { role: bash-completion }
     - { role: ssh-auth, tags: ['ssh-auth'] }
     - { role: cron-conf, tags: ['cron-conf'] }
     - { role: linux-security, tags: ['linux-security'] }
 
-    - role: svn-install
-    - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash", vcsdestdir: "{{ basedir }}/bin" }
-    - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/envdev", vcsdestdir: "{{ basedir }}/www" }
+    - { role: svn-install }
+    - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash", vcsdestdir: "{{ basedir }}/bin", tags: ['deploy-svn'] }
+    - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/envdev", vcsdestdir: "{{ basedir }}/www", tags: ['deploy-svn'] }
 
     - { role: git-install, tags: ['git-install'] }
     - { role: deploy-git, vcssource: "git@github.com:senseicoder/myscripts.git", vcsdestdir: "{{ basedir }}/bin/public" }
