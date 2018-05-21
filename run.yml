@@ -30,5 +30,6 @@
     - { role: kpcli-install, tags: ['kpcli-install'] }
     - { role: spotify-install, tags: ['spotify-install'] }
     - { role: mysql-shell-config, tags: ['mysql-shell-config'] }
+    - { role: lamp-install, tags: ['lamp-install'] }
 
     - { role: etc-commit, tags: ['always'] }

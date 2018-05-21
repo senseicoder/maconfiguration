@@ -1,0 +1,12 @@
+---
+
+- name: installation des paquets
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: true
+  with_items:
+    - php
+    - apache2
+    - mysql-server
+    - mysql-client
