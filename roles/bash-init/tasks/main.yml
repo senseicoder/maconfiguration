@@ -12,8 +12,7 @@
 
 - name: fichiers bash de conf spécifiques
   template:
-    src: "{{ item }}.j2"
+    src: "{{ item }}"
     dest: "{{ bashinclude_path }}"
-  with_items:
-    - alias
-    - kpcli
+  with_fileglob: 
+    - ./templates/confd_*

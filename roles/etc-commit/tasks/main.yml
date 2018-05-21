@@ -2,9 +2,9 @@
 
 - name: mercurial /etc auto-commit
   command: hg commit --cwd /etc -Am "workstation role security"
-  register: commande
-  failed_when: commande.rc > 1
-  changed_when: commande.stdout != "nothing changed"
+  register: out
+  failed_when: out.rc > 1
+  changed_when: out.stdout != "nothing changed"
   become: true
   args:
     chdir: /etc
