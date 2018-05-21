@@ -10,3 +10,5 @@
     - "{{ basedir }}/Public"
     - "{{ basedir }}/Téléchargements"
     - "{{ basedir }}/Vidéos"
+    - "{{ basedir }}/examples.desktop"
+    

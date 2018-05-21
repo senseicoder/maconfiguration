@@ -6,7 +6,7 @@
     basedir: "/home/{{ compte }}"
     module_lang: fr_FR.UTF-8
   roles:
-    - ubuntu-cleanup
+    - { role: ubuntu-cleanup, tags: ['ubuntu-cleanup' ] }
     - { role: auth-init, tags: ['encours'] }
     - apt-init
     - bash-completion
