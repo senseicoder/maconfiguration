@@ -1,0 +1,12 @@
+---
+- name: installer les paquets nécessaires
+  become: True
+  apt: name="{{ item }}" state=present
+  with_items:
+    - grc
+    - mysql-client
+
+- name: copier le fichier Mysql
+  copy: src=my.cnf dest="{{ basedir }}/.my.cnf" owner={{ compte }} mode=0600
+- name: copier le fichier grcat
+  copy: src=grcat dest="{{ basedir }}/.grcat" owner={{ compte }} mode=0600

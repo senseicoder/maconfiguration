@@ -29,5 +29,6 @@
     - { role: keepassx-install, tags: ['keepassx-install'] }
     - { role: kpcli-install, tags: ['kpcli-install'] }
     - { role: spotify-install, tags: ['spotify-install'] }
+    - { role: mysql-shell-config, tags: ['mysql-shell-config'] }
 
     - { role: etc-commit, tags: ['always'] }

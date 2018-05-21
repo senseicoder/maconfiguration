@@ -1,9 +1,0 @@
----
-- name: installer les paquets nécessaires
-  become: True
-  become_user: root
-  apt: name=grc state=present
-- name: copier le fichier Mysql
-  copy: src=my.cnf dest=/home/{{ ansible_user }}/.my.cnf owner={{ ansible_user }} mode=0600
-- name: copier le fichier grcat
-  copy: src=grcat dest=/home/{{ ansible_user }}/.grcat owner={{ ansible_user }} mode=0600
