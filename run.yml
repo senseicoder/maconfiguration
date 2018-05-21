@@ -6,6 +6,7 @@
     basedir: "/home/{{ compte }}"
     module_lang: fr_FR.UTF-8
   roles:
+    - { role: etc-init, tags: ['etc-init'] }
     - { role: ubuntu-cleanup, tags: ['ubuntu-cleanup' ] }
     - { role: apt-paquets, tags: ['apt-paquets'] }
     - { role: bash-init, tags: ['bash-init' ] }

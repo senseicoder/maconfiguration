@@ -1,0 +1,30 @@
+---
+
+- name: installation mercurial
+  apt:
+    name: mercurial
+    state: latest
+  become: true
+
+- name: check l'état /etc/
+  stat: 
+    path: /etc/.hg
+  register: etc_hg_state
+
+- name: initialisation hg sur /etc
+  shell: hg --cwd /etc init
+  become: true
+  when: not etc_hg_state.stat.exists
+
+- name: addremove hg sur /etc
+  shell: hg --cwd /etc addremove
+  become: true
+  register: out
+  changed_when: out.stdout != "" 
+
+- name: commit hg sur /etc
+  shell: hg --cwd /etc commit -m init
+  become: true
+  failed_when: false
+  register: out
+  changed_when: not "nothing changed" in out.stdout
