@@ -22,6 +22,7 @@ TODO
 
 * todo
 
+  * https://www.tecmint.com/progress-monitor-check-progress-of-linux-commands/
   * https://www.in-nomine.org/2017/04/19/setting-up-sublimetext-3-for-ansible/
   * apt light-locker
   * rescuetime, installer l'application et activer l'extension ff ensuite
