@@ -3,6 +3,8 @@ TODO
 
 * urgent
 
+  * VPN
+  * ansible
   * CPS
   * svn-deploy qui bloque une fois les dossiers existants ?
   * modules subl à installer
@@ -14,6 +16,7 @@ TODO
   * /home/nas et /home/epiconcept (mais seulement pour les postes à la maison, introduire cette idée)
   * DNS 1.1.1.1 ? 
   * cifs-utils (pour les mounts)
+  * clefs non chargées en mémoire ? clef svn absent
 
 * doc 
 
