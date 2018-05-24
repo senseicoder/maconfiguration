@@ -21,6 +21,7 @@ TODO
   * dropbox
   * déployer Ecrire
   * svn up demande toujours le mdp SVN, sans utiliser la clef
+  * ansible-deploy.sublime-workspace, conf SVN à gérer
 
 * doc 
 
