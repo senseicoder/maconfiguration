@@ -17,6 +17,10 @@ TODO
   * DNS 1.1.1.1 ? 
   * cifs-utils (pour les mounts)
   * clefs non chargées en mémoire ? clef svn absent
+  * penser à copier toutes les clefs!!!
+  * dropbox
+  * déployer Ecrire
+  * svn up demande toujours le mdp SVN, sans utiliser la clef
 
 * doc 
 
