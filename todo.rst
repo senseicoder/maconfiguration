@@ -3,9 +3,15 @@ TODO
 
 * urgent
 
-  * VPN
+  * sudo apt-get install chrome-gnome-shell : notamment installer des extensions GnomeShell depuis le site https://extensions.gnome.org
+
+    * https://extensions.gnome.org/extension/906/sound-output-device-chooser/
+
+  * ~/bin/public dans le path et exécutable
+  * awscli
   * ansible
   * CPS
+  * guake en autorun
   * svn-deploy qui bloque une fois les dossiers existants ?
   * modules subl à installer
   * nettoyer les icones gnome (amazon, help, soft center, libreoffice, rythmnbox, thunderbird, mettre subl et autres)

@@ -37,5 +37,6 @@
     - { role: lamp-install, tags: ['lamp-install'] }
     - { role: docker-install, tags: ['docker-install'] }
     - { role: openfortissl-install, tags: ['openfortissl-install'] }
+    - { role: dossiers-init, tags: ['dossiers-init'] }
 
     - { role: etc-commit, tags: ['always'] }
