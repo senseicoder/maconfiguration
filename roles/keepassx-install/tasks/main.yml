@@ -15,6 +15,10 @@
     state: latest
   become: true
 
+- name: apt hold
+  shell: aptitude hold keepassxc
+  become: true
+
 - name: téléchargement paquet
   get_url: 
     url: "{{ keepass_url }}"
