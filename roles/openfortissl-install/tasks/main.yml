@@ -1,0 +1,14 @@
+--- 
+
+- name: installation svn
+  become: true
+  package: name=openfortivpn state=latest
+
+- name: configuration certificat
+  lineinfile: 
+    dest: /etc/openfortivpn/config
+    line: "trusted-cert = d682d91d4aca6f95f19c5e02d2bd04868bfa7f8d52698eb0dc22e1d951b604ca" 
+    regexp: "^trusted-cert" 
+    create: yes 
+    state: present
+  become: yes
