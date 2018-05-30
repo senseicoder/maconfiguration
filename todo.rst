@@ -3,11 +3,13 @@ TODO
 
 * urgent
 
+  * manque d'auth ssh clef sur svn perso csoft bloque le déploiement sur faranth2 au moins
   * sudo apt-get install chrome-gnome-shell : notamment installer des extensions GnomeShell depuis le site https://extensions.gnome.org
 
     * https://extensions.gnome.org/extension/906/sound-output-device-chooser/
 
   * ~/bin/public dans le path et exécutable
+  * guake, correction bug : https://github.com/Guake/guake/issues/551
   * awscli
   * ansible
   * CPS
