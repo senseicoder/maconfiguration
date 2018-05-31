@@ -6,9 +6,11 @@
     basedir: "/home/{{ compte }}"
     module_lang: fr_FR.UTF-8
   roles:
+    - { role: mercurial-install, tags: ['mercurial-install'] }
+
     - { role: etc-init, tags: ['etc-init'] }
     - { role: ubuntu-cleanup, tags: ['ubuntu-cleanup' ] }
-    - { role: apt-paquets, tags: ['apt-paquets'] }
+    - { role: apt-paquets, tags: ['apt-paquets', 'softs'] }
     - { role: bash-init, tags: ['bash-init' ] }
     - { role: auth-init, tags: ['auth-init'] }
     - { role: apt-init }
@@ -17,15 +19,22 @@
     - { role: cron-conf, tags: ['cron-conf'] }
     - { role: linux-security, tags: ['linux-security'] }
 
-    - { role: svn-install }
-    - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash", vcsdestdir: "{{ basedir }}/bin", tags: ['deploy-svn'] }
-    - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/envdev", vcsdestdir: "{{ basedir }}/www", tags: ['deploy-svn'] }
+    - { role: svn-install, tags: ['svn-install', 'svn'] }
+    - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash", 
+            vcsdestdir: "{{ basedir }}/bin", tags: ['deploy-svn', 'svn'] }
+    - { role: deploy-svn, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/envdev", 
+            vcsdestdir: "{{ basedir }}/www", tags: ['deploy-svn', 'svn'] }
+    - { role: bin-init, tags: ['bin-init'] }
 
     - { role: git-install, tags: ['git-install'] }
-    - { role: deploy-git, vcssource: "git@github.com:senseicoder/myscripts.git", vcsdestdir: "{{ basedir }}/bin/public" }
-    - { role: deploy-git, vcssource: "git@github.com:Epiconcept-Paris/infra-notes.git", vcsdestdir: "{{ basedir }}/Sync/infra-notes", tags: ['encours'] }
-
-    - { role: mercurial-install, tags: ['mercurial-install'] }
+    - { role: deploy-git, vcssource: "git@github.com:senseicoder/myscripts.git", 
+            vcsdestdir: "{{ basedir }}/bin/public", tags: ['deploy-git'] }
+    - { role: deploy-git, vcssource: "git@github.com:Epiconcept-Paris/infra-notes.git", 
+            vcsdestdir: "{{ basedir }}/Sync/infra-notes", tags: ['deploy-git'] }
+    - { role: deploy-git, vcssource: "git@github.com:Epiconcept-Paris/infra-notes.wiki.git", 
+            vcsdestdir: "{{ basedir }}/Sync/infra-notes.wiki", tags: ['deploy-git'] }
+    - { role: deploy-git, vcssource: "git@github.com:Epiconcept-Paris/infra-projets.wiki.git", 
+            vcsdestdir: "{{ basedir }}/Sync/infra-projets.wiki", tags: ['deploy-git'] }
 
     - { role: sublimtext-install, tags: ['sublimtext-install'] }
     - { role: rambox-install, tags: ['rambox-install'] }
@@ -37,6 +46,6 @@
     - { role: lamp-install, tags: ['lamp-install'] }
     - { role: docker-install, tags: ['docker-install'] }
     - { role: openfortissl-install, tags: ['openfortissl-install'] }
-    - { role: dossiers-init, tags: ['dossiers-init'] }
+    #- { role: dossiers-init, tags: ['dossiers-init'] }
 
     - { role: etc-commit, tags: ['always'] }
