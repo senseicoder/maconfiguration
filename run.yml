@@ -13,7 +13,7 @@
     - { role: apt-paquets, tags: ['apt-paquets', 'softs'] }
     - { role: bash-init, tags: ['bash-init' ] }
     - { role: auth-init, tags: ['auth-init'] }
-    - { role: apt-init }
+    - { role: apt-init, tags: ['apt-init'] }
     - { role: bash-completion }
     - { role: ssh-auth, tags: ['ssh-auth'] }
     - { role: cron-conf, tags: ['cron-conf'] }
@@ -46,6 +46,7 @@
     - { role: lamp-install, tags: ['lamp-install'] }
     - { role: docker-install, tags: ['docker-install'] }
     - { role: openfortissl-install, tags: ['openfortissl-install'] }
+    - { role: cps-install, tags: ['cps-install'] }
     #- { role: dossiers-init, tags: ['dossiers-init'] }
 
     - { role: etc-commit, tags: ['always'] }
