@@ -45,6 +45,7 @@
     - { role: mysql-shell-config, tags: ['mysql-shell-config'] }
     - { role: lamp-install, tags: ['lamp-install'] }
     - { role: docker-install, tags: ['docker-install'] }
+    - { role: guake-install, tags: ['guake-install'] }
     - { role: openfortissl-install, tags: ['openfortissl-install'] }
     - { role: cps-install, tags: ['cps-install'] }
     #- { role: dossiers-init, tags: ['dossiers-init'] }

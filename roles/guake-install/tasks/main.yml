@@ -1,0 +1,12 @@
+--- 
+
+- name: installation paquet
+  become: true
+  package: name=guake state=latest
+
+- name: autostart
+  file:
+    src: "/usr/share/applications/guake.desktop"
+    dest: "/etc/xdg/autostart/guake.desktop"
+    state: link
+  become: true
