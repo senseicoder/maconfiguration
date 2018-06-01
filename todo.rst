@@ -9,6 +9,7 @@ TODO
     * https://extensions.gnome.org/extension/906/sound-output-device-chooser/
 
   * ~/bin/public dans le path et exécutable
+  * guake, correction bug : https://github.com/Guake/guake/issues/551
   * awscli
   * ansible
   * CPS

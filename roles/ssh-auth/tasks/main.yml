@@ -7,5 +7,13 @@
     ssh_key_bits: 4096
     ssh_key_file: .ssh/id_rsa
 
+- name: échange de clefs avec les autres workstations
+  shell: bash ~/bin/sshagent upkey
 
+- set_fact:
+    ssh_servers: ['glaurung', 'csoft']
+
+- name: Tests connexion ssh
+  local_action: "shell ssh-copy-id -i {{ item }}"
+  with_items: "{{ ssh_servers }}"
 

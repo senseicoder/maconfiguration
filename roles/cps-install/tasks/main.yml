@@ -1,0 +1,26 @@
+--- 
+
+- name: paquets
+  apt: 
+    name: "{{ item }}"
+    state: latest
+  with_items: ['libccid', 'pcscd', 'libpcsclite-dev', 'pcsc-tools', 'libnss3-tools', 'cryptolibcps']
+  become: true
+
+- name: check installation firefox
+  shell: modutil -force -dbdir sql:$(ls ~/.mozilla/firefox/*.default -d) -list "CPS/CPA"
+  register: out
+  changed_when: false
+
+- name: installation extension PKCS CPS pour Firefox
+  shell: modutil -force -dbdir sql:$(ls ~/.mozilla/firefox/*.default -d) -add "CPS/CPA" -libfile /opt/santesocial/CPS/lib/libcps3_pkcs11_lux.so
+  when: out.rc != 0
+
+- name: check installation chrome
+  shell: modutil -force -dbdir sql:.pki/nssdb/ -list "CPS/CPA"
+  register: out
+  changed_when: false
+
+- name: installation extension PKCS CPS pour Chrome
+  shell: modutil -force -dbdir sql:.pki/nssdb/ -add "CPS/CPA" -libfile /opt/santesocial/CPS/lib/libcps3_pkcs11_lux.so
+  when: out.rc != 0

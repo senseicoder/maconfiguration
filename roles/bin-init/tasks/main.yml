@@ -1,0 +1,4 @@
+--- 
+
+- name: droits sur bin/*
+  shell: "bash ~/bin/csync bin"

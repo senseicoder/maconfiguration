@@ -20,5 +20,7 @@
     #internet
     nfs-common, lynx,
     #video
-    mplayer, mencoder, totem, handbrake 
+    mplayer, mencoder, totem, handbrake,
+    #lamp
+    mysql-client,mysql-server,apache2,php,php-curl
     ]

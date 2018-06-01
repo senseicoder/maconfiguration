@@ -4,6 +4,10 @@
   become: yes
   package: name=aptitude state=latest
 
+- name: repo epiconcept
+  lineinfile: dest=/etc/apt/sources.list.d/epiconcept.list line="deb [trusted=yes] http://files.epiconcept.fr/repositories_apt/epiconcept {{ ansible_distribution_release }} main" state=present create=yes
+  become: True
+
 - name: apt update/upgrade
   become: yes
   apt: update_cache=true upgrade=full

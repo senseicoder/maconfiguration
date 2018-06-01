@@ -1,18 +1,14 @@
 ---
 
-#- subversion:
-#    repo: "{{ vcssource }}"
-#    dest: "{{ vcsdestdir }}"
-#    checkout: no
-#    update: no
-#  register: out  
-#- debug: var=out
+- name: repository info {{ vcsdestdir }}
+  shell: "svn info {{ vcsdestdir }}"
+  register: svn_out
+  failed_when: false
 
-- name: repository {{ vcsdestdir }}
-  subversion:
-    repo: "{{ vcssource }}"
-    dest: "{{ vcsdestdir }}"
-    force: yes
-  register: out
+- name: repository checkout {{ vcsdestdir }}
+  local_action: "shell svn co {{ vcssource }} {{ vcsdestdir }} "
+  when: svn_out.rc == 1
 
-#- debug: var=out
+- name: repository update {{ vcsdestdir }}
+  local_action: "shell svn up {{ vcsdestdir }} "
+  when: svn_out.rc == 0
