@@ -12,11 +12,11 @@
     #libs
     ibus, ibus-gtk, ibus-qt4,
     #outils
-    vim, tree, glances, apt-transport-https, pwgen, sshfs, colordiff, iotop, htop, mytop, sharutils, subversion, python-dev, guake,
+    vim, tree, glances, apt-transport-https, pwgen, sshfs, colordiff, iotop, htop, mytop, sharutils, subversion, python-dev, guake, rlwrap,
     #communication
     pidgin, chromium-browser,
     #réseau
-    gufw, ssmtp, openssh-server, wakeonlan,
+    gufw, ssmtp, openssh-server, wakeonlan, cifs-utils,
     #internet
     nfs-common, lynx,
     #video

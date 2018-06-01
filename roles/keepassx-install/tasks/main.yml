@@ -1,37 +1,37 @@
 ---
 
-- set_fact:
-    tmpfile_keepass: /tmp/keepass.deb
+- name: check version installée
+  shell: aptitude show keepassx | grep 0.4.3
+  failed_when: false
+  changed_when: false
+  register: out
 
-- name: retrait keepassx2
-  apt: 
-    name: keepassx
-    state: absent
-  become: true
+- name: installation ancien paquet
+  block:
+
+    - name: apt unhold
+      shell: aptitude unhold keepassx
+      become: true
+
+    - name: retrait keepassx2
+      apt: 
+        name: keepassx
+        state: absent
+      become: true
+
+    - name: installation paquet ancien keepass
+      apt: 
+        deb: "{{ keepass_url }}"
+      become: true
+
+    - name: apt hold
+      shell: aptitude hold keepassx
+      become: true
+
+  when: out.rc > 0
 
 - name: install keepassxc
   apt:
     name: keepassxc
     state: latest
   become: true
-
-- name: apt hold
-  shell: aptitude hold keepassxc
-  become: true
-
-- name: téléchargement paquet
-  get_url: 
-    url: "{{ keepass_url }}"
-    dest: "{{ tmpfile_keepass }}"
-  changed_when: false
-
-- name: installation paquet
-  apt: 
-    deb: "{{ tmpfile_keepass }}"
-  become: true
-
-- name: nettoyage
-  file:
-    path: "{{ tmpfile_keepass }}"
-    state: absent
-  changed_when: false

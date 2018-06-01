@@ -14,7 +14,6 @@ TODO
   * ansible
   * CPS
   * guake en autorun
-  * svn-deploy qui bloque une fois les dossiers existants ?
   * modules subl à installer
   * nettoyer les icones gnome (amazon, help, soft center, libreoffice, rythmnbox, thunderbird, mettre subl et autres)
   * droits sur les shells de ~/bin et ~/bin/public (via csync ?)
@@ -23,12 +22,7 @@ TODO
   * ~None à supprimer
   * /home/nas et /home/epiconcept (mais seulement pour les postes à la maison, introduire cette idée)
   * DNS 1.1.1.1 ? 
-  * cifs-utils (pour les mounts)
-  * clefs non chargées en mémoire ? clef svn absent
-  * penser à copier toutes les clefs!!!
   * dropbox
-  * déployer Ecrire
-  * svn up demande toujours le mdp SVN, sans utiliser la clef
   * ansible-deploy.sublime-workspace, conf SVN à gérer
 
 * doc 
@@ -45,15 +39,12 @@ TODO
   * https://www.in-nomine.org/2017/04/19/setting-up-sublimetext-3-for-ansible/
   * apt light-locker
   * rescuetime, installer l'application et activer l'extension ff ensuite
-  * svn ls https://svn.epiconcept.fr/outils_internes #pour l'auth
-  * svn ls https://svn.epiconcept.fr/LIB_PARTAGEE
   * cd ~/bin && composer up
   * export des /etc en mercurial
   * update-apt-xapian-index à virer
   * apt install mediainfo
   * go https://tecadmin.net/install-go-on-ubuntu/
   * apt shellcheck
-  * ~/Sync/infra-notes.wiki
   * install rlwrap pour prj
   * affichage formats raw : https://doc.ubuntu-fr.org/raw
   * ajout ~/bin/myscripts sur mes postes, et le mettre dans le PATH
@@ -65,12 +56,10 @@ TODO
   * Séparer dev du reste 
   * Appel qui joue tout
   * Shell sur oxalide, Sophie,,, 
-  * Les SVN à deployer
   * Supershell sur faranth, conf m5
   * Conf thunderbird et ff
   * Conf yakuake
   * Clefs ssh
-  * SVN, git... 
   * Partagés Syncthing
   * Pidgin 
   * Conf de chacun 

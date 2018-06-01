@@ -4,6 +4,8 @@
   shell: "svn info {{ vcsdestdir }}"
   register: svn_out
   failed_when: false
+  args:
+    warn: false
 
 - name: repository checkout {{ vcsdestdir }}
   local_action: "shell svn co {{ vcssource }} {{ vcsdestdir }} "
