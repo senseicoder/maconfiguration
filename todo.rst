@@ -3,27 +3,24 @@ TODO
 
 * urgent
 
-  * syncthing reboot pas tout seul
-  * sudo apt-get install chrome-gnome-shell : notamment installer des extensions GnomeShell depuis le site https://extensions.gnome.org
+  * syncthing démarre pas tout seul
+  * installer des extensions GnomeShell depuis le site https://extensions.gnome.org
 
     * https://extensions.gnome.org/extension/906/sound-output-device-chooser/
 
-  * ~/bin/public dans le path et exécutable
   * guake, correction bug : https://github.com/Guake/guake/issues/551
+  * ~/bin/public dans le path et exécutable
   * awscli
-  * ansible
-  * CPS
-  * guake en autorun
+  * guake en autorun à tester
   * modules subl à installer
-  * nettoyer les icones gnome (amazon, help, soft center, libreoffice, rythmnbox, thunderbird, mettre subl et autres)
-  * droits sur les shells de ~/bin et ~/bin/public (via csync ?)
-  * conf ansible (no retry notamment)
+  * conf ansible (no retry notamment, et log)
   * d'abord créer la clef ssh, et si elle a été créée, l'afficher (publique) en précisant qu'il faut la saisir dans github avant de déployer les repos (bon, ça marche si on déploie depuis un autre poste déjà configuré, mais faut que ça marche sans aussi)
   * ~None à supprimer
   * /home/nas et /home/epiconcept (mais seulement pour les postes à la maison, introduire cette idée)
   * DNS 1.1.1.1 ? 
   * dropbox
   * ansible-deploy.sublime-workspace, conf SVN à gérer
+  * ssmtp
 
 * doc 
 

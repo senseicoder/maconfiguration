@@ -1,21 +1,13 @@
 ---
 
-- set_fact:
-    tmpfile_rambox: /tmp/rambox.deb
-
-- name: téléchargement paquet {{ rambox_version }}
-  get_url: 
-    url: "{{ rambox_url }}"
-    dest: "{{ tmpfile_rambox }}"
+- name: check version installée
+  shell: "aptitude show rambox | grep {{ rambox_version }}"
+  failed_when: false
   changed_when: false
+  register: out
 
 - name: installation paquet
   apt: 
-    deb: "{{ tmpfile_rambox }}"
+    deb: "{{ rambox_url }}"
   become: true
-
-- name: nettoyage
-  file:
-    path: "{{ tmpfile_rambox }}"
-    state: absent
-  changed_when: false
+  when: out.rc > 0

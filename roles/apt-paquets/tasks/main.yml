@@ -22,5 +22,7 @@
     #video
     mplayer, mencoder, totem, handbrake,
     #lamp
-    mysql-client,mysql-server,apache2,php,php-curl
+    mysql-client,mysql-server,apache2,php,php-curl,
+    #gnome
+    chrome-gnome-shell
     ]
