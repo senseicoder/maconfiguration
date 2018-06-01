@@ -1,0 +1,8 @@
+--- 
+
+- name: installation logiciel
+  pip:
+    name: awscli
+    state: latest
+  become: true
+

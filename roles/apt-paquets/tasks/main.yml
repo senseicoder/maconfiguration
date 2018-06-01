@@ -24,5 +24,7 @@
     #lamp
     mysql-client,mysql-server,apache2,php,php-curl,
     #gnome
-    chrome-gnome-shell
+    chrome-gnome-shell,
+    #data
+    jq
     ]

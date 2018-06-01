@@ -51,5 +51,6 @@
     - { role: openfortissl-install, tags: ['openfortissl-install'] }
     - { role: cps-install, tags: ['cps-install'] }
     - { role: dossiers-init, tags: ['dossiers-init'] }
+    - { role: awscli-install, tags: ['awscli-install'] }
 
     - { role: etc-commit, tags: ['always'] }

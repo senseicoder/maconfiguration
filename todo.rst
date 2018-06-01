@@ -9,7 +9,6 @@ TODO
     * https://extensions.gnome.org/extension/906/sound-output-device-chooser/
 
   * guake, correction bug : https://github.com/Guake/guake/issues/551
-  * ~/bin/public dans le path et exécutable
   * awscli
   * guake en autorun à tester
   * modules subl à installer
