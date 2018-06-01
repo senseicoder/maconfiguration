@@ -3,6 +3,7 @@ TODO
 
 * urgent
 
+  * syncthing reboot pas tout seul
   * sudo apt-get install chrome-gnome-shell : notamment installer des extensions GnomeShell depuis le site https://extensions.gnome.org
 
     * https://extensions.gnome.org/extension/906/sound-output-device-chooser/

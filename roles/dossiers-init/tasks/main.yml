@@ -1,0 +1,21 @@
+--- 
+
+- name: /home/epiconcept
+  become: true
+  file: 
+    path: "/home/epiconcept/{{ item }}" 
+    state: directory
+  with_items: [boites, globe, projets]
+
+- name: /home/nas
+  become: true
+  file: 
+    path: "/home/nas/{{ item }}" 
+    state: directory
+  with_items: [Documents, Music, Pictures, Transmission, Videos]
+
+- name: /home/freebox
+  become: true
+  file: 
+    path: "/home/freebox" 
+    state: directory
