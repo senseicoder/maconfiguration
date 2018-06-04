@@ -52,5 +52,6 @@
     - { role: cps-install, tags: ['cps-install'] }
     - { role: dossiers-init, tags: ['dossiers-init'] }
     - { role: awscli-install, tags: ['awscli-install'] }
+    - { role: terraform-install, tags: ['terraform-install'] }
 
     - { role: etc-commit, tags: ['always'] }

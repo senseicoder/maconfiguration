@@ -1,0 +1,31 @@
+--- 
+
+#todo, uniquement si pas installé
+#todo, conf AWS ? 
+
+#- name: téléchargement logiciel {{ terraform_version }}
+#  get_url: 
+#    url: 
+#    dest: "{{ terraform_tmpfile }}"
+#  changed_when: false
+
+- name: creation dossier
+  file: 
+    path: "{{ terraform_path }}" 
+    state: directory 
+    mode: u=rwx,g=rx,o=rx
+    owner: root
+  become: true
+    
+- name: désarchiver
+  unarchive:
+    src: "{{ terraform_url }}"
+    copy: no
+    dest: "{{ terraform_path }}"
+    mode: u=rwx,g=rx,o=rx
+    owner: root
+    creates: "{{ terraform_path }}/terraform"
+  become: true
+
+#- name: nettoyage
+#  file: path="{{ terraform_tmpfile }}" state=absent

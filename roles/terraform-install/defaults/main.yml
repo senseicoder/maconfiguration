@@ -1,0 +1,6 @@
+---
+
+terraform_tmpfile: /tmp/terraform
+terraform_path: /opt/terraform/0.6
+terraform_version: "0.6.16"
+terraform_url: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip"

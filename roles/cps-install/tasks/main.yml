@@ -15,7 +15,7 @@
 
 - name: installation extension PKCS CPS pour Firefox
   shell: modutil -force -dbdir sql:$(ls ~/.mozilla/firefox/*.default -d) -add "CPS/CPA" -libfile /opt/santesocial/CPS/lib/libcps3_pkcs11_lux.so
-  when: out.rc != 0
+  when: out.rc == 29
 
 - name: check installation chrome
   shell: modutil -force -dbdir sql:.pki/nssdb/ -list "CPS/CPA"
@@ -25,4 +25,4 @@
 
 - name: installation extension PKCS CPS pour Chrome
   shell: modutil -force -dbdir sql:.pki/nssdb/ -add "CPS/CPA" -libfile /opt/santesocial/CPS/lib/libcps3_pkcs11_lux.so
-  when: out.rc != 0
+  when: out.rc == 29
