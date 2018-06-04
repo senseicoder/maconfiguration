@@ -3,6 +3,7 @@ TODO
 
 * urgent
 
+  * awscli configure à jouer une fois que le reste est en place
   * freebox monte pas sur m6, marche sur les vieux
   * syncthing démarre pas tout seul
   * installer des extensions GnomeShell depuis le site https://extensions.gnome.org
