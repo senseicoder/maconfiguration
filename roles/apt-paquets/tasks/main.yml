@@ -12,7 +12,7 @@
     #libs
     ibus, ibus-gtk, ibus-qt4,
     #outils
-    vim, tree, glances, apt-transport-https, pwgen, sshfs, colordiff, iotop, htop, mytop, sharutils, subversion, python-dev, guake, rlwrap,
+    vim, tree, glances, apt-transport-https, pwgen, sshfs, colordiff, iotop, htop, mytop, sharutils, subversion, python-dev, guake, rlwrap, adobe-flashplugin,
     #communication
     pidgin, chromium-browser,
     #réseau
