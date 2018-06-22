@@ -1,0 +1,13 @@
+---
+
+- name: check version installée
+  shell: "aptitude show teamviewer | grep teamviewer"
+  failed_when: false
+  changed_when: false
+  register: out
+
+- name: installation paquet
+  apt: 
+    deb: "{{ teamviewer_url }}"
+  become: true
+  when: out.rc > 0

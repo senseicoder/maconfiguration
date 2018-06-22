@@ -53,5 +53,6 @@
     - { role: dossiers-init, tags: ['dossiers-init'] }
     - { role: awscli-install, tags: ['awscli-install'] }
     - { role: terraform-install, tags: ['terraform-install'] }
+    - { role: teamviewer-install, tags: ['teamviewer-install'] }
 
     - { role: etc-commit, tags: ['always'] }
