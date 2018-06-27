@@ -3,6 +3,7 @@ TODO
 
 * urgent
 
+  * si ça marche https://www.thomasmonaco.com/prevent-usb-devices-waking-ubuntu-sleep/
   * cedric@Mnementh6:~/bin$ composer install
   * PHP temp directory (/space/applistmp/vrac/tmp) does not exist or is not writable to Composer. Set sys_temp_dir in your php.ini
   * https://doc.ubuntu-fr.org/mysql (mysql sans accès root)

@@ -17,6 +17,8 @@
     pidgin, chromium-browser,
     #réseau
     gufw, ssmtp, openssh-server, wakeonlan, cifs-utils, curl,
+    #graphismes
+    gimp,
     #internet
     nfs-common, lynx,
     #ebooks
