@@ -21,8 +21,8 @@
     gimp,
     #internet
     nfs-common, lynx,
-    #ebooks
-    calibre,
+    #ebooks et docs
+    calibre, pandoc, texlive,
     #video
     mplayer, mencoder, totem, handbrake,mkvtoolnix,
     #lamp
