@@ -20,7 +20,7 @@
     #graphismes
     gimp,
     #internet
-    nfs-common, lynx,
+    nfs-common, lynx, traceroute, whois,
     #ebooks et docs
     calibre, pandoc, texlive,
     #video
