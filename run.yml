@@ -37,6 +37,8 @@
             vcsdestdir: "{{ basedir }}/Sync/infra-notes.wiki", tags: ['git-deploy'] }
     - { role: git-deploy, vcssource: "git@github.com:Epiconcept-Paris/infra-projets.wiki.git", 
             vcsdestdir: "{{ basedir }}/Sync/infra-projets.wiki", tags: ['git-deploy'] }
+    - { role: git-deploy, vcssource: "git@github.com:Epiconcept-Paris/documentation-technique.git", 
+            vcsdestdir: "{{ basedir }}/Sync/documentation-technique", tags: ['git-deploy'] }
 
     - { role: sublimtext-install, tags: ['sublimtext-install'] }
     - { role: rambox-install, tags: ['rambox-install'] }
