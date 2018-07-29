@@ -16,6 +16,9 @@
 - copy: src=files/python_keepassx_main.py dest=/usr/local/lib/python2.7/dist-packages/keepassx/main.py
   become: True
 
+- name: suppression binaire si le code a changé
+  file: path=/usr/local/lib/python2.7/dist-packages/keepassx/main.pyc state=absent
+
 - name: installation kpcli
   become: True
   with_items: [ kpcli, libterm-readline-gnu-perl, libdata-password-perl ]
