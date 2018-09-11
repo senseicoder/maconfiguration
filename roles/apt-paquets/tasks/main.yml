@@ -30,5 +30,5 @@
     #gnome
     chrome-gnome-shell,
     #data
-    jq
+    jq,vym
     ]
