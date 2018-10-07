@@ -32,6 +32,14 @@ TODO
   * ansible-deploy.sublime-workspace, conf SVN à gérer
   * ssmtp
 
+* focuswriter::
+
+        sudo sh -c "echo 'deb [trusted=yes] http://download.opensuse.org/repositories/home:/gottcode/xUbuntu_18.04/ /' > /etc/apt/sources.list.d/home:gottcode.list" 
+        apt-cache search keyring$
+        for KEY in `apt-get update 2>&1 |grep NO_PUBKEY|awk  '{print $NF}'`; do  gpg --keyserver subkeys.pgp.net --recv $KEY; gpg --export --armor $KEY|apt-key add -; done
+        sudo apt-get update
+        sudo apt-get install focuswriter
+
 * doc 
 
   * se connecter en "ubuntu via xorg", wayland n'est pas encore tout à fait stable
