@@ -32,6 +32,58 @@ TODO
   * ansible-deploy.sublime-workspace, conf SVN à gérer
   * ssmtp
 
+* envoi mail
+  
+  * install::
+
+        #basé ssmtp, déjà installé?
+        sudo apt install bsd-mailx
+
+  * /etc/ssmtp/ssmtp.conf::
+
+        #
+        # Config file for sSMTP sendmail
+        #
+        # The person who gets all mail for userids < 1000
+        # Make this empty to disable rewriting.
+        root=cedric@daneel.net
+        
+        # The place where the mail goes. The actual machine name is required no 
+        # MX records are consulted. Commonly mailhosts are named mail.domain.com
+        mailhub=mail231.csoft.net:465
+        
+        # Where will the mail seem to come from?
+        rewriteDomain=daneel.net
+        
+        # The full hostname
+        hostname=faranth
+        
+        # Are users allowed to set their own From: address?
+        # YES - Allow the user to specify their own From: address
+        # NO - Use the system generated From: address
+        FromLineOverride=YES
+        
+        #conf free, testée depuis M5
+        #mailhub=smtp.free.fr:25
+        
+        #conf csoft, testée depuis M5
+        mailhub=mail231.csoft.net:465
+        UseTLS=YES
+        AuthUser=cedricg
+        AuthPass=xxx
+       
+  * ::
+
+        # sSMTP aliases
+        # 
+        # Format:       local_account:outgoing_address:mailhub
+        #
+        # Example: root:your_login@your.domain:mailhub.your.domain[:port]
+        # where [:port] is an optional port number that defaults to 25.
+        
+        root:Faranth@daneel.net:mail231.csoft.net:465
+        cedric:Faranth@daneel.net:mail231.csoft.net:465
+
 * focuswriter::
 
         sudo sh -c "echo 'deb [trusted=yes] http://download.opensuse.org/repositories/home:/gottcode/xUbuntu_18.04/ /' > /etc/apt/sources.list.d/home:gottcode.list" 
