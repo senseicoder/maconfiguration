@@ -3,6 +3,7 @@ TODO
 
 * urgent
 
+  * rst2pdf
   * [sudo] pip install cheat
   * si ça marche https://www.thomasmonaco.com/prevent-usb-devices-waking-ubuntu-sleep/
   * cedric@Mnementh6:~/bin$ composer install
