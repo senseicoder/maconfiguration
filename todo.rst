@@ -9,7 +9,10 @@ TODO
 	autojump --purge #voir si c'est nécessaire
 	cd ~; for src in www Sync; do for i in $(find $src -type d); do autojump --add $i; done; done
 
-  * https://askubuntu.com/questions/280327/how-to-make-terminal-autocomplete-when-there-are-several-files-directory
+	cedric@ramoth:~$ cat .bashrc.d/autojump
+	. /usr/share/autojump/autojump.sh
+
+  * https://askubuntu.com/questions/280327/how-to-make-terminal-autocomplete-when-there-are-several-files-directory : bof, les modifs dans inputrc me plaisent pas trop
   * rst2pdf
   * [sudo] pip install cheat
   * si ça marche https://www.thomasmonaco.com/prevent-usb-devices-waking-ubuntu-sleep/
