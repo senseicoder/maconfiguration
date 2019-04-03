@@ -3,7 +3,12 @@ TODO
 
 * urgent
 
-  * apt install autojump && for i in $(find ~/ -type d); do autojump --add $i; done
+  * apt install autojump::
+
+	mkdir ~/.local/share/autojump 
+	autojump --purge #voir si c'est nécessaire
+	cd ~; for src in www Sync; do for i in $(find $src -type d); do autojump --add $i; done; done
+
   * https://askubuntu.com/questions/280327/how-to-make-terminal-autocomplete-when-there-are-several-files-directory
   * rst2pdf
   * [sudo] pip install cheat
