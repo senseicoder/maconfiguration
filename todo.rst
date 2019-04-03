@@ -3,6 +3,8 @@ TODO
 
 * urgent
 
+  * apt install autojump && for i in $(find ~/ -type d); do autojump --add $i; done
+  * https://askubuntu.com/questions/280327/how-to-make-terminal-autocomplete-when-there-are-several-files-directory
   * rst2pdf
   * [sudo] pip install cheat
   * si ça marche https://www.thomasmonaco.com/prevent-usb-devices-waking-ubuntu-sleep/
