@@ -1,7 +1,8 @@
 alias antidote='/opt/Druide/Antidote8/Programmes64/Antidote8'
 
-alias kpec="kp -d ~/Sync/Central/trousseau.kdb getpwd 'Keepass enqu' | kp -d /home/epiconcept/globe/Technique/divers/epi/EnqVOO2.kdb.kdb --stdin"
-alias kpadm="kp -d ~/Sync/Central/trousseau.kdb getpwd 'Keepass Admin' | kp -d /home/epiconcept/globe/Technique/divers/epi/Admin.kdb --stdin"
+alias kpc="cmdp show vault/keepass_perso | kp -d '/home/cedric/Sync/Central/trousseau.kdb' --stdin"
+alias kpec="cmdp show vault/keepass_enquetes | kp -d '/home/epiconcept/globe/Technique/divers/epi/KeePass BDD/EnqVOO2.kdb.kdb' --stdin"
+alias kpadm="cmdp show vault/keepass_admsys | kp -d '/home/epiconcept/globe/Technique/divers/epi/KeePass BDD/Admin.kdb' --stdin"
 
 alias o='xdg-open'
 alias presspap="xclip -selection clipboard"
