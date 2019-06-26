@@ -2,7 +2,7 @@
 #source: https://docs.docker.com/engine/installation/linux/ubuntulinux/
 
 - set_fact:
-    compose_version: 1.6.0
+    compose_version: 1.24.0
 
 - shell: uname -r
   register: uname_r
@@ -24,6 +24,7 @@
     state: latest
   become: true
 
+- debug: msg="https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }}"
 - name: récupération docker-compose
   get_url: 
     url: "https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }}"
