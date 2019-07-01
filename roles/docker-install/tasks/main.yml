@@ -1,8 +1,6 @@
 ---
 #source: https://docs.docker.com/engine/installation/linux/ubuntulinux/
 
-- set_fact:
-    compose_version: 1.24.0
 
 - shell: uname -r
   register: uname_r
@@ -16,6 +14,13 @@
   register: uname_m
   changed_when: false
 
+- set_fact: 
+    compose_version: 1.24.0
+
+- set_fact:
+    compose_path: "/usr/local/bin/docker-compose"
+    compose_url: https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }}
+
 #todo en attendant que ce soir dispo, check sur https://linuxconfig.org/how-to-install-docker-on-ubuntu-18-04-bionic-beaver
 
 - name: paquet docker Ubuntu
@@ -24,12 +29,20 @@
     state: latest
   become: true
 
-- debug: msg="https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }}"
-- name: récupération docker-compose
-  get_url: 
-    url: "https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }}"
-    dest: "/usr/local/bin/docker-compose" 
-    mode: 0755
+- shell: "docker-compose -v | grep {{ compose_version }}"
+  failed_when: false
+  changed_when: false
+  register: compose_maj
+
+- block:
+  - file: path="{{ compose_path }}" state=absent
+  - name: récupération docker-compose
+    get_url: 
+      url: "{{ compose_url }}"
+      dest: "{{ compose_path }}" 
+      mode: 0755
+    
+  when: compose_maj.rc == 1
   become: true
 
 - service: name=docker enabled=yes state=started
