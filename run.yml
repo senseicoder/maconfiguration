@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: localhost
   vars:
     compte: cedric
     basedir: "/home/{{ compte }}"
@@ -56,5 +56,6 @@
     - { role: awscli-install, tags: ['awscli-install'] }
     - { role: terraform-install, tags: ['terraform-install'] }
     - { role: teamviewer-install, tags: ['teamviewer-install'] }
+    - { role: ocsinventory-install, tags: ['ocsinventory-install'] }
 
     - { role: etc-commit, tags: ['always'] }

@@ -1,4 +1,5 @@
 ---
+
 - name: installer les paquets nécessaires
   become: True
   apt: name="{{ item }}" state=present

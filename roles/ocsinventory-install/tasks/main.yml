@@ -1,0 +1,20 @@
+---
+
+- name: installer les paquets nécessaires
+  apt: name="ocsinventory-agent" state=present
+  become: True
+
+- name: création dossier
+  file: name=/etc/ocsinventory state=directory recurse=yes
+  become: True
+
+- name: configuration
+  copy: src="files/{{ item }}" dest=/etc/ocsinventory/ owner=root group=root mode=0600
+  become: True
+  with_items:
+    - modules.conf
+    - ocsinventory-agent.cfg
+
+- name: cron
+  copy: src=files/cron dest=/etc/cron.d/ocsinventory-agent
+  become: True
