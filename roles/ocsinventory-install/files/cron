@@ -1,1 +1,3 @@
-0 12 * * *	root	ocsinventory-agent
+12 * * * *	root	ocsinventory-agent
+
+#EOF
