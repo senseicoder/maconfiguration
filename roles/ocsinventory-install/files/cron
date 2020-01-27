@@ -1,3 +1,5 @@
-12 * * * *	root	ocsinventory-agent
+MAILTO=c.girard@epiconcept.fr
+
+12 * * * *	root	/usr/local/bin/ocsinventory_runif.sh
 
 #EOF
