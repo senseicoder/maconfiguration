@@ -3,6 +3,7 @@ TODO
 
 * urgent
 
+  * tldr (doc directe)
   * apt install autojump::
 
 	mkdir ~/.local/share/autojump 
