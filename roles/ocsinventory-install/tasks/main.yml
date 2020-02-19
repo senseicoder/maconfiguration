@@ -22,3 +22,8 @@
 - name: cron
   copy: src=files/cron dest=/etc/cron.d/ocsinventory-agent owner=root group=root mode=0644
   become: True
+
+- name: nettoyage ancienne cron
+  file: path=/etc/cron.daily/ocsinventory-agent state=absent
+  become: True
+  
