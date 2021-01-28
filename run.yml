@@ -22,10 +22,10 @@
     - { role: svn-install, tags: ['svn-install', 'svn'] }
     - { role: svn-deploy, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash", 
             vcsdestdir: "{{ basedir }}/bin", tags: ['svn-deploy', 'svn'] }
-    - { role: svn-deploy, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/envdev", 
-            vcsdestdir: "{{ basedir }}/www", tags: ['svn-deploy', 'svn'] }
-    - { role: svn-deploy, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Ecritures", 
-            vcsdestdir: "{{ basedir }}/Perso/Ecritures", tags: ['svn-deploy', 'svn'] }
+#    - { role: svn-deploy, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/envdev", 
+#            vcsdestdir: "{{ basedir }}/www", tags: ['svn-deploy', 'svn'] }
+#    - { role: svn-deploy, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Ecritures", 
+#            vcsdestdir: "{{ basedir }}/Perso/Ecritures", tags: ['svn-deploy', 'svn'] }
     - { role: bin-init, tags: ['bin-init'] }
 
     - { role: git-install, tags: ['git-install'] }
@@ -41,7 +41,7 @@
             vcsdestdir: "{{ basedir }}/Sync/documentation-technique", tags: ['git-deploy'] }
 
     - { role: sublimtext-install, tags: ['sublimtext-install'] }
-    - { role: rambox-install, tags: ['rambox-install'] }
+    #- { role: rambox-install, tags: ['rambox-install'] }
     - { role: syncthing-install, tags: ['syncthing-install'] }
     - { role: keepassx-install, tags: ['keepassx-install'] }
     - { role: kpcli-install, tags: ['kpcli-install'] }

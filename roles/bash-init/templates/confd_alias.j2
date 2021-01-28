@@ -15,3 +15,5 @@ alias l='ls -CF'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+
+alias today="paste -d' ' <((echo ' '{,};ncal -w|tail -1)|fold -w3) <(script /dev/null -qc cal)"
