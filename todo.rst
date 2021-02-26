@@ -3,6 +3,7 @@ TODO
 
 * urgent
 
+  * conf juiz ok : rm ~/.cedric/juiz/ranger.txt && ln -s ~/bin/juiz.conf ~/.cedric/juiz/ranger.txt
   * tldr (doc directe)
   * apt install autojump::
 
