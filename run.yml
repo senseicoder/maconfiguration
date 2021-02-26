@@ -1,5 +1,8 @@
 ---
 
+#todo
+#* faut que Sync/Central soit présent (conf partiellement manuelle)
+
 - hosts: all
   vars:
     compte: cedric
@@ -41,11 +44,11 @@
             vcsdestdir: "{{ basedir }}/Sync/documentation-technique", tags: ['git-deploy'] }
 
     - { role: sublimtext-install, tags: ['sublimtext-install'] }
-    #- { role: rambox-install, tags: ['rambox-install'] }
+    #faut prendre un paquet plus récent- { role: rambox-install, tags: ['rambox-install'] }
     - { role: syncthing-install, tags: ['syncthing-install'] }
-    - { role: keepassx-install, tags: ['keepassx-install'] }
-    - { role: kpcli-install, tags: ['kpcli-install'] }
-    - { role: spotify-install, tags: ['spotify-install'] }
+    #obsolete - { role: keepassx-install, tags: ['keepassx-install'] }
+    #obsolete - { role: kpcli-install, tags: ['kpcli-install'] }
+    #- { role: spotify-install, tags: ['spotify-install'] }
     - { role: mysql-shell-config, tags: ['mysql-shell-config'] }
     - { role: lamp-install, tags: ['lamp-install'] }
     - { role: docker-install, tags: ['docker-install'] }
@@ -54,7 +57,8 @@
     - { role: dossiers-init, tags: ['dossiers-init'] }
     - { role: awscli-install, tags: ['awscli-install'] }
     - { role: terraform-install, tags: ['terraform-install'] }
-    - { role: teamviewer-install, tags: ['teamviewer-install'] }
+    #- { role: teamviewer-install, tags: ['teamviewer-install'] }
     - { role: ocsinventory-install, tags: ['ocsinventory-install'] }
+    - { role: clamav-install, tags: ['clamav-install'] }
 
     - { role: etc-commit, tags: ['always'] }

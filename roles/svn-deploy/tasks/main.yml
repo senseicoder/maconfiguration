@@ -1,4 +1,10 @@
 ---
+#todo, ne marche franchement pas, faut faire le checkout à la main en fait, à revoir
+
+- name: creation dossier si besoin
+  file: 
+    path: "{{ vcsdestdir }}"
+    state: directory  
 
 - name: repository info {{ vcsdestdir }}
   shell: "svn info {{ vcsdestdir }}"
@@ -8,7 +14,7 @@
     warn: false
 
 - name: repository checkout {{ vcsdestdir }}
-  local_action: "shell svn co {{ vcssource }} {{ vcsdestdir }} "
+  local_action: "shell svn co {{ vcssource }} {{ vcsdestdir }} 2>&1"
   when: svn_out.rc == 1
 
 - name: repository update {{ vcsdestdir }}

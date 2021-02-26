@@ -2,7 +2,7 @@
 
 - name: installation pip
   apt:
-    name: python-pip
+    name: python3-pip
     state: latest
   become: True
 

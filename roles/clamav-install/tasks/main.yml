@@ -1,0 +1,15 @@
+---
+
+- name: installation clamav
+  apt:
+    name: ['clamav', 'clamav-daemon']
+    state: latest
+  become: True
+
+#peut être pas utile, automatique ?
+#- name: refresh liste
+#  shell: freshclam
+#  become: True
+
+- service: name=clamav-daemon enabled=yes state=started
+  become: true
