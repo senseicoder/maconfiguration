@@ -1,0 +1,5 @@
+[all]
+192.168.0.24	ansible_sudo_pass=centralsupercool
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3

@@ -19,6 +19,8 @@
   copy: src=files/ocsinventory_runif.sh dest=/usr/local/bin/ owner=root group=root mode=0755
   become: True
 
+#TODO sudo ln -s /home/cedric/bin/public/ocsinventory.sh /etc/cron.hourly/ocsinventory
+
 - name: cron
   copy: src=files/cron dest=/etc/cron.d/ocsinventory-agent owner=root group=root mode=0644
   become: True
