@@ -10,7 +10,8 @@
     name: '{{ item }}'
   with_items: [ 
     #libs
-    ibus, ibus-gtk, ibus-qt4,
+    ibus, ibus-gtk, 
+    #obsolète 20.04 : ibus-qt4,
     #outils
     vim, tree, glances, apt-transport-https, pwgen, sshfs, colordiff, iotop, htop, mytop, sharutils, subversion, python-dev, guake, rlwrap, adobe-flashplugin,
     #communication

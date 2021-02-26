@@ -4,6 +4,17 @@
   become: true
   package: name=subversion state=latest
 
+- name: svn sections
+  lineinfile: 
+    dest: "{{ basedir }}/.subversion/config"
+    line: "{{ item }}"
+    regexp: "^{{ item }}$" 
+    create: yes 
+    state: present
+  with_items:
+    - '[miscellany]'
+    - '[auth]'
+
 - name: svn ignore
   lineinfile: 
     dest: "{{ basedir }}/.subversion/config"

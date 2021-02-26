@@ -1,6 +1,6 @@
 ---
 
-- hosts: localhost
+- hosts: all
   vars:
     compte: cedric
     basedir: "/home/{{ compte }}"
