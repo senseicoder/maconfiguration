@@ -46,6 +46,12 @@ TODO
   * dropbox
   * ansible-deploy.sublime-workspace, conf SVN à gérer
   * ssmtp
+  * git::
+
+        Première étape vérifier sa configuration avec git config --global -l et vérifier la présence des lignes core.autocrlf=true ou core.autocrlf=input.
+        Deuxième étape ajouter l’une de ces lignes si elles sont absentes :
+        git config --global core.autocrlf true
+        git config --global core.autocrlf input
 
 * envoi mail
   
