@@ -1,8 +1,14 @@
 ---
 
-- name: déploiement clef
-  apt_key: url=https://syncthing.net/release-key.txt
+- name: Télécharger la clé GPG de Syncthing avec wget
+  command: wget -O /etc/apt/trusted.gpg.d/syncthing-release-key.gpg https://syncthing.net/release-key.txt
   become: yes
+
+- name: Ajouter la clé GPG de Syncthing
+  apt_key:
+    file: /etc/apt/trusted.gpg.d/syncthing-release-key.gpg
+  become: yes
+
 - name: repository syncthing
   become: True
   become_user: root
@@ -18,11 +24,76 @@
     daemon_reload: yes
   become: yes
 
-#  service: 
-#    name: syncthing
-#    state: started
-#    daemon_reload: true
 
-#- name: copie de la clef si absente ou différente
-#  ~/.ssh/id_rsa
-#  ~/Sync/Central/Refs/sshkeys/$(hostname)
+
+- name: Lire la clé API depuis /home/cedric/.config/bin_ss
+  slurp:
+    src: /home/cedric/.config/bin_ss
+  register: api_key_file
+
+- set_fact:
+    syncthing_url: "http://127.0.0.1:8384"
+    syncthing_key: "{{ api_key_file.content | b64decode | trim }}"
+    devices:
+      - device_name: "Mnementh6"
+        device_id: "QYDM726-BNNIIZY-XTQCKUW-7QOTQ7H-BQKEVQE-NVD4MAJ-GQ7FSIN-PUGLWAL"
+      - device_name: "Raspi1A"
+        device_id: "I6QMGFH-I6YNFAG-U7Z3HZA-YIEHT7V-MS72PJG-3CSSNCI-4ZRSDLE-ZTPUBAE"
+      - device_name: "Ramoth"
+        device_id: "R55HWXW-IHFP7NS-LUBXGKC-GYI2525-575ZHAY-GAYBD2X-AHXSPET-SMYSKQU"
+      - device_name: "Ramoth2"
+        device_id: "EBAABQD-6KKUED3-WPRANQ4-RQYDIJR-CXRUVJ4-UY423TU-AKB3Y6T-G3TBYQ4"
+      - device_name: "Pixel4A"
+        device_id: "AYBW4KE-UCXBECI-HRE6O5G-RIMY4MG-SZMZPRL-FTBSDYQ-ANT67F4-OPS4XQG"
+#    shares:
+#      - folder_id: "central"
+#        label: "Central"
+#        path: "/home/cedric/Sync/Central"
+#      - folder_id: "Epiconcept"
+#        label: "Epiconcept"
+#        path: "/home/cedric/Sync/Epiconcept"
+#      - folder_id: "pixel_4a_5g_k9km-photos"
+#        label: "Caméra Pixel4A"
+#        path: "/home/cedric/Sync/Photos/Pixel4A"
+
+- name: Récupérer la configuration actuelle de Syncthing
+  uri:
+    url: "{{ syncthing_url }}/rest/system/config"
+    method: GET
+    headers:
+      X-API-Key: "{{ syncthing_key }}"
+    return_content: yes
+  register: syncthing_config
+
+- name: Ajouter les appareils à la configuration
+  set_fact:
+    updated_config: "{{ syncthing_config.content | from_json }}"
+
+- name: Ajouter un nouvel appareil dans la configuration
+  set_fact:
+    updated_config: "{{ updated_config | combine({'devices': updated_config.devices + [{'deviceID': item.device_id, 'name': item.device_name, 'addresses': ['dynamic'], 'compression': 'metadata', 'introducer': false, 'skipIntroductionRemovals': false}]}) }}"
+  loop: "{{ devices }}"
+
+#- name: Ajouter chaque partage à la configuration avec tous les appareils
+#  set_fact:
+#    updated_config: "{{ updated_config | combine({'folders': updated_config.folders + [{'id': item.folder_id, 'label': item.label, 'path': item.path, 'type': 'readwrite', 'devices': devices | map(attribute='device_id') | list, 'rescanIntervalS': 3600, 'fsWatcherEnabled': true, 'fsWatcherDelayS': 10}]}) }}"
+#  loop: "{{ shares }}"
+
+#- debug: var=updated_config
+
+- name: Mettre à jour la configuration dans Syncthing
+  uri:
+    url: "{{ syncthing_url }}/rest/system/config"
+    method: POST
+    headers:
+      X-API-Key: "{{ syncthing_key }}"
+      Content-Type: "application/json"
+    body: "{{ updated_config | to_json }}"
+    status_code: 200
+
+- name: Redémarrer Syncthing pour appliquer la nouvelle configuration
+  uri:
+    url: "{{ syncthing_url }}/rest/system/restart"
+    method: POST
+    headers:
+      X-API-Key: "{{ syncthing_key }}"

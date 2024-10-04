@@ -1,8 +1,30 @@
 --- 
 
-- name: installation logiciel
-  pip:
-    name: awscli
-    state: latest
-  become: true
+#- name: installation logiciel
+#  pip:
+#    name: awscli
+#    state: latest
+#  become: true
 
+- name: Installer python3-venv si nécessaire
+  apt:
+    name: python3-venv
+    state: present
+  become: yes
+
+- name: Créer un environnement virtuel pour awscli
+  command: python3 -m venv /opt/awscli-venv
+  args:
+    creates: /opt/awscli-venv
+  become: yes
+
+- name: Installer awscli dans l'environnement virtuel
+  command: /opt/awscli-venv/bin/pip install awscli
+  become: yes
+
+- name: Créer un lien symbolique pour awscli
+  file:
+    src: /opt/awscli-venv/bin/aws
+    dest: /usr/local/bin/aws
+    state: link
+  become: yes

@@ -36,11 +36,16 @@
 
 - block:
   - file: path="{{ compose_path }}" state=absent
-  - name: récupération docker-compose
-    get_url: 
-      url: "{{ compose_url }}"
-      dest: "{{ compose_path }}" 
-      mode: 0755
+  - name: Télécharger docker-compose avec curl
+    command: >
+      curl -o "{{ compose_path }}" "{{ compose_url }}"
+    become: yes
+
+  - name: Rendre docker-compose exécutable
+    file:
+      path: "{{ compose_path }}"
+      mode: '0755'
+    become: yes
     
   when: compose_maj.rc == 1
   become: true

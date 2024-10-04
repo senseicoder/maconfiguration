@@ -57,9 +57,9 @@
     - { role: cps-install, tags: ['cps-install'] }
     - { role: dossiers-init, tags: ['dossiers-init'] }
     - { role: awscli-install, tags: ['awscli-install'] }
-    - { role: terraform-install, tags: ['terraform-install'] }
-    #- { role: teamviewer-install, tags: ['teamviewer-install'] }
-    - { role: ocsinventory-install, tags: ['ocsinventory-install'] }
+    #à revoir - { role: terraform-install, tags: ['terraform-install'] }
+    #obsolete - { role: teamviewer-install, tags: ['teamviewer-install'] }
+    #obsolete - { role: ocsinventory-install, tags: ['ocsinventory-install'] }
     - { role: clamav-install, tags: ['clamav-install'] }
 
     - { role: etc-commit, tags: ['always'] }
