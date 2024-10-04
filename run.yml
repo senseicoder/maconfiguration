@@ -9,6 +9,7 @@
     basedir: "/home/{{ compte }}"
     module_lang: fr_FR.UTF-8
   roles:
+    - { role: manuel-install, tags: ['always'] }
     - { role: mercurial-install, tags: ['mercurial-install'] }
 
     - { role: etc-init, tags: ['etc-init'] }
@@ -18,7 +19,6 @@
     - { role: auth-init, tags: ['auth-init'] }
     - { role: apt-init, tags: ['apt-init'] }
     - { role: bash-completion }
-    - { role: ssh-auth, tags: ['ssh-auth'] }
     - { role: cron-conf, tags: ['cron-conf'] }
     - { role: linux-security, tags: ['linux-security'] }
 
@@ -30,6 +30,7 @@
 #    - { role: svn-deploy, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Ecritures", 
 #            vcsdestdir: "{{ basedir }}/Perso/Ecritures", tags: ['svn-deploy', 'svn'] }
     - { role: bin-init, tags: ['bin-init'] }
+#faut avoir les partages SS    - { role: ssh-auth, tags: ['ssh-auth'] }
 
     - { role: git-install, tags: ['git-install'] }
     - { role: git-deploy, vcssource: "git@github.com:senseicoder/myscripts.git", 

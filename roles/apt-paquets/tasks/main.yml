@@ -1,8 +1,11 @@
 ---
 
-- name: repository partner
-  become: True
-  apt_repository: repo='deb http://archive.canonical.com/ bionic partner' state=present
+# 20241004 plus utile ? 
+#- name: repository partner
+#  become: True
+#  apt_repository:
+#    repo: "deb http://archive.canonical.com/ {{ ansible_distribution_release }} partner"
+#    state: present
 
 - name: installation paquets
   become: True
@@ -13,9 +16,9 @@
     ibus, ibus-gtk, 
     #obsolète 20.04 : ibus-qt4,
     #outils
-    vim, tree, glances, apt-transport-https, pwgen, sshfs, colordiff, iotop, htop, mytop, sharutils, subversion, python-dev, guake, rlwrap, adobe-flashplugin,
+    vim, tree, glances, apt-transport-https, pwgen, sshfs, colordiff, iotop, htop, sharutils, subversion, python3-dev, guake, rlwrap,
     #communication
-    pidgin, chromium-browser,
+    chromium-browser,
     #réseau
     gufw, ssmtp, openssh-server, wakeonlan, cifs-utils, curl,
     #graphismes
@@ -27,9 +30,11 @@
     #video
     mplayer, mencoder, totem, handbrake,mkvtoolnix,
     #lamp
-    mysql-client,mysql-server,apache2,php,php-curl,
+    mysql-client, mysql-server, apache2, php, php-curl,
     #gnome
     chrome-gnome-shell,
     #data
-    jq,vym
+    jq, vym,
+    #dev
+    subversion, git
     ]

@@ -1,4 +1,5 @@
 --- 
 
-- name: droits sur bin/*
-  shell: "bash ~/bin/csync bin"
+#marche pas à distance
+#- name: droits sur bin/*
+#  shell: "bash ~/bin/csync bin"

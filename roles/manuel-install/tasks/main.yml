@@ -1,0 +1,10 @@
+---
+
+- name: Create the ~/manuel.sh script file
+  copy:
+    dest: ~/manuel.sh
+    content: |
+      #!/bin/bash
+      # This script will handle manuals commandes
+    owner: "{{ ansible_user }}"
+    mode: '0755'

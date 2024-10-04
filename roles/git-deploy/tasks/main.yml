@@ -1,6 +1,13 @@
 ---
 
-- name: repository {{ vcsdestdir }}
-  git:
-    repo: "{{ vcssource }}"
-    dest: "{{ vcsdestdir }}"
+- name: Check if destination directory exists
+  stat:
+    path: "{{ vcsdestdir }}"
+  register: vcsdestdir_stat
+
+- name: Add git clone command to ~/manuel.sh if vcsdestdir does not exist
+  lineinfile:
+    path: ~/manuel.sh
+    line: 'git clone "{{ vcssource }}" "{{ vcsdestdir }}"'
+    insertafter: EOF
+  when: not vcsdestdir_stat.stat.exists

@@ -10,13 +10,17 @@
   shell: "svn info {{ vcsdestdir }}"
   register: svn_out
   failed_when: false
-  args:
-    warn: false
 
-- name: repository checkout {{ vcsdestdir }}
-  local_action: "shell svn co {{ vcssource }} {{ vcsdestdir }} 2>&1"
+- name: Add repository checkout command to ~/manuel.sh
+  lineinfile:
+    path: ~/manuel.sh
+    line: 'svn co "{{ vcssource }}" "{{ vcsdestdir }}" 2>&1'
+    insertafter: EOF
   when: svn_out.rc == 1
 
-- name: repository update {{ vcsdestdir }}
-  local_action: "shell svn up {{ vcsdestdir }} "
+- name: Add repository update command to ~/manuel.sh
+  lineinfile:
+    path: ~/manuel.sh
+    line: 'svn up "{{ vcsdestdir }}"'
+    insertafter: EOF
   when: svn_out.rc == 0
