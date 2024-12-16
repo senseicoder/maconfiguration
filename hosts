@@ -3,6 +3,8 @@ mnementh6 ansible_user=cedric
 ramoth
 192.168.100.171 ansible_ssh_private_key_file=/cedric/id_rsa ansible_user=cedric
 192.168.100.93 ansible_user=cedric
+192.168.100.177 ansible_user=cedric
+
 
 [epiconcept]
 faranth2
