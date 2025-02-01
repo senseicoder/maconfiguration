@@ -1,5 +1,8 @@
 ---
 
+- fail:
+    msg: à refaire en partant de la doc apt de Syncthing, en l'état ça n'a pas marché sur raspi0spdm (deb11)
+
 - name: Télécharger la clé GPG de Syncthing avec wget
   command: wget -O /etc/apt/trusted.gpg.d/syncthing-release-key.gpg https://syncthing.net/release-key.txt
   become: yes
