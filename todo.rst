@@ -34,6 +34,11 @@ TODO
 
     * https://extensions.gnome.org/extension/906/sound-output-device-chooser/
 
+  * extensions maison : créer les symlinks depuis ``~/www/c/`` vers ``~/.local/share/gnome-shell/extensions/``::
+
+      ln -s ~/www/c/gnome-progress-bar ~/.local/share/gnome-shell/extensions/progress-bar@example.com
+      ln -s ~/www/c/gnome-watch-display ~/.local/share/gnome-shell/extensions/watch_display@1598284202.time
+
   * guake, correction bug : https://github.com/Guake/guake/issues/551
   * awscli
   * guake en autorun à tester
