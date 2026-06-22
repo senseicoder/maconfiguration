@@ -1,0 +1,55 @@
+#!/bin/bash
+
+mode=$1
+if [ -z "$mode" ]; then mode='normal'; fi
+
+mem_total=$(awk '/MemTotal/  {print $2}' /proc/meminfo)
+mem_avail=$(awk '/MemAvailable/ {print $2}' /proc/meminfo)
+mem_used=$((mem_total - mem_avail))
+swap_total=$(awk '/SwapTotal/ {print $2}' /proc/meminfo)
+swap_free=$(awk '/SwapFree/  {print $2}' /proc/meminfo)
+swap_used=$((swap_total - swap_free))
+
+to_h() {
+    awk -v v="$1" 'BEGIN {
+        if (v >= 1048576)     printf "%.1fG", v/1048576
+        else if (v >= 1024)   printf "%.0fM", v/1024
+        else                  printf "%dK", v
+    }'
+}
+
+if [ "$mode" == "full" ]; then
+    ram_line="RAM $(to_h $mem_used)/$(to_h $mem_total) (dispo $(to_h $mem_avail))"
+
+    if [ "$swap_total" -eq 0 ]; then
+        swap_line="SWAP aucun"
+    else
+        algo=$(zramctl --noheadings -o ALGORITHM 2>/dev/null | sort -u | tr -d ' ')
+        ndev=$(zramctl --noheadings 2>/dev/null | wc -l)
+        if [ "$swap_used" -gt 0 ]; then
+            ratio=$(zramctl --noheadings -o DATA,COMPR 2>/dev/null | \
+                awk '{
+                    sub(/K$/,"",$1); sub(/M$/,"*1024",$1); sub(/G$/,"*1048576",$1)
+                    sub(/K$/,"",$2); sub(/M$/,"*1024",$2); sub(/G$/,"*1048576",$2)
+                    d+=$1; c+=$2
+                } END { if(c>0) printf "ratio %.1fx", d/c; else print "ratio ?" }')
+            swap_line="SWAP $(to_h $swap_used)/$(to_h $swap_total) ZRAM×${ndev} ${algo} ${ratio}"
+        else
+            swap_line="SWAP 0/$(to_h $swap_total) ZRAM×${ndev} ${algo} idle"
+        fi
+    fi
+
+    echo "${ram_line} | ${swap_line}"
+
+elif [ "$mode" == "normal" ]; then
+    if [ "$swap_total" -eq 0 ]; then
+        echo -e "\e[1m\e[41m PAS DE SWAP ACTIF \e[0m"
+    else
+        if [ "$swap_total" -gt 0 ]; then
+            pct=$((swap_used * 100 / swap_total))
+            if [ "$pct" -gt 80 ]; then
+                echo -e "\e[1m\e[41m SWAP ${pct}% utilise \e[0m"
+            fi
+        fi
+    fi
+fi

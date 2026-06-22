@@ -197,3 +197,14 @@ Après
 =====
 
 * keepass2 en cli pour remplacer l'actuel kp
+
+state.d — déployer les scripts
+===============================
+
+* ``state.d/memory`` : script d'état RAM/ZRAM pour ``/usr/local/bin/state.d/``
+
+  * installer sur Mnementh6 (et futures machines) ::
+
+      sudo install -o root -g root -m 755 state.d/memory /usr/local/bin/state.d/memory
+
+  * envisager un rôle Ansible ``state-init`` qui déploie tout le dossier ``state.d/``
