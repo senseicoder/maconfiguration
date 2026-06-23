@@ -1,4 +1,10 @@
 ---
 
-- template: src=files/cron.j2 dest=/etc/cron.d/cedric
+- name: deployer la cron utilisateur
+  ansible.builtin.template:
+    src: files/cron.j2
+    dest: "/etc/cron.d/{{ compte }}"
+    owner: root
+    group: root
+    mode: "0644"
   become: true

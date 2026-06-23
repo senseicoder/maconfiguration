@@ -74,6 +74,7 @@ Quelques roles ont un `defaults/main.yml` : `bash-init`, `claude-init`, `keepass
 - `workstation-paquets` : installe les paquets graphiques, media, docs et montages poste utilisateur.
 - `dev-paquets` : installe les paquets de developpement et LAMP.
 - `ubuntu-cleanup` : supprime les dossiers utilisateur Ubuntu par defaut.
+- `cron-conf` : deploie `/etc/cron.d/{{ compte }}` depuis un template parametre par `compte` et `basedir`.
 - `linux-security` : force `UseRoaming no` dans `/etc/ssh/ssh_config`; utile historiquement, maintenant conserve hors chemin nominal.
 - `clamav-install` : installe `clamav` et configure `freshclam`.
 - `dossiers-init` : cree des repertoires `/home/dossiers`, `/home/epiconcept`, `/home/nas`, `/home/freebox`.

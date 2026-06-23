@@ -122,6 +122,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 - `workstation-paquets` : paquets desktop/media/docs.
 - `dev-paquets` : paquets dev et LAMP.
 - `bash-init` / `bash-completion` : shell utilisateur.
+- `cron-conf` : cron utilisateur dans `/etc/cron.d/{{ compte }}`, parametree par `basedir`.
 - `auth-init` : known_hosts CSoft.
 - `svn-install` : installation/configuration du client SVN. `bin-init` l'utilise comme dependance pour gerer directement le checkout SVN de `~/bin`.
 - `git-install` / `git-deploy` : configuration Git et clone/update directs des depots parametres.
