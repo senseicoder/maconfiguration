@@ -71,7 +71,9 @@ Quelques roles ont un `defaults/main.yml` : `bash-init`, `claude-init`, `keepass
 ### Base systeme
 
 - `apt-init` : installe `aptitude`, ajoute le depot Epiconcept, fait un upgrade complet.
-- `apt-paquets` : installe un gros lot de paquets poste de travail/dev/LAMP.
+- `apt-paquets` : installe le socle CLI commun.
+- `workstation-paquets` : installe les paquets graphiques, media, docs et montages poste utilisateur.
+- `dev-paquets` : installe les paquets de developpement et LAMP.
 - `ubuntu-cleanup` : supprime les dossiers utilisateur Ubuntu par defaut.
 - `linux-security` : force `UseRoaming no` dans `/etc/ssh/ssh_config`; utile historiquement, maintenant conserve hors chemin nominal.
 - `clamav-install` : installe `clamav` et configure `freshclam`.
@@ -121,8 +123,8 @@ Pour les profils modernes, Docker ne doit plus utiliser `docker-install` par def
 ## Profils versionnes
 
 - `base.list` : socle commun poste/serveur, avec controle `/etc` via etckeeper, APT, shell, cron, auth et Git.
-- `workstation.list` : poste graphique et outils utilisateur, avec Syncthing.
-- `dev.list` : outils de developpement, avec SVN/Git, Docker via `infra-deploy`, LAMP, AWS CLI, Claude et Codex.
+- `workstation.list` : poste graphique et outils utilisateur, avec paquets desktop/media/docs et Syncthing.
+- `dev.list` : outils de developpement et LAMP, avec SVN/Git, Docker via `infra-deploy`, AWS CLI, Claude et Codex.
 - `home.list` : specificites maison.
 - `vps.list` : socle minimal coherent pour VPS personnel sans poste graphique.
 - `serveur.list` : socle serveur personnel avec Docker via `infra-deploy`.

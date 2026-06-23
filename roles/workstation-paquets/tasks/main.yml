@@ -1,0 +1,25 @@
+---
+- name: installation paquets workstation
+  become: true
+  ansible.builtin.apt:
+    name:
+      - calibre
+      - chrome-gnome-shell
+      - chromium-browser
+      - cifs-utils
+      - gimp
+      - gufw
+      - handbrake
+      - ibus
+      - ibus-gtk
+      - mencoder
+      - mkvtoolnix
+      - mplayer
+      - nfs-common
+      - pandoc
+      - sshfs
+      - ssmtp
+      - texlive
+      - totem
+      - vym
+    state: present

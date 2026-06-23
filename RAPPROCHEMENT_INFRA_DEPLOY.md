@@ -98,6 +98,7 @@ Poste graphique :
 
 ```
 ubuntu-cleanup
+workstation-paquets
 guake-install
 sublimtext-install
 syncthing-install
@@ -111,6 +112,7 @@ clamav-install
 Outils dev :
 
 ```
+dev-paquets
 svn-install
 git-install
 docker_dockerce_setup

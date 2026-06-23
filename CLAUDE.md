@@ -118,7 +118,9 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 
 - `manuel-install` : cree `~/manuel.sh`, interface actuelle pour les actions manuelles.
 - `etc-init` / `etc-commit` : controle `/etc` via etckeeper/Git, avec tentative d'import de l'ancien historique Mercurial si present.
-- `apt-init` / `apt-paquets` : socle APT et paquets.
+- `apt-init` / `apt-paquets` : socle APT et paquets CLI communs.
+- `workstation-paquets` : paquets desktop/media/docs.
+- `dev-paquets` : paquets dev et LAMP.
 - `bash-init` / `bash-completion` : shell utilisateur.
 - `auth-init` : known_hosts CSoft.
 - `svn-install` / `svn-deploy` : configuration SVN et commandes manuelles de checkout/update.
@@ -133,8 +135,8 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 ## Profils actuels
 
 - `base.list` : socle commun.
-- `workstation.list` : poste graphique, avec `syncthing-install`.
-- `dev.list` : outils dev, avec Docker via `infra-deploy`, `claude-init` et `codex-init`.
+- `workstation.list` : poste graphique, avec paquets desktop/media/docs et `syncthing-install`.
+- `dev.list` : outils dev et LAMP, avec Docker via `infra-deploy`, `claude-init` et `codex-init`.
 - `home.list` : specificites maison.
 - `vps.list` : socle VPS minimal.
 - `serveur.list` : VPS/serveur avec Docker.
