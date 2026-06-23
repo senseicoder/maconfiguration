@@ -1,0 +1,10 @@
+---
+- name: vérifier si Codex est déjà installé
+  command: which codex
+  register: codex_which
+  changed_when: false
+  failed_when: false
+
+- name: installer Codex
+  shell: curl -fsSL https://chatgpt.com/codex/install.sh | CODEX_NON_INTERACTIVE=1 sh
+  when: codex_which.rc != 0
