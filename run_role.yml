@@ -2,11 +2,6 @@
 - hosts: all
   gather_facts: true
 
-  vars:
-    compte: cedric
-    basedir: "/home/{{ compte }}"
-    module_lang: fr_FR.UTF-8
-
   handlers:
     - name: ssh_restart
       ansible.builtin.service:

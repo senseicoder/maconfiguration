@@ -58,7 +58,7 @@ Quand `/home/cedric/www/e/infra-deploy/ansible/roles` existe, `run` l'ajoute a `
 
 ## Variables globales actuelles
 
-Dans `run.yml` :
+Dans `group_vars/all.yml` :
 
 ```yaml
 compte: cedric

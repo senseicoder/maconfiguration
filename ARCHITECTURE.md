@@ -25,7 +25,7 @@ Le projet n'est pas aujourd'hui une plateforme Ansible generaliste. C'est un pla
   roles/                     # roles Ansible
 ```
 
-Le coeur historique est `run.yml`. Il definit `compte`, `basedir` et `module_lang`, puis applique une sequence de roles avec des tags. Certains roles prennent des variables inline (`vcssource`, `vcsdestdir`) pour piloter des checkouts/clones.
+Le coeur historique est `run.yml`. Il applique une sequence de roles avec des tags et s'appuie maintenant sur `group_vars/all.yml` pour les variables globales. Certains roles prennent des variables inline (`vcssource`, `vcsdestdir`) pour piloter des checkouts/clones.
 
 Le point d'entree cible est maintenant `run` + `run_role.yml`, inspire d'`infra-deploy`. `run_role.yml` joue un seul role et expose des handlers communs. `run` lance en check mode par defaut et sait jouer un role, une liste ou le playbook legacy.
 
@@ -57,7 +57,7 @@ Le mot-cle `run` est volontairement explicite. Sans lui, `run` ajoute `-C -D` a 
 
 L'inventaire est `hosts`, avec deux groupes visibles : `maison` et `epiconcept`. Le groupe `epiconcept` est vide. Les hosts sont des noms de machines et quelques adresses IP avec `ansible_user=cedric`.
 
-Les variables globales sont dans `run.yml` :
+Les variables globales sont dans `group_vars/all.yml` :
 
 - `compte: cedric`
 - `basedir: /home/{{ compte }}`

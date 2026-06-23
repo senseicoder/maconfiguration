@@ -204,7 +204,7 @@ Ajouter sans changement fonctionnel :
 - `run_role.yml` minimal qui applique `role` — fait;
 - un wrapper `run` inspire d'`infra-deploy`, dry-run par defaut — fait;
 - des fichiers `*.list` initiaux — fait;
-- `group_vars/all.yml` contenant `compte`, `basedir`, `module_lang`;
+- `group_vars/all.yml` contenant `compte`, `basedir`, `module_lang` — fait;
 - une documentation des derniers cas encore manuels.
 
 Risque faible : on ne change pas les roles, on change seulement les points d'entree.

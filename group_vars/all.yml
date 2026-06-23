@@ -1,0 +1,4 @@
+---
+compte: cedric
+basedir: "/home/{{ compte }}"
+module_lang: fr_FR.UTF-8
