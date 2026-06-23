@@ -9,6 +9,11 @@
     path: /etc/.git
   register: etc_git_state
 
+- name: verifier la presence du fichier ignore Mercurial /etc
+  ansible.builtin.stat:
+    path: /etc/.hgignore
+  register: etc_hgignore_state
+
 - name: installer etckeeper
   ansible.builtin.apt:
     name:
@@ -74,6 +79,51 @@
     - etc_hg_state.stat.exists
     - not etc_git_state.stat.exists
 
+- name: verifier la presence du depot Mercurial apres import
+  ansible.builtin.stat:
+    path: /etc/.hg
+  register: etc_hg_after_import_state
+
+- name: annoncer l'archivage du depot Mercurial /etc
+  ansible.builtin.debug:
+    msg: "L'ancien depot /etc/.hg serait deplace vers /var/backups/etckeeper-migration/."
+  changed_when: true
+  when:
+    - ansible_check_mode
+    - etc_hg_after_import_state.stat.exists
+
+- name: creer le dossier d'archive de migration etckeeper
+  ansible.builtin.file:
+    path: /var/backups/etckeeper-migration
+    state: directory
+    owner: root
+    group: root
+    mode: "0700"
+  become: true
+  when:
+    - not ansible_check_mode
+    - etc_hg_after_import_state.stat.exists or etc_hgignore_state.stat.exists
+
+- name: archiver l'ancien depot Mercurial /etc
+  ansible.builtin.command: mv /etc/.hg /var/backups/etckeeper-migration/etc.hg
+  args:
+    creates: /var/backups/etckeeper-migration/etc.hg
+    removes: /etc/.hg
+  become: true
+  when:
+    - not ansible_check_mode
+    - etc_hg_after_import_state.stat.exists
+
+- name: archiver l'ancien ignore Mercurial /etc
+  ansible.builtin.command: mv /etc/.hgignore /var/backups/etckeeper-migration/etc.hgignore
+  args:
+    creates: /var/backups/etckeeper-migration/etc.hgignore
+    removes: /etc/.hgignore
+  become: true
+  when:
+    - not ansible_check_mode
+    - etc_hgignore_state.stat.exists
+
 - name: initialiser etckeeper sans historique Mercurial
   ansible.builtin.command: etckeeper init
   args:
@@ -98,6 +148,7 @@
   changed_when: false
   failed_when: false
   check_mode: false
+  become: true
 
 - name: annoncer les changements /etc non commites
   ansible.builtin.debug:
