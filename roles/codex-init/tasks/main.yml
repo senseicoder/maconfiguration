@@ -1,10 +1,22 @@
 ---
 - name: vérifier si Codex est déjà installé
-  command: which codex
+  ansible.builtin.command: which codex
   register: codex_which
   changed_when: false
   failed_when: false
+  check_mode: false
+
+- name: prévoir l'installation de Codex
+  ansible.builtin.debug:
+    msg: "Codex serait installé via https://chatgpt.com/codex/install.sh"
+  changed_when: true
+  when:
+    - codex_which.rc != 0
+    - ansible_check_mode
 
 - name: installer Codex
-  shell: curl -fsSL https://chatgpt.com/codex/install.sh | CODEX_NON_INTERACTIVE=1 sh
-  when: codex_which.rc != 0
+  ansible.builtin.shell: curl -fsSL https://chatgpt.com/codex/install.sh | CODEX_NON_INTERACTIVE=1 sh
+  changed_when: true
+  when:
+    - codex_which.rc != 0
+    - not ansible_check_mode
