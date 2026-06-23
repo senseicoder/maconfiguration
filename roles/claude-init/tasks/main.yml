@@ -1,0 +1,206 @@
+---
+# ============================================================
+# PRÉREQUIS
+# ============================================================
+
+- name: vérifier que syncthing est installé
+  stat:
+    path: /usr/bin/syncthing
+  register: syncthing_bin
+
+- name: assert syncthing installé
+  assert:
+    that: syncthing_bin.stat.exists
+    fail_msg: >
+      Syncthing n'est pas installé.
+      Lancer d'abord : ansible-playbook run.yml --tags syncthing-install
+
+- name: vérifier que ~/Sync/Central est présent et synchronisé
+  stat:
+    path: "{{ basedir }}/Sync/Central/.stfolder"
+  register: sync_central_stfolder
+
+- name: assert ~/Sync/Central synchronisé
+  assert:
+    that: sync_central_stfolder.stat.exists
+    fail_msg: >
+      {{ basedir }}/Sync/Central n'est pas encore synchronisé par Syncthing
+      (marqueur .stfolder absent). Attendre la fin de la synchronisation initiale.
+
+- name: vérifier que ~/Sync/Central/Dossiers/claude est présent
+  stat:
+    path: "{{ basedir }}/Sync/Central/Dossiers/claude"
+  register: claude_central_dir
+
+- name: assert ~/Sync/Central/Dossiers/claude présent
+  assert:
+    that: claude_central_dir.stat.exists and claude_central_dir.stat.isdir
+    fail_msg: >
+      {{ basedir }}/Sync/Central/Dossiers/claude est absent.
+      La synchronisation Syncthing doit être complète avant de lancer ce rôle.
+
+# ============================================================
+# INSTALLATION CLAUDE CODE
+# ============================================================
+
+- name: vérifier si Claude Code est déjà installé
+  stat:
+    path: "{{ basedir }}/.local/bin/claude"
+  register: claude_bin
+
+- name: créer les répertoires pour Claude Code
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0775'
+  loop:
+    - "{{ basedir }}/.local/bin"
+    - "{{ basedir }}/.local/share/claude/versions"
+  when: not claude_bin.stat.exists
+
+- name: télécharger le binaire Claude Code
+  get_url:
+    url: "{{ claude_code_install_url }}"
+    dest: "{{ basedir }}/.local/share/claude/versions/{{ claude_code_version }}"
+    mode: '0755'
+  when: not claude_bin.stat.exists
+
+- name: créer le symlink ~/.local/bin/claude
+  file:
+    src: "{{ basedir }}/.local/share/claude/versions/{{ claude_code_version }}"
+    dest: "{{ basedir }}/.local/bin/claude"
+    state: link
+  when: not claude_bin.stat.exists
+
+- name: pause - authentification Claude Code requise
+  pause:
+    prompt: |
+
+      Claude Code {{ claude_code_version }} vient d'être installé.
+
+      Avant de continuer, authentifiez-vous :
+
+          {{ basedir }}/.local/bin/claude /login
+
+      Appuyez sur Entrée une fois l'authentification terminée.
+  when: not claude_bin.stat.exists
+
+# ============================================================
+# CONFIGURATION : symlinks vers Syncthing
+# ============================================================
+
+- name: créer ~/.claude
+  file:
+    path: "{{ basedir }}/.claude"
+    state: directory
+    mode: '0775'
+
+- name: symlink ~/.claude/settings.json
+  file:
+    src: "{{ basedir }}/Sync/Central/Dossiers/claude/settings.json"
+    dest: "{{ basedir }}/.claude/settings.json"
+    state: link
+
+- name: symlink ~/.claude/skills
+  file:
+    src: "{{ basedir }}/Sync/Central/Dossiers/skills"
+    dest: "{{ basedir }}/.claude/skills"
+    state: link
+
+# ============================================================
+# SYNCHRONISATION memory/ (pur Ansible, sans script shell)
+# Reproduit la logique de sync-memories.sh :
+#   Passe 1 : memory/ local réel → déplacer dans Sync + symlink
+#   Passe 2 : Sync → créer projet local + symlink si absent
+# ============================================================
+
+- name: créer le dossier Sync/Central/.../memory
+  file:
+    path: "{{ basedir }}/Sync/Central/Dossiers/claude/memory"
+    state: directory
+    mode: '0775'
+
+# --- Passe 1 : projets locaux avec un vrai dossier memory/ ---
+
+- name: lister les entrées memory/ dans les projets Claude
+  find:
+    paths: "{{ basedir }}/.claude/projects"
+    patterns: "memory"
+    file_type: any
+    depth: 2
+  register: all_memory_entries
+  failed_when: false
+
+- name: vérifier le statut de chaque entrée memory/
+  stat:
+    path: "{{ item.path }}"
+  loop: "{{ all_memory_entries.files | default([]) }}"
+  loop_control:
+    label: "{{ item.path | basename }}"
+  register: memory_stats
+
+- name: copier les memory/ locaux (vrais dossiers) vers Sync
+  copy:
+    src: "{{ item.stat.path }}/"
+    dest: "{{ basedir }}/Sync/Central/Dossiers/claude/memory/{{ item.stat.path | dirname | basename }}/"
+    remote_src: yes
+  loop: "{{ memory_stats.results }}"
+  loop_control:
+    label: "{{ item.stat.path | dirname | basename }}"
+  when:
+    - item.stat.isdir is defined
+    - item.stat.isdir
+    - not item.stat.islnk
+
+- name: supprimer les memory/ locaux après copie vers Sync
+  file:
+    path: "{{ item.stat.path }}"
+    state: absent
+  loop: "{{ memory_stats.results }}"
+  loop_control:
+    label: "{{ item.stat.path | dirname | basename }}"
+  when:
+    - item.stat.isdir is defined
+    - item.stat.isdir
+    - not item.stat.islnk
+
+- name: créer les symlinks pour les memory/ déplacés vers Sync
+  file:
+    src: "{{ basedir }}/Sync/Central/Dossiers/claude/memory/{{ item.stat.path | dirname | basename }}"
+    dest: "{{ item.stat.path }}"
+    state: link
+  loop: "{{ memory_stats.results }}"
+  loop_control:
+    label: "{{ item.stat.path | dirname | basename }}"
+  when:
+    - item.stat.isdir is defined
+    - item.stat.isdir
+    - not item.stat.islnk
+
+# --- Passe 2 : dossiers Sync sans projet local → créer le symlink ---
+
+- name: lister les memory/ disponibles dans Sync
+  find:
+    paths: "{{ basedir }}/Sync/Central/Dossiers/claude/memory"
+    file_type: directory
+    depth: 1
+  register: sync_memory_dirs
+  failed_when: false
+
+- name: créer les répertoires de projet manquants
+  file:
+    path: "{{ basedir }}/.claude/projects/{{ item.path | basename }}"
+    state: directory
+    mode: '0775'
+  loop: "{{ sync_memory_dirs.files | default([]) }}"
+  loop_control:
+    label: "{{ item.path | basename }}"
+
+- name: créer les symlinks memory/ depuis Sync
+  file:
+    src: "{{ item.path }}"
+    dest: "{{ basedir }}/.claude/projects/{{ item.path | basename }}/memory"
+    state: link
+  loop: "{{ sync_memory_dirs.files | default([]) }}"
+  loop_control:
+    label: "{{ item.path | basename }}"

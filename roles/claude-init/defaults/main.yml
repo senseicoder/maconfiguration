@@ -1,0 +1,5 @@
+---
+claude_code_version: "2.1.186"
+# URL de téléchargement direct du binaire natif (ELF 64-bit, ~234 Mo)
+# Format : https://downloads.claude.ai/claude-code-releases/VERSION/claude-linux-x64
+claude_code_install_url: "https://downloads.claude.ai/claude-code-releases/{{ claude_code_version }}/claude-linux-x64"
