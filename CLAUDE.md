@@ -128,6 +128,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 - `codex-init` : installation Codex, avec annonce de changement correcte en check mode.
 - `docker_dockerce_setup` / `docker_dockercompose_setup` : roles Docker externes venant d'`infra-deploy`, utilises par `dev.list` et `serveur.list`.
 - `docker-install`, `lamp-install`, `awscli-install`, `mysql-shell-config`, `cps-install` : outils de travail. `docker-install` est maintenant legacy pour les profils.
+- `linux-security` : role historique `UseRoaming no`, conserve en legacy.
 
 ## Profils actuels
 

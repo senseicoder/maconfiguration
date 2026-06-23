@@ -8,5 +8,4 @@ cron-conf
 auth-init
 git-install
 bin-init
-linux-security
 etc-commit

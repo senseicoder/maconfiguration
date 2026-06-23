@@ -89,7 +89,6 @@ etc-init
 bash-init
 bash-completion
 git-install
-linux-security
 etc-commit
 ```
 
@@ -157,6 +156,7 @@ terraform-install
 openfortissl-install
 ssh
 ssh-auth
+linux-security
 ```
 
 ### `vps.list`
