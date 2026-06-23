@@ -108,7 +108,7 @@ Le depot reduit progressivement les actions manuelles : `bin-init` et `git-deplo
 ### Applications poste de travail
 
 - `sublimtext-install` : depot Sublime Text, paquet, Package Control.
-- `syncthing-install` : installe Syncthing, active `syncthing@cedric`, puis modifie la configuration via API REST. Dans les profils, il appartient maintenant a `workstation.list`.
+- `syncthing-install` : installe Syncthing, active `syncthing@{{ compte }}`, puis modifie la configuration via API REST. Dans les profils, il appartient maintenant a `workstation.list` et `raspi.list`.
 - `claude-init` : installe Claude Code, lie la configuration et les skills depuis Syncthing, synchronise les dossiers `memory`. Dans les profils, il appartient maintenant a `dev.list`.
 - `codex-init` : installe Codex si absent. Le role annonce en check mode que l'installation serait effectuee, puis n'execute le script distant qu'en mode reel.
 - `guake-install` : installe Guake et cree une entree autostart.
@@ -123,14 +123,15 @@ Pour les profils modernes, Docker ne doit plus utiliser `docker-install` par def
 ## Profils versionnes
 
 - `base.list` : socle commun poste/serveur, avec controle `/etc` via etckeeper, APT, shell, cron, auth et Git.
-- `workstation.list` : poste graphique et outils utilisateur, avec paquets desktop/media/docs et Syncthing.
-- `dev.list` : outils de developpement et LAMP, avec SVN/Git, Docker via `infra-deploy`, AWS CLI, Claude et Codex.
-- `home.list` : specificites maison.
-- `vps.list` : socle minimal coherent pour VPS personnel sans poste graphique.
-- `serveur.list` : socle serveur personnel avec Docker via `infra-deploy`.
+- `workstation.list` : delta poste graphique et outils utilisateur, avec paquets desktop/media/docs et Syncthing.
+- `raspi.list` : delta Raspberry Pi personnel sans poste graphique, avec Syncthing.
+- `dev.list` : delta outils de developpement et LAMP, avec SVN, Docker via `infra-deploy`, AWS CLI, Claude et Codex.
+- `home.list` : delta specificites maison.
+- `vps.list` : delta VPS personnel sans poste graphique; actuellement aucun role specifique en plus de `base.list`.
+- `serveur.list` : delta serveur personnel avec Docker via `infra-deploy`.
 - `legacy.list` : roles conserves hors chemin nominal, dont l'ancien `docker-install`.
 
-`sync.list` reste present mais n'est plus le profil porteur de Syncthing, Claude ou Codex : Syncthing est rattache a `workstation.list`, Claude et Codex a `dev.list`.
+`sync.list` reste present mais n'est plus le profil porteur de Syncthing, Claude ou Codex : Syncthing est rattache a `workstation.list` et `raspi.list`, Claude et Codex a `dev.list`.
 
 ### Roles obsoletes ou a isoler
 
@@ -156,7 +157,7 @@ Ils doivent rester lisibles, mais ne devraient pas peser sur le chemin nominal t
 
 ## Fragilites techniques
 
-- L'utilisateur `cedric` et `/home/cedric` apparaissent directement dans plusieurs roles, notamment `syncthing-install`.
+- L'utilisateur `cedric` et `/home/cedric` apparaissent encore directement dans certains roles ou commentaires historiques; les roles actifs doivent continuer a migrer vers `compte` et `basedir`.
 - Il n'y a pas de profils explicites : poste complet, poste minimal, serveur maison, laptop, VM, etc.
 - Beaucoup de roles n'ont pas de `defaults/main.yml`, donc leurs contrats sont implicites.
 - Les modules sont souvent appeles sous leur nom court (`apt`, `file`, `shell`) et les styles YAML sont heterogenes.
@@ -189,7 +190,7 @@ La migration doit rester progressive. Le premier gain n'est pas de renommer tous
 
 1. extraire les variables globales hors de `run.yml` et `run_role.yml`;
 2. enrichir `run_role.yml` avec log et controle `/etc`;
-3. stabiliser les listes de roles (`base.list`, `workstation.list`, `dev.list`, `home.list`, `vps.list`, `serveur.list`, `legacy.list`);
+3. stabiliser les listes de roles (`base.list` comme socle, puis `workstation.list`, `raspi.list`, `dev.list`, `home.list`, `vps.list`, `serveur.list`, `legacy.list` comme deltas);
 4. sortir `~/manuel.sh` du chemin nominal et documenter les derniers cas historiques;
 5. finaliser et valider l'import de l'historique Mercurial `/etc` vers etckeeper/Git;
 6. ajouter `defaults/main.yml` a tous les roles actifs;

@@ -18,7 +18,7 @@ Ces questions ne bloquent pas la documentation actuelle. Elles bloquent en revan
 
 7. Le projet doit-il rester specialise sur l'utilisateur `cedric`, ou veux-tu le rendre parametrable proprement ?
 8. Comment veux-tu gerer les secrets et tokens personnels : fichiers Syncthing existants, Ansible Vault, KeePass, variables locales non versionnees ?
-9. La cle API Syncthing doit-elle rester lue depuis `~/.config/bin_ss`, ou devenir une variable d'inventaire ?
+9. La cle API Syncthing est lue depuis `syncthing_api_key_file`; faut-il en faire une variable d'inventaire par machine plutot qu'un defaut global ?
 
 ## Syncthing et donnees synchronisees
 
@@ -61,7 +61,7 @@ Sans reponse contraire, je partirais sur ces hypotheses :
 - `~/manuel.sh` reduit progressivement, sans l'officialiser comme interface nominale;
 - `etckeeper` remplace Mercurial direct;
 - `run` + `run_role.yml` + `*.list` ajoutes avant toute refonte de role;
-- `workstation.list` porte Syncthing, `dev.list` porte Claude et Codex;
+- `workstation.list` et `raspi.list` portent Syncthing, `dev.list` porte Claude et Codex;
 - Docker vient de `infra-deploy` pour `dev.list` et `serveur.list`, sans copie locale;
 - toute tache doit conserver une semantique `changed` explicite en check mode;
 - roles historiques gardes dans `legacy.list` tant qu'ils n'ont pas ete explicitement abandonnes.

@@ -1,0 +1,15 @@
+---
+syncthing_api_key_file: "{{ basedir }}/.config/bin_ss"
+syncthing_url: "http://127.0.0.1:8384"
+syncthing_service_name: "syncthing@{{ compte }}"
+syncthing_devices:
+  - device_name: "Mnementh6"
+    device_id: "QYDM726-BNNIIZY-XTQCKUW-7QOTQ7H-BQKEVQE-NVD4MAJ-GQ7FSIN-PUGLWAL"
+  - device_name: "Raspi1A"
+    device_id: "I6QMGFH-I6YNFAG-U7Z3HZA-YIEHT7V-MS72PJG-3CSSNCI-4ZRSDLE-ZTPUBAE"
+  - device_name: "Ramoth"
+    device_id: "R55HWXW-IHFP7NS-LUBXGKC-GYI2525-575ZHAY-GAYBD2X-AHXSPET-SMYSKQU"
+  - device_name: "Ramoth2"
+    device_id: "EBAABQD-6KKUED3-WPRANQ4-RQYDIJR-CXRUVJ4-UY423TU-AKB3Y6T-G3TBYQ4"
+  - device_name: "Pixel4A"
+    device_id: "AYBW4KE-UCXBECI-HRE6O5G-RIMY4MG-SZMZPRL-FTBSDYQ-ANT67F4-OPS4XQG"

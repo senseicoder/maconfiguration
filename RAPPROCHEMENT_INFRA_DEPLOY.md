@@ -114,7 +114,6 @@ Outils dev :
 ```
 dev-paquets
 svn-install
-git-install
 docker_dockerce_setup
 docker_dockercompose_setup
 lamp-install
@@ -130,7 +129,7 @@ Docker est volontairement fourni par `infra-deploy` dans ce profil, via `docker_
 Le profil `sync.list` n'est plus le porteur principal de Syncthing, Claude ou Codex :
 
 ```
-# Syncthing est porte par workstation.list.
+# Syncthing est porte par workstation.list et raspi.list.
 # Claude et Codex sont portes par dev.list.
 ```
 
@@ -161,38 +160,25 @@ ssh-auth
 linux-security
 ```
 
+### `raspi.list`
+
+Delta Raspberry Pi personnel sans poste graphique :
+
+```
+syncthing-install
+```
+
 ### `vps.list`
 
-Socle minimal pour un VPS personnel sans poste graphique :
-
-```
-etc-init
-apt-init
-bash-init
-bash-completion
-cron-conf
-auth-init
-git-install
-linux-security
-etc-commit
-```
+Delta VPS personnel sans poste graphique. Actuellement aucun role specifique en plus de `base.list`.
 
 ### `serveur.list`
 
 Serveur personnel avec Docker via roles externes :
 
 ```
-etc-init
-apt-init
-bash-init
-bash-completion
-cron-conf
-auth-init
-git-install
-linux-security
 docker_dockerce_setup
 docker_dockercompose_setup
-etc-commit
 ```
 
 ## Plan de migration recommande

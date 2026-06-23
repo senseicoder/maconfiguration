@@ -1,7 +1,6 @@
 # Outils de developpement autonomes.
 dev-paquets
 svn-install
-git-install
 docker_dockerce_setup
 docker_dockercompose_setup
 lamp-install

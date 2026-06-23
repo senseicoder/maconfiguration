@@ -135,11 +135,13 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 ## Profils actuels
 
 - `base.list` : socle commun.
+- Les autres listes sont des deltas a jouer apres `base.list`.
 - `workstation.list` : poste graphique, avec paquets desktop/media/docs et `syncthing-install`.
+- `raspi.list` : Raspberry Pi sans poste graphique, avec `syncthing-install`.
 - `dev.list` : outils dev et LAMP, avec Docker via `infra-deploy`, `claude-init` et `codex-init`.
 - `home.list` : specificites maison.
-- `vps.list` : socle VPS minimal.
-- `serveur.list` : VPS/serveur avec Docker.
+- `vps.list` : delta VPS minimal, actuellement vide.
+- `serveur.list` : serveur avec Docker.
 - `legacy.list` : roles conserves hors chemin nominal.
 - `sync.list` : reserve, ne porte plus Syncthing/Claude/Codex.
 
@@ -156,7 +158,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 ## Points d'attention avant modification
 
 - Ne pas casser le bootstrap d'un poste vierge : Git, SVN, SSH, Syncthing et Claude ont des dependances circulaires partielles.
-- `syncthing-install` contient une liste de devices personnelle et lit `/home/cedric/.config/bin_ss`.
+- `syncthing-install` contient une liste de devices personnelle et lit sa cle API depuis `syncthing_api_key_file`.
 - `claude-init` depend de `~/Sync/Central/.stfolder` et de dossiers synchronises.
 - `codex-init` execute un script distant seulement hors check mode; en check mode il doit annoncer l'installation prevue si `codex` est absent.
 - Les roles Docker des profils `dev.list` et `serveur.list` viennent d'`infra-deploy`; corriger la source externe si leur semantique Ansible est insuffisante.
