@@ -34,8 +34,8 @@ Ces questions ne bloquent pas la documentation actuelle. Elles bloquent en revan
 
 ## Controle de `/etc`
 
-16. Veux-tu migrer de Mercurial direct vers `etckeeper` ?
-17. Si oui, Git ou Mercurial comme backend etckeeper ?
+16. L'import Mercurial -> Git de `/etc` via `hg-fast-export` est-il suffisant, ou faut-il garder une procedure manuelle de verification avant execution reelle ?
+17. Faut-il conserver `/etc/.hg` durablement comme archive locale apres import, ou prevoir une etape manuelle de retrait plus tard ?
 18. Souhaites-tu encadrer chaque role par un commit avant/apres comme `infra-deploy`, ou seulement le debut et la fin d'un run complet ?
 
 ## Modernisation

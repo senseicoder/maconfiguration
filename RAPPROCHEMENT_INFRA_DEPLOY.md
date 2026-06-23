@@ -26,7 +26,7 @@ Le but n'est pas de copier le perimetre employeur. Le bon objectif est de repren
 | Roles | noms historiques `*-install`, `*-init` | prefixe domaine + action | Classification maintenable |
 | Defaults | partiels | systematiques | Documentation locale des variables |
 | Handlers | absents ou inline | centralises | Redemarrages coherents |
-| Controle `/etc` | Mercurial direct | role generique + etckeeper possible | Encadrement commun avant/apres role |
+| Controle `/etc` | `etc-init` / `etc-commit` via etckeeper/Git | role generique + etckeeper | Encadrement commun avant/apres role |
 | Lancement | execution directe | dry-run par defaut | Exploitation plus prudente |
 | Tests | pas d'infra de test | Docker de test | Rejouabilite sans machine reelle |
 | Manuel | `~/manuel.sh` implicite | roles plus autonomes | Formaliser ou reduire le manuel |
@@ -77,7 +77,6 @@ base_apt_packages
 base_etc_control_setup
 base_shell_conf
 base_git_install
-base_mercurial_install
 base_security_conf
 ```
 
@@ -90,7 +89,6 @@ etc-init
 bash-init
 bash-completion
 git-install
-mercurial-install
 linux-security
 etc-commit
 ```
@@ -214,7 +212,7 @@ Risque faible : on ne change pas les roles, on change seulement les points d'ent
 Ajouter :
 
 - role `generic_log`;
-- role `generic_etc_control` ou migration `base_etckeeper_*`;
+- role `generic_etc_control` autour du backend etckeeper existant;
 - `defaults/main.yml` vide ou documente pour tous les roles actifs;
 - handlers centralises si besoin.
 

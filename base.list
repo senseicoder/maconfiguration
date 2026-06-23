@@ -7,7 +7,6 @@ bash-completion
 cron-conf
 auth-init
 git-install
-mercurial-install
 bin-init
 linux-security
 etc-commit

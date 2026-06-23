@@ -117,7 +117,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 ## Roles actifs importants
 
 - `manuel-install` : cree `~/manuel.sh`, interface actuelle pour les actions manuelles.
-- `etc-init` / `etc-commit` : controle `/etc` via Mercurial.
+- `etc-init` / `etc-commit` : controle `/etc` via etckeeper/Git, avec tentative d'import de l'ancien historique Mercurial si present.
 - `apt-init` / `apt-paquets` : socle APT et paquets.
 - `bash-init` / `bash-completion` : shell utilisateur.
 - `auth-init` : known_hosts CSoft.
@@ -158,7 +158,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 - `codex-init` execute un script distant seulement hors check mode; en check mode il doit annoncer l'installation prevue si `codex` est absent.
 - Les roles Docker des profils `dev.list` et `serveur.list` viennent d'`infra-deploy`; corriger la source externe si leur semantique Ansible est insuffisante.
 - `git-deploy` et `svn-deploy` ne deployent pas directement : ils alimentent `~/manuel.sh`.
-- `etc-init` utilise Mercurial dans `/etc`; une migration vers etckeeper doit etre traitee comme un changement de comportement.
+- `etc-init` garde le nom historique mais utilise etckeeper/Git; l'import Mercurial doit rester prudent et ne pas supprimer `/etc/.hg`.
 - Plusieurs roles sont obsoletes mais peuvent documenter un besoin ancien.
 
 ## Mode d'evolution recommande

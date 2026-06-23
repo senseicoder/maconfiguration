@@ -133,7 +133,7 @@ TODO
   * apt light-locker
   * rescuetime, installer l'application et activer l'extension ff ensuite
   * cd ~/bin && composer up
-  * export des /etc en mercurial
+  * finaliser la migration de l'historique /etc Mercurial vers etckeeper/Git
   * update-apt-xapian-index à virer
   * apt install mediainfo
   * go https://tecadmin.net/install-go-on-ubuntu/

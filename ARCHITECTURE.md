@@ -38,7 +38,7 @@ Sur la branche `vers-deploy-et-audela`, ce point d'entree est versionne et les l
 3. `play.sh` lance `ansible-playbook -i hosts --ask-become-pass run.yml`.
 4. `run.yml` applique les roles dans un ordre unique, module par tags, ou `run_role.yml` applique un seul role via `./run role ROLE`.
 5. `manuel-install` cree `~/manuel.sh`; plusieurs roles y ajoutent des commandes lorsque l'automatisation directe n'est pas fiable.
-6. `etc-init` et `etc-commit` encadrent partiellement les changements systeme via Mercurial dans `/etc`.
+6. `etc-init` et `etc-commit` encadrent les changements systeme via etckeeper/Git dans `/etc`, avec tentative d'import de l'ancien historique Mercurial si present.
 
 Ce flux est simple, mais il ne separe pas encore clairement les profils de machines, les prerequis, les phases interactives et les roles rejouables individuellement.
 
@@ -79,17 +79,17 @@ Quelques roles ont un `defaults/main.yml` : `bash-init`, `claude-init`, `keepass
 
 ### Controle de `/etc`
 
-- `etc-init` : installe Mercurial, initialise `/etc/.hg`, fait `addremove` et commit initial.
-- `etc-commit` : commit final de `/etc`.
+- `etc-init` : installe `etckeeper` et Git, configure `VCS="git"`, et tente d'importer l'historique Mercurial existant via `hg-fast-export` si `/etc/.hg` existe et `/etc/.git` est absent.
+- `etc-commit` : commit final de `/etc` via `etckeeper` si un depot Git existe et contient des changements.
 
-Ce mecanisme est utile mais inferieur au modele `infra-deploy` actuel : il est couple a Mercurial, duplique la logique de commit, et ne fournit pas de module dedie avec sortie claire. Le `todo.rst` mentionne deja un passage a `etckeeper`.
+Ce mecanisme garde les noms historiques des roles pour limiter le changement dans les listes, mais le backend cible est maintenant etckeeper/Git. L'ancien depot Mercurial de `/etc` est conserve comme source d'import et archive locale.
 
 ### Shell et environnement utilisateur
 
 - `bash-init` : cree `~/.bashrc.d`, deploie `~/.bash_aliases` et des fragments `confd_*`.
 - `bash-completion` : deploie `~/.bash_completion`.
 - `bin-init` : role quasi vide, garde des notes autour de `~/bin`.
-- `mercurial-install` : installe/configure Mercurial pour l'utilisateur et root.
+- `mercurial-install` : installe/configure Mercurial pour l'utilisateur et root; role conserve hors chemin nominal.
 - `git-install` : installe Git, configure ignore global et `git config --global`.
 - `auth-init` : ajoute des cles de host CSoft dans `~/.ssh/known_hosts`.
 - `ssh-auth` : genere une cle SSH et appelle `~/bin/sshagent upkey`; role non appele dans `run.yml`.
@@ -120,7 +120,7 @@ Pour les profils modernes, Docker ne doit plus utiliser `docker-install` par def
 
 ## Profils versionnes
 
-- `base.list` : socle commun poste/serveur, avec controle `/etc`, APT, shell, cron, auth, Git, Mercurial et securite.
+- `base.list` : socle commun poste/serveur, avec controle `/etc` via etckeeper, APT, shell, cron, auth, Git et securite.
 - `workstation.list` : poste graphique et outils utilisateur, avec Syncthing.
 - `dev.list` : outils de developpement, avec SVN/Git, Docker via `infra-deploy`, LAMP, AWS CLI, Claude et Codex.
 - `home.list` : specificites maison.
@@ -162,7 +162,7 @@ Ils doivent rester lisibles, mais ne devraient pas peser sur le chemin nominal t
 - Plusieurs checks utilisent `shell` + `grep` au lieu de modules ou commandes avec `creates`/`changed_when` plus stricts.
 - Toute tache doit reporter un changement quand cela a du sens, y compris en check mode. Les taches de collecte d'etat doivent expliciter `changed_when: false` et, si necessaire, `check_mode: false`. Les taches `shell`/`command` qui feraient une modification doivent avoir une modelisation claire du `changed` en check mode.
 - Les handlers sont absents; les redemarrages sont faits inline ou pas formalises.
-- La gestion `/etc` est dupliquee entre `etc-init` et `etc-commit`.
+- La gestion `/etc` reste repartie entre `etc-init` et `etc-commit`, mais elle utilise maintenant etckeeper/Git.
 - `play.sh` execute directement; il n'y a pas de dry-run par defaut ni de lanceur par role comparable a `infra-deploy`.
 - Certains roles contiennent des bugs probables ou de la dette syntaxique : espaces insécables dans des variables (`{{ item }}` dans `cps-install`, `{{ subl_path }}` dans `sublimtext-install`), `docker-compose` v1, `push.default matching`, `UseRoaming`, versions figees anciennes.
 
@@ -189,7 +189,7 @@ La migration doit rester progressive. Le premier gain n'est pas de renommer tous
 2. enrichir `run_role.yml` avec log et controle `/etc`;
 3. stabiliser les listes de roles (`base.list`, `workstation.list`, `dev.list`, `home.list`, `vps.list`, `serveur.list`, `legacy.list`);
 4. transformer `~/manuel.sh` en sortie documentee et idempotente;
-5. remplacer Mercurial `/etc` par `etckeeper` ou un role dedie compatible avec l'existant;
+5. finaliser et valider l'import de l'historique Mercurial `/etc` vers etckeeper/Git;
 6. ajouter `defaults/main.yml` a tous les roles actifs;
 7. seulement ensuite, renommer ou decouper les roles.
 

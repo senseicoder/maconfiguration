@@ -2,6 +2,7 @@
 keepassx-install
 kpcli-install
 docker-install
+mercurial-install
 openfortissl-install
 ocsinventory-install
 rambox-install
