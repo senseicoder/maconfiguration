@@ -1,30 +1,109 @@
 ---
-
-- name: installation mercurial
-  apt:
-    name: mercurial
-    state: latest
-  become: true
-
-- name: check l'état /etc/
-  stat: 
+- name: verifier la presence du depot Mercurial /etc
+  ansible.builtin.stat:
     path: /etc/.hg
   register: etc_hg_state
 
-- name: initialisation hg sur /etc
-  shell: hg --cwd /etc init
-  become: true
-  when: not etc_hg_state.stat.exists
+- name: verifier la presence du depot Git /etc
+  ansible.builtin.stat:
+    path: /etc/.git
+  register: etc_git_state
 
-- name: addremove hg sur /etc
-  shell: hg --cwd /etc addremove
+- name: installer etckeeper
+  ansible.builtin.apt:
+    name:
+      - etckeeper
+      - git
+    state: present
   become: true
-  register: out
-  changed_when: out.stdout != "" 
 
-- name: commit hg sur /etc
-  shell: hg --cwd /etc commit -m init
+- name: installer l'outil d'import Mercurial si necessaire
+  ansible.builtin.apt:
+    name:
+      - mercurial
+      - hg-fast-export
+    state: present
   become: true
+  when:
+    - etc_hg_state.stat.exists
+    - not etc_git_state.stat.exists
+
+- name: verifier la presence de la configuration etckeeper
+  ansible.builtin.stat:
+    path: /etc/etckeeper/etckeeper.conf
+  register: etckeeper_conf_state
+
+- name: annoncer la configuration Git d'etckeeper
+  ansible.builtin.debug:
+    msg: 'etckeeper serait configure avec VCS="git" apres installation.'
+  changed_when: true
+  when:
+    - ansible_check_mode
+    - not etckeeper_conf_state.stat.exists
+
+- name: configurer etckeeper avec Git
+  ansible.builtin.lineinfile:
+    path: /etc/etckeeper/etckeeper.conf
+    regexp: '^VCS='
+    line: 'VCS="git"'
+  become: true
+  when:
+    - etckeeper_conf_state.stat.exists or not ansible_check_mode
+
+- name: annoncer l'import Mercurial vers Git
+  ansible.builtin.debug:
+    msg: "L'historique Mercurial de /etc serait importe vers Git avec hg-fast-export."
+  changed_when: true
+  when:
+    - ansible_check_mode
+    - etc_hg_state.stat.exists
+    - not etc_git_state.stat.exists
+
+- name: importer l'historique Mercurial vers Git
+  ansible.builtin.shell: |
+    set -e
+    cd /etc
+    git init
+    hg-fast-export -r /etc
+    git reset --mixed HEAD
+  args:
+    creates: /etc/.git
+  become: true
+  when:
+    - not ansible_check_mode
+    - etc_hg_state.stat.exists
+    - not etc_git_state.stat.exists
+
+- name: initialiser etckeeper sans historique Mercurial
+  ansible.builtin.command: etckeeper init
+  args:
+    creates: /etc/.git
+  become: true
+  when:
+    - not ansible_check_mode
+    - not etc_hg_state.stat.exists
+
+- name: annoncer l'initialisation etckeeper
+  ansible.builtin.debug:
+    msg: "etckeeper initialiserait un depot Git /etc."
+  changed_when: true
+  when:
+    - ansible_check_mode
+    - not etc_hg_state.stat.exists
+    - not etc_git_state.stat.exists
+
+- name: verifier l'etat Git de /etc
+  ansible.builtin.command: git -C /etc status --porcelain
+  register: etc_git_status
+  changed_when: false
   failed_when: false
-  register: out
-  changed_when: not "nothing changed" in out.stdout
+  check_mode: false
+
+- name: annoncer les changements /etc non commites
+  ansible.builtin.debug:
+    msg: "{{ etc_git_status.stdout_lines | length }} changement(s) /etc seraient visibles par etckeeper."
+  changed_when: true
+  when:
+    - ansible_check_mode
+    - etc_git_status.rc == 0
+    - etc_git_status.stdout != ""

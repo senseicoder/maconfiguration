@@ -1,10 +1,31 @@
 ---
+- name: verifier la presence du depot Git /etc
+  ansible.builtin.stat:
+    path: /etc/.git
+  register: etc_git_state
 
-- name: mercurial /etc auto-commit
-  command: hg commit --cwd /etc -Am "workstation role security"
-  register: out
-  failed_when: out.rc > 1
-  changed_when: out.stdout != "nothing changed"
+- name: verifier l'etat Git de /etc
+  ansible.builtin.command: git -C /etc status --porcelain
+  register: etc_git_status
+  changed_when: false
+  failed_when: false
+  check_mode: false
+  when: etc_git_state.stat.exists
+
+- name: annoncer le commit etckeeper
+  ansible.builtin.debug:
+    msg: "{{ etc_git_status.stdout_lines | length }} changement(s) /etc seraient commites par etckeeper."
+  changed_when: true
+  when:
+    - ansible_check_mode
+    - etc_git_state.stat.exists
+    - etc_git_status.stdout != ""
+
+- name: commit etckeeper /etc
+  ansible.builtin.command: etckeeper commit "workstation role security"
   become: true
-  args:
-    chdir: /etc
+  changed_when: true
+  when:
+    - not ansible_check_mode
+    - etc_git_state.stat.exists
+    - etc_git_status.stdout != ""
