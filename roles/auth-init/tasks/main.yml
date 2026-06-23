@@ -7,6 +7,27 @@
     group: "{{ compte }}"
     mode: "0700"
 
+- name: vérifier la configuration ssh synchronisée
+  ansible.builtin.stat:
+    path: "{{ basedir }}/Sync/Dossiers/ssh/config.d"
+  register: ssh_config_d_sync
+
+- name: assert configuration ssh synchronisée présente
+  ansible.builtin.assert:
+    that:
+      - ssh_config_d_sync.stat.isdir | default(false)
+    fail_msg: >
+      {{ basedir }}/Sync/Dossiers/ssh/config.d est absent.
+      Attendre la synchronisation avant de configurer ~/.ssh/config.d.
+
+- name: lien vers la configuration ssh synchronisée
+  ansible.builtin.file:
+    src: "{{ basedir }}/Sync/Dossiers/ssh/config.d/"
+    dest: "{{ basedir }}/.ssh/config.d"
+    state: link
+    owner: "{{ compte }}"
+    group: "{{ compte }}"
+
 - name: clefs serveur CSoft
   ansible.builtin.known_hosts:
     path: "{{ basedir }}/.ssh/known_hosts"
