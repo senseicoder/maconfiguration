@@ -63,6 +63,8 @@ Le but n'est pas de copier le perimetre employeur. Le bon objectif est de repren
 
 Cette structure peut etre ajoutee progressivement sans deplacer immediatement tous les fichiers.
 
+Sur la branche `vers-deploy-et-audela`, `run`, `run_role.yml` et les listes sont maintenant versionnes. Le wrapper ajoute aussi le chemin de roles `/home/cedric/www/e/infra-deploy/ansible/roles` a `ANSIBLE_ROLES_PATH` quand il existe. Cela permet d'utiliser un role `infra-deploy` sans le copier dans ce depot.
+
 ## Profils de roles proposes
 
 ### `base.list`
@@ -101,6 +103,7 @@ Poste graphique :
 ubuntu-cleanup
 guake-install
 sublimtext-install
+syncthing-install
 cps-install
 mysql-shell-config
 clamav-install
@@ -113,18 +116,23 @@ Outils dev :
 ```
 svn-install
 git-install
-docker-install
+docker_dockerce_setup
+docker_dockercompose_setup
 lamp-install
 awscli-install
+claude-init
+codex-init
 ```
+
+Docker est volontairement fourni par `infra-deploy` dans ce profil, via `docker_dockerce_setup` et `docker_dockercompose_setup`. L'ancien role local `docker-install` reste conserve en `legacy.list`.
 
 ### `sync.list`
 
-Syncthing et donnees synchronisees :
+Le profil `sync.list` n'est plus le porteur principal de Syncthing, Claude ou Codex :
 
 ```
-syncthing-install
-claude-init
+# Syncthing est porte par workstation.list.
+# Claude et Codex sont portes par dev.list.
 ```
 
 ### `home.list`
@@ -142,6 +150,7 @@ Roles conserves mais hors chemin nominal :
 ```
 keepassx-install
 kpcli-install
+docker-install
 rambox-install
 spotify-install
 teamviewer-install
@@ -150,6 +159,40 @@ terraform-install
 openfortissl-install
 ssh
 ssh-auth
+```
+
+### `vps.list`
+
+Socle minimal pour un VPS personnel sans poste graphique :
+
+```
+etc-init
+apt-init
+bash-init
+bash-completion
+cron-conf
+auth-init
+git-install
+linux-security
+etc-commit
+```
+
+### `serveur.list`
+
+Serveur personnel avec Docker via roles externes :
+
+```
+etc-init
+apt-init
+bash-init
+bash-completion
+cron-conf
+auth-init
+git-install
+linux-security
+docker_dockerce_setup
+docker_dockercompose_setup
+etc-commit
 ```
 
 ## Plan de migration recommande
@@ -196,6 +239,7 @@ Priorites :
 
 - remplacer `apt_key` par keyrings dedies;
 - corriger les chemins durs `/home/cedric`;
+- garantir que chaque tache indique `changed` quand cela a du sens, y compris en check mode;
 - rendre les downloads idempotents et versionnes;
 - remplacer Docker Compose v1 par le plugin Compose si c'est le choix actuel;
 - corriger les espaces insécables dans `cps-install` et `sublimtext-install`;
@@ -233,3 +277,9 @@ Le plus gros gain n'est pas dans la syntaxe Ansible. Il est dans la separation e
 - les roles historiques.
 
 Une fois cette separation faite, la modernisation technique devient beaucoup moins risquee.
+
+## Usage de roles externes
+
+L'objectif n'est pas de vendoriser `infra-deploy`. Pour les besoins communs, comme Docker CE et Docker Compose, le wrapper `run` doit resoudre les roles via `ANSIBLE_ROLES_PATH`. Le depot garde ainsi une dependance locale explicite vers `infra-deploy`, mais evite la copie de roles et la divergence de maintenance.
+
+Cette approche impose une vigilance particuliere : les roles externes doivent eux aussi respecter la semantique check mode, notamment pour les taches `shell`/`command`. Si un role externe ne le fait pas, il faut corriger le role source dans `infra-deploy` plutot que masquer le probleme ici.

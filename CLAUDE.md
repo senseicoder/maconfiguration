@@ -45,11 +45,16 @@ Nouveau chemin recommande :
 ./run role bash-init run      # execution reelle
 ./run list base.list          # dry-run sequentiel
 ./run list base.list run      # execution reelle sequentielle
+./run list dev.list           # dry-run des outils dev, roles infra-deploy inclus
 ./run legacy                  # dry-run de run.yml
 ./run legacy run              # execution reelle de run.yml
 ```
 
 `run_role.yml` cree `~/manuel.sh` avec `force: false`, donc il ne doit pas ecraser un fichier manuel existant.
+
+Le wrapper ajoute `-C -D` par defaut. Le mot-cle `run`, place juste apres `role`, `list` ou `legacy`, retire seulement `-C`; le diff reste actif. Exemple : `./run list base.list run`.
+
+Quand `/home/cedric/www/e/infra-deploy/ansible/roles` existe, `run` l'ajoute a `ANSIBLE_ROLES_PATH`. Cela permet d'appeler des roles `infra-deploy` sans les copier, par exemple `docker_dockerce_setup` et `docker_dockercompose_setup`.
 
 ## Variables globales actuelles
 
@@ -120,7 +125,20 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 - `git-install` / `git-deploy` : configuration Git et commandes manuelles de clone.
 - `syncthing-install` : installation et configuration API Syncthing.
 - `claude-init` : installation Claude Code et liens vers Syncthing.
-- `docker-install`, `lamp-install`, `awscli-install`, `mysql-shell-config`, `cps-install` : outils de travail.
+- `codex-init` : installation Codex, avec annonce de changement correcte en check mode.
+- `docker_dockerce_setup` / `docker_dockercompose_setup` : roles Docker externes venant d'`infra-deploy`, utilises par `dev.list` et `serveur.list`.
+- `docker-install`, `lamp-install`, `awscli-install`, `mysql-shell-config`, `cps-install` : outils de travail. `docker-install` est maintenant legacy pour les profils.
+
+## Profils actuels
+
+- `base.list` : socle commun.
+- `workstation.list` : poste graphique, avec `syncthing-install`.
+- `dev.list` : outils dev, avec Docker via `infra-deploy`, `claude-init` et `codex-init`.
+- `home.list` : specificites maison.
+- `vps.list` : socle VPS minimal.
+- `serveur.list` : VPS/serveur avec Docker.
+- `legacy.list` : roles conserves hors chemin nominal.
+- `sync.list` : reserve, ne porte plus Syncthing/Claude/Codex.
 
 ## Patterns locaux a respecter
 
@@ -130,12 +148,15 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 - Les roles qui telechargent depuis Internet doivent verifier l'idempotence (`creates`, fichier versionne, ou checksum quand disponible).
 - Les roles qui dependent de Syncthing doivent echouer explicitement avec `assert` si le dossier attendu n'est pas synchronise.
 - Eviter les nouveaux usages de `apt_key`; preferer un keyring dedie et `signed-by`.
+- Les taches doivent reporter une modification quand cela a du sens, en execution reelle comme en check mode. Les collectes d'etat doivent utiliser `changed_when: false`; les collectes necessaires au check mode doivent ajouter `check_mode: false`. Une action `shell`/`command` qui ferait une modification doit avoir une strategie explicite pour annoncer `changed` en check mode sans executer l'action.
 
 ## Points d'attention avant modification
 
 - Ne pas casser le bootstrap d'un poste vierge : Git, SVN, SSH, Syncthing et Claude ont des dependances circulaires partielles.
 - `syncthing-install` contient une liste de devices personnelle et lit `/home/cedric/.config/bin_ss`.
 - `claude-init` depend de `~/Sync/Central/.stfolder` et de dossiers synchronises.
+- `codex-init` execute un script distant seulement hors check mode; en check mode il doit annoncer l'installation prevue si `codex` est absent.
+- Les roles Docker des profils `dev.list` et `serveur.list` viennent d'`infra-deploy`; corriger la source externe si leur semantique Ansible est insuffisante.
 - `git-deploy` et `svn-deploy` ne deployent pas directement : ils alimentent `~/manuel.sh`.
 - `etc-init` utilise Mercurial dans `/etc`; une migration vers etckeeper doit etre traitee comme un changement de comportement.
 - Plusieurs roles sont obsoletes mais peuvent documenter un besoin ancien.
@@ -158,6 +179,8 @@ Avant une modification de role :
 ansible-playbook -i hosts run.yml --syntax-check
 ansible-playbook -i hosts run.yml --list-tags
 ansible-playbook -i hosts run.yml --tags <tag> --check --diff
+ANSIBLE_INVENTORY=localhost, ./run list base.list -c local
+ANSIBLE_INVENTORY=localhost, ./run list workstation.list -c local
 ```
 
-Le wrapper `run` applique deja un dry-run par defaut comme dans `infra-deploy`.
+Le wrapper `run` applique deja un dry-run par defaut comme dans `infra-deploy`. Les tests locaux avec `become` demandent un mot de passe sudo ou une configuration sudo adaptee; sans cela, les roles systeme echouent avec `sudo: a password is required`.

@@ -29,6 +29,8 @@ Le coeur historique est `run.yml`. Il definit `compte`, `basedir` et `module_lan
 
 Le point d'entree cible est maintenant `run` + `run_role.yml`, inspire d'`infra-deploy`. `run_role.yml` joue un seul role, cree `~/manuel.sh` sans l'ecraser, et expose des handlers communs. `run` lance en check mode par defaut et sait jouer un role, une liste ou le playbook legacy.
 
+Sur la branche `vers-deploy-et-audela`, ce point d'entree est versionne et les listes deviennent l'interface de migration. Le wrapper resout les roles locaux et peut aussi utiliser des roles `infra-deploy` sans les copier via `ANSIBLE_ROLES_PATH`, avec `/home/cedric/www/e/infra-deploy/ansible/roles` comme chemin externe par defaut.
+
 ## Flux d'execution actuel
 
 1. Le poste cible doit etre accessible localement ou en SSH.
@@ -39,6 +41,18 @@ Le point d'entree cible est maintenant `run` + `run_role.yml`, inspire d'`infra-
 6. `etc-init` et `etc-commit` encadrent partiellement les changements systeme via Mercurial dans `/etc`.
 
 Ce flux est simple, mais il ne separe pas encore clairement les profils de machines, les prerequis, les phases interactives et les roles rejouables individuellement.
+
+Le flux en cours d'officialisation est :
+
+```
+./run role ROLE              # check mode + diff
+./run role ROLE run          # execution reelle + diff
+./run list base.list         # check mode sequentiel
+./run list base.list run     # execution reelle sequentielle
+./run legacy                 # check mode de run.yml
+```
+
+Le mot-cle `run` est volontairement explicite. Sans lui, `run` ajoute `-C -D` a `ansible-playbook`.
 
 ## Inventaire et variables
 
@@ -92,14 +106,29 @@ Le depot a donc choisi implicitement une strategie prudente : ne pas cloner/pull
 ### Applications poste de travail
 
 - `sublimtext-install` : depot Sublime Text, paquet, Package Control.
-- `syncthing-install` : installe Syncthing, active `syncthing@cedric`, puis modifie la configuration via API REST.
-- `claude-init` : installe Claude Code, lie la configuration et les skills depuis Syncthing, synchronise les dossiers `memory`.
+- `syncthing-install` : installe Syncthing, active `syncthing@cedric`, puis modifie la configuration via API REST. Dans les profils, il appartient maintenant a `workstation.list`.
+- `claude-init` : installe Claude Code, lie la configuration et les skills depuis Syncthing, synchronise les dossiers `memory`. Dans les profils, il appartient maintenant a `dev.list`.
+- `codex-init` : installe Codex si absent. Le role annonce en check mode que l'installation serait effectuee, puis n'execute le script distant qu'en mode reel.
 - `guake-install` : installe Guake et cree une entree autostart.
 - `cps-install` : installe les paquets CPS et configure NSS Firefox/Chrome.
 - `mysql-shell-config` : installe `grc` et deploie `.my.cnf`/`.grcat`.
 - `awscli-install` : installe AWS CLI dans un venv `/opt/awscli-venv`.
 - `docker-install` : installe `docker.io`, telecharge `docker-compose` v1.24.0, ajoute l'utilisateur au groupe `docker`.
 - `lamp-install` : installe un socle Apache/PHP/MySQL.
+
+Pour les profils modernes, Docker ne doit plus utiliser `docker-install` par defaut. `dev.list` et `serveur.list` utilisent les roles externes `docker_dockerce_setup` et `docker_dockercompose_setup` fournis par `infra-deploy`, sans copie locale.
+
+## Profils versionnes
+
+- `base.list` : socle commun poste/serveur, avec controle `/etc`, APT, shell, cron, auth, Git, Mercurial et securite.
+- `workstation.list` : poste graphique et outils utilisateur, avec Syncthing.
+- `dev.list` : outils de developpement, avec SVN/Git, Docker via `infra-deploy`, LAMP, AWS CLI, Claude et Codex.
+- `home.list` : specificites maison.
+- `vps.list` : socle minimal coherent pour VPS personnel sans poste graphique.
+- `serveur.list` : socle serveur personnel avec Docker via `infra-deploy`.
+- `legacy.list` : roles conserves hors chemin nominal, dont l'ancien `docker-install`.
+
+`sync.list` reste present mais n'est plus le profil porteur de Syncthing, Claude ou Codex : Syncthing est rattache a `workstation.list`, Claude et Codex a `dev.list`.
 
 ### Roles obsoletes ou a isoler
 
@@ -131,6 +160,7 @@ Ils doivent rester lisibles, mais ne devraient pas peser sur le chemin nominal t
 - Les modules sont souvent appeles sous leur nom court (`apt`, `file`, `shell`) et les styles YAML sont heterogenes.
 - `apt_key` et les depots avec cle globale sont des patterns vieillissants.
 - Plusieurs checks utilisent `shell` + `grep` au lieu de modules ou commandes avec `creates`/`changed_when` plus stricts.
+- Toute tache doit reporter un changement quand cela a du sens, y compris en check mode. Les taches de collecte d'etat doivent expliciter `changed_when: false` et, si necessaire, `check_mode: false`. Les taches `shell`/`command` qui feraient une modification doivent avoir une modelisation claire du `changed` en check mode.
 - Les handlers sont absents; les redemarrages sont faits inline ou pas formalises.
 - La gestion `/etc` est dupliquee entre `etc-init` et `etc-commit`.
 - `play.sh` execute directement; il n'y a pas de dry-run par defaut ni de lanceur par role comparable a `infra-deploy`.
@@ -157,7 +187,7 @@ La migration doit rester progressive. Le premier gain n'est pas de renommer tous
 
 1. extraire les variables globales hors de `run.yml` et `run_role.yml`;
 2. enrichir `run_role.yml` avec log et controle `/etc`;
-3. stabiliser les listes de roles (`base.list`, `workstation.list`, `sync.list`, `dev.list`, `home.list`);
+3. stabiliser les listes de roles (`base.list`, `workstation.list`, `dev.list`, `home.list`, `vps.list`, `serveur.list`, `legacy.list`);
 4. transformer `~/manuel.sh` en sortie documentee et idempotente;
 5. remplacer Mercurial `/etc` par `etckeeper` ou un role dedie compatible avec l'existant;
 6. ajouter `defaults/main.yml` a tous les roles actifs;
@@ -177,3 +207,9 @@ Ma recommandation : viser une plateforme personnelle multi-profils, mais garder 
 - `legacy_*` : roles conserves mais non joues par defaut.
 
 Cela rapproche le projet d'`infra-deploy` sans importer son vocabulaire employeur ni son inventaire.
+
+## Validation locale actuelle
+
+Les syntax-checks des listes `base.list`, `workstation.list` et `dev.list` passent avec le wrapper.
+
+Les checks locaux avec `ANSIBLE_INVENTORY=localhost, ./run list ... -c local` sont bien lances en check mode (`-C -D`). Sur le poste courant, ils sont partiellement bloques par `sudo: a password is required` pour les roles avec `become`. Les roles utilisateur s'executent et produisent des diffs en check mode, par exemple `bash-init`; `codex-init` annonce correctement un `changed` lorsque Codex serait installe.
