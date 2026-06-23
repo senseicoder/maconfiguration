@@ -50,7 +50,7 @@ Nouveau chemin recommande :
 ./run legacy run              # execution reelle de run.yml
 ```
 
-`run_role.yml` cree `~/manuel.sh` avec `force: false`, donc il ne doit pas ecraser un fichier manuel existant.
+`run_role.yml` joue un seul role et expose les handlers communs; il ne cree plus `~/manuel.sh`.
 
 Le wrapper ajoute `-C -D` par defaut. Le mot-cle `run`, place juste apres `role`, `list` ou `legacy`, retire seulement `-C`; le diff reste actif. Exemple : `./run list base.list run`.
 
@@ -123,7 +123,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 - `dev-paquets` : paquets dev et LAMP.
 - `bash-init` / `bash-completion` : shell utilisateur.
 - `auth-init` : known_hosts CSoft.
-- `svn-install` / `svn-deploy` : configuration SVN et commandes manuelles de checkout/update.
+- `svn-install` : installation/configuration du client SVN. `bin-init` l'utilise comme dependance pour gerer directement le checkout SVN de `~/bin`.
 - `git-install` / `git-deploy` : configuration Git et commandes manuelles de clone.
 - `syncthing-install` : installation et configuration API Syncthing.
 - `claude-init` : installation Claude Code et liens vers Syncthing.
@@ -160,7 +160,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 - `claude-init` depend de `~/Sync/Central/.stfolder` et de dossiers synchronises.
 - `codex-init` execute un script distant seulement hors check mode; en check mode il doit annoncer l'installation prevue si `codex` est absent.
 - Les roles Docker des profils `dev.list` et `serveur.list` viennent d'`infra-deploy`; corriger la source externe si leur semantique Ansible est insuffisante.
-- `git-deploy` et `svn-deploy` ne deployent pas directement : ils alimentent `~/manuel.sh`.
+- `git-deploy` et `svn-deploy` ne deployent pas directement : ils alimentent `~/manuel.sh`. `bin-init` fait exception pour `~/bin`, qu'il checkout/update directement depuis SVN.
 - `etc-init` garde le nom historique mais utilise etckeeper/Git; l'import Mercurial doit rester prudent et ne pas supprimer `/etc/.hg`.
 - Plusieurs roles sont obsoletes mais peuvent documenter un besoin ancien.
 

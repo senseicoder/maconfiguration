@@ -1,5 +1,59 @@
---- 
+---
+- name: Verifier la presence de ~/bin
+  ansible.builtin.stat:
+    path: "{{ bin_svn_dest }}"
+  register: bin_dest_stat
 
-#marche pas à distance
-#- name: droits sur bin/*
-#  shell: "bash ~/bin/csync bin"
+- name: Verifier la presence du checkout SVN ~/bin
+  ansible.builtin.stat:
+    path: "{{ bin_svn_dest }}/.svn"
+  register: bin_svn_stat
+
+- name: Refuser un ~/bin non gere par SVN
+  ansible.builtin.fail:
+    msg: "{{ bin_svn_dest }} existe mais n'est pas un checkout SVN."
+  when:
+    - bin_dest_stat.stat.exists
+    - not bin_svn_stat.stat.exists
+
+- name: Lire les informations SVN de ~/bin
+  ansible.builtin.command: svn info "{{ bin_svn_dest }}"
+  register: bin_svn_info
+  changed_when: false
+  check_mode: false
+  when: bin_svn_stat.stat.exists
+
+- name: Verifier l'origine SVN de ~/bin
+  ansible.builtin.assert:
+    that:
+      - "'URL: ' ~ bin_svn_source in bin_svn_info.stdout"
+    fail_msg: "{{ bin_svn_dest }} pointe vers un autre depot SVN que {{ bin_svn_source }}."
+    success_msg: "{{ bin_svn_dest }} pointe vers le depot SVN attendu."
+  when: bin_svn_stat.stat.exists
+
+- name: Checkout SVN de ~/bin
+  ansible.builtin.command: svn checkout "{{ bin_svn_source }}" "{{ bin_svn_dest }}"
+  args:
+    creates: "{{ bin_svn_dest }}/.svn"
+  register: bin_svn_checkout
+  changed_when: true
+  when: not bin_svn_stat.stat.exists
+
+- name: Verifier les mises a jour SVN distantes de ~/bin
+  ansible.builtin.command: svn status --show-updates "{{ bin_svn_dest }}"
+  register: bin_svn_remote_status
+  changed_when: bin_svn_remote_status.stdout_lines | select('match', '^.{8}\\*') | list | length > 0
+  check_mode: false
+  environment:
+    LC_ALL: C
+  when: bin_svn_stat.stat.exists
+
+- name: Mettre a jour ~/bin depuis SVN
+  ansible.builtin.command: svn update "{{ bin_svn_dest }}"
+  register: bin_svn_update
+  changed_when: bin_svn_remote_status.changed
+  environment:
+    LC_ALL: C
+  when:
+    - bin_svn_stat.stat.exists
+    - not ansible_check_mode

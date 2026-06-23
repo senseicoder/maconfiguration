@@ -27,7 +27,7 @@ Le projet n'est pas aujourd'hui une plateforme Ansible generaliste. C'est un pla
 
 Le coeur historique est `run.yml`. Il definit `compte`, `basedir` et `module_lang`, puis applique une sequence de roles avec des tags. Certains roles prennent des variables inline (`vcssource`, `vcsdestdir`) pour generer des actions de checkout/clone.
 
-Le point d'entree cible est maintenant `run` + `run_role.yml`, inspire d'`infra-deploy`. `run_role.yml` joue un seul role, cree `~/manuel.sh` sans l'ecraser, et expose des handlers communs. `run` lance en check mode par defaut et sait jouer un role, une liste ou le playbook legacy.
+Le point d'entree cible est maintenant `run` + `run_role.yml`, inspire d'`infra-deploy`. `run_role.yml` joue un seul role et expose des handlers communs. `run` lance en check mode par defaut et sait jouer un role, une liste ou le playbook legacy.
 
 Sur la branche `vers-deploy-et-audela`, ce point d'entree est versionne et les listes deviennent l'interface de migration. Le wrapper resout les roles locaux et peut aussi utiliser des roles `infra-deploy` sans les copier via `ANSIBLE_ROLES_PATH`, avec `/home/cedric/www/e/infra-deploy/ansible/roles` comme chemin externe par defaut.
 
@@ -88,9 +88,9 @@ Ce mecanisme garde les noms historiques des roles pour limiter le changement dan
 
 ### Shell et environnement utilisateur
 
-- `bash-init` : cree `~/.bashrc.d`, deploie `~/.bash_aliases` et des fragments `confd_*`.
+- `bash-init` : deploie `~/.bash_aliases` depuis le modele importe du poste courant.
 - `bash-completion` : deploie `~/.bash_completion`.
-- `bin-init` : role quasi vide, garde des notes autour de `~/bin`.
+- `bin-init` : gere le checkout SVN racine de `~/bin` depuis `ScriptsBash`, verifie son origine et teste les mises a jour distantes en check mode. Les depots Git imbriques dans `~/bin` restent geres separement.
 - `mercurial-install` : installe/configure Mercurial pour l'utilisateur et root; role conserve hors chemin nominal.
 - `git-install` : installe Git, configure ignore global et `git config --global`.
 - `auth-init` : ajoute des cles de host CSoft dans `~/.ssh/known_hosts`.
@@ -99,8 +99,8 @@ Ce mecanisme garde les noms historiques des roles pour limiter le changement dan
 
 ### Depots et code
 
-- `svn-install` : installe Subversion et configure le client.
-- `svn-deploy` : cree le dossier cible, teste `svn info`, ajoute une commande `svn co` ou `svn up` dans `~/manuel.sh`.
+- `svn-install` : installe Subversion si absent et configure le client.
+- `svn-deploy` : ancien mecanisme generique, garde hors listes simples, qui ajoute une commande `svn co` ou `svn up` dans `~/manuel.sh`.
 - `git-deploy` : si le dossier cible est absent, ajoute une commande `git clone` dans `~/manuel.sh`.
 
 Le depot a donc choisi implicitement une strategie prudente : ne pas cloner/puller automatiquement certains depots sensibles aux credentials, mais produire une liste de commandes manuelles. Cette strategie est saine si elle est assumee comme interface officielle.

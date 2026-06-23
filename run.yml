@@ -23,8 +23,6 @@
     - { role: linux-security, tags: ['linux-security'] }
 
     - { role: svn-install, tags: ['svn-install', 'svn'] }
-    - { role: svn-deploy, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash", 
-            vcsdestdir: "{{ basedir }}/bin", tags: ['svn-deploy', 'svn'] }
 #    - { role: svn-deploy, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/envdev", 
 #            vcsdestdir: "{{ basedir }}/www", tags: ['svn-deploy', 'svn'] }
 #    - { role: svn-deploy, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Ecritures", 

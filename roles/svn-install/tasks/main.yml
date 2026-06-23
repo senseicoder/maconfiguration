@@ -1,11 +1,27 @@
---- 
+---
+
+- name: verifier la presence svn
+  ansible.builtin.command: svn --version --quiet
+  register: svn_install_version
+  failed_when: false
+  changed_when: false
+  check_mode: false
 
 - name: installation svn
   become: true
-  package: name=subversion state=latest
+  ansible.builtin.package:
+    name: subversion
+    state: latest
+  when: svn_install_version.rc != 0
+
+- name: creer le dossier de configuration svn
+  ansible.builtin.file:
+    path: "{{ basedir }}/.subversion"
+    state: directory
+    mode: "0700"
 
 - name: svn sections
-  lineinfile: 
+  ansible.builtin.lineinfile:
     dest: "{{ basedir }}/.subversion/config"
     line: "{{ item }}"
     regexp: "^{{ item }}$" 
@@ -16,7 +32,7 @@
     - '[auth]'
 
 - name: svn ignore
-  lineinfile: 
+  ansible.builtin.lineinfile:
     dest: "{{ basedir }}/.subversion/config"
     line: "global-ignores = .tags .tags_sorted_by_file *.*~ *.sublime-workspace .* *.retry" 
     insertafter: "^.miscellany." 
@@ -25,7 +41,7 @@
     state: present
 
 - name: svn store-passwords
-  lineinfile: 
+  ansible.builtin.lineinfile:
     dest: "{{ basedir }}/.subversion/config"
     line: "store-passwords = yes" 
     insertafter: "^.auth." 
