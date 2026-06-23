@@ -116,7 +116,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 
 ## Roles actifs importants
 
-- `manuel-install` : cree `~/manuel.sh`, interface actuelle pour les actions manuelles.
+- `manuel-install` : ancien createur de `~/manuel.sh`, conserve hors chemin nominal.
 - `etc-init` / `etc-commit` : controle `/etc` via etckeeper/Git, avec tentative d'import de l'ancien historique Mercurial si present.
 - `apt-init` / `apt-paquets` : socle APT et paquets CLI communs.
 - `workstation-paquets` : paquets desktop/media/docs.
@@ -145,7 +145,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 
 ## Patterns locaux a respecter
 
-- `~/manuel.sh` est un filet historique pour ce qui depend de credentials ou d'un etat externe. Preferer un role qui verifie explicitement ses prerequis et echoue proprement.
+- `~/manuel.sh` est un filet historique pour ce qui depend de credentials ou d'un etat externe, et n'est plus une interface nominale. Preferer un role qui verifie explicitement ses prerequis et echoue proprement.
 - Les roles qui modifient le systeme doivent utiliser `become: true`.
 - Les roles qui modifient l'utilisateur doivent utiliser `compte` et `basedir`, pas `/home/cedric`.
 - Les roles qui telechargent depuis Internet doivent verifier l'idempotence (`creates`, fichier versionne, ou checksum quand disponible).

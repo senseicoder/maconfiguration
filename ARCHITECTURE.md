@@ -37,8 +37,7 @@ Sur la branche `vers-deploy-et-audela`, ce point d'entree est versionne et les l
 2. `setup.sh` peut installer les prerequis minimaux, mais il est ancien et contient encore des operations interactives (`cpan`) ou specifiques (`svn.epiconcept.fr`, `sshagent routes direct`).
 3. `play.sh` lance `ansible-playbook -i hosts --ask-become-pass run.yml`.
 4. `run.yml` applique les roles dans un ordre unique, module par tags, ou `run_role.yml` applique un seul role via `./run role ROLE`.
-5. `manuel-install` cree `~/manuel.sh`; plusieurs roles y ajoutent des commandes lorsque l'automatisation directe n'est pas fiable.
-6. `etc-init` et `etc-commit` encadrent les changements systeme via etckeeper/Git dans `/etc`, avec tentative d'import de l'ancien historique Mercurial si present.
+5. `etc-init` et `etc-commit` encadrent les changements systeme via etckeeper/Git dans `/etc`, avec tentative d'import de l'ancien historique Mercurial si present.
 
 Ce flux est simple, mais il ne separe pas encore clairement les profils de machines, les prerequis, les phases interactives et les roles rejouables individuellement.
 
@@ -100,10 +99,11 @@ Ce mecanisme garde les noms historiques des roles pour limiter le changement dan
 ### Depots et code
 
 - `svn-install` : installe Subversion si absent et configure le client.
+- `manuel-install` : ancien createur de `~/manuel.sh`, conserve hors chemin nominal.
 - `svn-deploy` : ancien mecanisme generique, garde hors listes simples, qui ajoute une commande `svn co` ou `svn up` dans `~/manuel.sh`.
 - `git-deploy` : gere directement un clone Git parametre par `vcssource` et `vcsdestdir`, verifie l'origine distante, annonce les depots absents ou en retard en check mode, et ne force pas les modifications locales.
 
-Le depot reduit progressivement les actions manuelles : `bin-init` et `git-deploy` deployent maintenant directement leurs depots, tandis que les anciens mecanismes generiques `svn-deploy` et `manuel-install` restent isoles du chemin nominal.
+Le depot reduit progressivement les actions manuelles : `bin-init` et `git-deploy` deployent maintenant directement leurs depots. Les anciens mecanismes generiques `svn-deploy` et `manuel-install` restent disponibles comme archives, mais ne sont plus appeles par `run.yml` ni par les listes.
 
 ### Applications poste de travail
 
@@ -190,7 +190,7 @@ La migration doit rester progressive. Le premier gain n'est pas de renommer tous
 1. extraire les variables globales hors de `run.yml` et `run_role.yml`;
 2. enrichir `run_role.yml` avec log et controle `/etc`;
 3. stabiliser les listes de roles (`base.list`, `workstation.list`, `dev.list`, `home.list`, `vps.list`, `serveur.list`, `legacy.list`);
-4. transformer `~/manuel.sh` en sortie documentee et idempotente;
+4. sortir `~/manuel.sh` du chemin nominal et documenter les derniers cas historiques;
 5. finaliser et valider l'import de l'historique Mercurial `/etc` vers etckeeper/Git;
 6. ajouter `defaults/main.yml` a tous les roles actifs;
 7. seulement ensuite, renommer ou decouper les roles.

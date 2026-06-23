@@ -9,7 +9,6 @@
     basedir: "/home/{{ compte }}"
     module_lang: fr_FR.UTF-8
   roles:
-    - { role: manuel-install, tags: ['always'] }
     - { role: mercurial-install, tags: ['mercurial-install'] }
 
     - { role: etc-init, tags: ['etc-init'] }

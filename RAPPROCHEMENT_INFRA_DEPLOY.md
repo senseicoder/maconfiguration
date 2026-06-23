@@ -29,7 +29,7 @@ Le but n'est pas de copier le perimetre employeur. Le bon objectif est de repren
 | Controle `/etc` | `etc-init` / `etc-commit` via etckeeper/Git | role generique + etckeeper | Encadrement commun avant/apres role |
 | Lancement | execution directe | dry-run par defaut | Exploitation plus prudente |
 | Tests | pas d'infra de test | Docker de test | Rejouabilite sans machine reelle |
-| Manuel | `~/manuel.sh` historique | roles plus autonomes | Reduire le manuel au profit de roles explicites |
+| Manuel | `~/manuel.sh` historique, sorti du chemin nominal | roles plus autonomes | Reduire le manuel au profit de roles explicites |
 
 ## Cible proposee pour maconfiguration
 
