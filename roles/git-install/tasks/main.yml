@@ -16,10 +16,15 @@
 - name: configuration git (ignore 2)
   lineinfile: dest="{{ dirconf }}/ignore" line="**/*.retry" owner={{ compte }} group={{ compte }} create=yes state=present
 
-- name: configuration git
-  shell: "{{ item }}"
-  with_items:
-    - git config --global user.email "c.girard@epiconcept.fr"
-    - git config --global user.name "Cédric Girard"
-    - git config --global push.default matching
-  changed_when: false
+- name: configuration git globale
+  community.general.git_config:
+    name: "{{ item.name }}"
+    scope: global
+    value: "{{ item.value }}"
+  loop:
+    - name: user.email
+      value: c.girard@epiconcept.fr
+    - name: user.name
+      value: Cédric Girard
+    - name: push.default
+      value: simple
