@@ -25,7 +25,7 @@ Le projet n'est pas aujourd'hui une plateforme Ansible generaliste. C'est un pla
   roles/                     # roles Ansible
 ```
 
-Le coeur historique est `run.yml`. Il definit `compte`, `basedir` et `module_lang`, puis applique une sequence de roles avec des tags. Certains roles prennent des variables inline (`vcssource`, `vcsdestdir`) pour generer des actions de checkout/clone.
+Le coeur historique est `run.yml`. Il definit `compte`, `basedir` et `module_lang`, puis applique une sequence de roles avec des tags. Certains roles prennent des variables inline (`vcssource`, `vcsdestdir`) pour piloter des checkouts/clones.
 
 Le point d'entree cible est maintenant `run` + `run_role.yml`, inspire d'`infra-deploy`. `run_role.yml` joue un seul role et expose des handlers communs. `run` lance en check mode par defaut et sait jouer un role, une liste ou le playbook legacy.
 
@@ -101,9 +101,9 @@ Ce mecanisme garde les noms historiques des roles pour limiter le changement dan
 
 - `svn-install` : installe Subversion si absent et configure le client.
 - `svn-deploy` : ancien mecanisme generique, garde hors listes simples, qui ajoute une commande `svn co` ou `svn up` dans `~/manuel.sh`.
-- `git-deploy` : si le dossier cible est absent, ajoute une commande `git clone` dans `~/manuel.sh`.
+- `git-deploy` : gere directement un clone Git parametre par `vcssource` et `vcsdestdir`, verifie l'origine distante, annonce les depots absents ou en retard en check mode, et ne force pas les modifications locales.
 
-Le depot a donc choisi implicitement une strategie prudente : ne pas cloner/puller automatiquement certains depots sensibles aux credentials, mais produire une liste de commandes manuelles. Cette strategie est saine si elle est assumee comme interface officielle.
+Le depot reduit progressivement les actions manuelles : `bin-init` et `git-deploy` deployent maintenant directement leurs depots, tandis que les anciens mecanismes generiques `svn-deploy` et `manuel-install` restent isoles du chemin nominal.
 
 ### Applications poste de travail
 
@@ -150,7 +150,7 @@ Ils doivent rester lisibles, mais ne devraient pas peser sur le chemin nominal t
 
 - Le depot encode beaucoup de connaissance d'exploitation reelle, pas seulement une liste de paquets.
 - L'ordre de `run.yml` raconte le bootstrap attendu : manuel, VCS, shell, sync, outils de travail.
-- Le mecanisme `~/manuel.sh` evite de cacher des echecs d'authentification ou des etapes qui dependent d'un contexte externe.
+- Le mecanisme `~/manuel.sh` reste un filet historique pour certaines actions non automatisees, mais le chemin nominal doit privilegier des roles capables de verifier explicitement leurs prerequis.
 - `claude-init` est plus moderne que le reste : assertions explicites, prerequis verifies, logique Ansible pure pour une synchronisation delicate.
 - Le controle de `/etc` existe deja, meme s'il merite une modernisation.
 

@@ -1,10 +1,20 @@
---- 
+---
+
+- name: verifier la presence git
+  ansible.builtin.command: git --version
+  register: git_install_version
+  failed_when: false
+  changed_when: false
+  check_mode: false
 
 - name: installation git
   become: true
-  package: name=git state=latest
+  ansible.builtin.package:
+    name: git
+    state: present
+  when: git_install_version.rc != 0
 
-- set_fact: 
+- set_fact:
     dirconf: "{{ basedir }}/.config/git"
 
 - name: fichier de configuration git

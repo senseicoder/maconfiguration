@@ -124,7 +124,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 - `bash-init` / `bash-completion` : shell utilisateur.
 - `auth-init` : known_hosts CSoft.
 - `svn-install` : installation/configuration du client SVN. `bin-init` l'utilise comme dependance pour gerer directement le checkout SVN de `~/bin`.
-- `git-install` / `git-deploy` : configuration Git et commandes manuelles de clone.
+- `git-install` / `git-deploy` : configuration Git et clone/update directs des depots parametres.
 - `syncthing-install` : installation et configuration API Syncthing.
 - `claude-init` : installation Claude Code et liens vers Syncthing.
 - `codex-init` : installation Codex, avec annonce de changement correcte en check mode.
@@ -145,7 +145,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 
 ## Patterns locaux a respecter
 
-- `~/manuel.sh` est une sortie volontaire pour ce qui depend de credentials ou d'un etat externe. Si un role ne peut pas faire une action proprement, ajouter une commande idempotente a ce fichier est acceptable.
+- `~/manuel.sh` est un filet historique pour ce qui depend de credentials ou d'un etat externe. Preferer un role qui verifie explicitement ses prerequis et echoue proprement.
 - Les roles qui modifient le systeme doivent utiliser `become: true`.
 - Les roles qui modifient l'utilisateur doivent utiliser `compte` et `basedir`, pas `/home/cedric`.
 - Les roles qui telechargent depuis Internet doivent verifier l'idempotence (`creates`, fichier versionne, ou checksum quand disponible).
@@ -160,7 +160,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 - `claude-init` depend de `~/Sync/Central/.stfolder` et de dossiers synchronises.
 - `codex-init` execute un script distant seulement hors check mode; en check mode il doit annoncer l'installation prevue si `codex` est absent.
 - Les roles Docker des profils `dev.list` et `serveur.list` viennent d'`infra-deploy`; corriger la source externe si leur semantique Ansible est insuffisante.
-- `git-deploy` et `svn-deploy` ne deployent pas directement : ils alimentent `~/manuel.sh`. `bin-init` fait exception pour `~/bin`, qu'il checkout/update directement depuis SVN.
+- `git-deploy` deploie directement les depots Git parametres par `vcssource` et `vcsdestdir`. `svn-deploy` reste l'ancien mecanisme generique vers `~/manuel.sh`; `bin-init` fait exception pour `~/bin`, qu'il checkout/update directement depuis SVN.
 - `etc-init` garde le nom historique mais utilise etckeeper/Git; l'import Mercurial doit rester prudent et ne pas supprimer `/etc/.hg`.
 - Plusieurs roles sont obsoletes mais peuvent documenter un besoin ancien.
 

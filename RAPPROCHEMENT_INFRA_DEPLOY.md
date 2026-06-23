@@ -29,7 +29,7 @@ Le but n'est pas de copier le perimetre employeur. Le bon objectif est de repren
 | Controle `/etc` | `etc-init` / `etc-commit` via etckeeper/Git | role generique + etckeeper | Encadrement commun avant/apres role |
 | Lancement | execution directe | dry-run par defaut | Exploitation plus prudente |
 | Tests | pas d'infra de test | Docker de test | Rejouabilite sans machine reelle |
-| Manuel | `~/manuel.sh` implicite | roles plus autonomes | Formaliser ou reduire le manuel |
+| Manuel | `~/manuel.sh` historique | roles plus autonomes | Reduire le manuel au profit de roles explicites |
 
 ## Cible proposee pour maconfiguration
 
@@ -205,7 +205,7 @@ Ajouter sans changement fonctionnel :
 - un wrapper `run` inspire d'`infra-deploy`, dry-run par defaut — fait;
 - des fichiers `*.list` initiaux — fait;
 - `group_vars/all.yml` contenant `compte`, `basedir`, `module_lang`;
-- une documentation de `~/manuel.sh`.
+- une documentation des derniers cas encore manuels.
 
 Risque faible : on ne change pas les roles, on change seulement les points d'entree.
 

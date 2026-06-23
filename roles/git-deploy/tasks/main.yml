@@ -1,13 +1,82 @@
 ---
+- name: Verifier les parametres du depot Git
+  ansible.builtin.assert:
+    that:
+      - vcssource is defined
+      - vcsdestdir is defined
+      - vcssource | length > 0
+      - vcsdestdir | length > 0
+    fail_msg: "git-deploy attend vcssource et vcsdestdir."
 
-- name: Check if destination directory exists
-  stat:
+- name: Verifier la presence de la cible Git
+  ansible.builtin.stat:
     path: "{{ vcsdestdir }}"
-  register: vcsdestdir_stat
+  register: git_deploy_dest_stat
 
-- name: Add git clone command to ~/manuel.sh if vcsdestdir does not exist
-  lineinfile:
-    path: ~/manuel.sh
-    line: 'git clone "{{ vcssource }}" "{{ vcsdestdir }}"'
-    insertafter: EOF
-  when: not vcsdestdir_stat.stat.exists
+- name: Verifier la presence du depot Git
+  ansible.builtin.stat:
+    path: "{{ vcsdestdir }}/.git"
+  register: git_deploy_repo_stat
+
+- name: Refuser une cible non geree par Git
+  ansible.builtin.fail:
+    msg: "{{ vcsdestdir }} existe mais n'est pas un depot Git."
+  when:
+    - git_deploy_dest_stat.stat.exists
+    - not git_deploy_repo_stat.stat.exists
+
+- name: Lire l'origine Git existante
+  ansible.builtin.command: git -C "{{ vcsdestdir }}" config --get remote.origin.url
+  register: git_deploy_origin
+  changed_when: false
+  check_mode: false
+  when: git_deploy_repo_stat.stat.exists
+
+- name: Verifier l'origine Git existante
+  ansible.builtin.assert:
+    that:
+      - git_deploy_origin.stdout == vcssource
+    fail_msg: "{{ vcsdestdir }} pointe vers {{ git_deploy_origin.stdout }}, pas {{ vcssource }}."
+    success_msg: "{{ vcsdestdir }} pointe vers le depot Git attendu."
+  when: git_deploy_repo_stat.stat.exists
+
+- name: Creer le dossier parent de la cible Git
+  ansible.builtin.file:
+    path: "{{ vcsdestdir | dirname }}"
+    state: directory
+
+- name: Verifier l'accessibilite du depot Git absent
+  ansible.builtin.command: git ls-remote "{{ vcssource }}" HEAD
+  register: git_deploy_ls_remote
+  changed_when: true
+  check_mode: false
+  when:
+    - not git_deploy_repo_stat.stat.exists
+    - ansible_check_mode
+
+- name: Verifier les mises a jour Git distantes
+  ansible.builtin.command: git -C "{{ vcsdestdir }}" fetch --dry-run
+  register: git_deploy_fetch_dry_run
+  changed_when: (git_deploy_fetch_dry_run.stdout ~ git_deploy_fetch_dry_run.stderr) | length > 0
+  check_mode: false
+  when:
+    - git_deploy_repo_stat.stat.exists
+    - ansible_check_mode
+
+- name: Verifier l'ecart avec la branche amont Git
+  ansible.builtin.command: git -C "{{ vcsdestdir }}" rev-list --left-right --count HEAD...@{upstream}
+  register: git_deploy_upstream_delta
+  changed_when: (git_deploy_upstream_delta.stdout.split()[1] | default('0') | int) > 0
+  failed_when: false
+  check_mode: false
+  when:
+    - git_deploy_repo_stat.stat.exists
+    - ansible_check_mode
+
+- name: Deployer le depot Git
+  ansible.builtin.git:
+    repo: "{{ vcssource }}"
+    dest: "{{ vcsdestdir }}"
+    update: true
+    force: false
+  when: not ansible_check_mode

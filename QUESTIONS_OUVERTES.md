@@ -28,9 +28,9 @@ Ces questions ne bloquent pas la documentation actuelle. Elles bloquent en revan
 
 ## Actions manuelles
 
-13. `~/manuel.sh` doit-il devenir une interface officielle du projet ?
-14. Si oui, veux-tu un role dedie qui initialise, dedoublonne et affiche ce fichier en fin de run ?
-15. Les clones Git/SVN doivent-ils rester manuels par defaut, ou veux-tu tenter une automatisation directe avec gestion explicite des echecs d'authentification ?
+13. `~/manuel.sh` doit-il rester comme filet historique, ou disparaitre completement du chemin nominal ?
+14. Si un reliquat manuel reste necessaire, veux-tu un role dedie qui dedoublonne et affiche ces actions en fin de run ?
+15. Les clones Git sont maintenant automatises par `git-deploy`; faut-il aussi remplacer totalement le `svn-deploy` generique, au-dela du cas `~/bin` deja pris en charge par `bin-init` ?
 
 ## Controle de `/etc`
 
@@ -58,7 +58,7 @@ Sans reponse contraire, je partirais sur ces hypotheses :
 
 - depot personnel multi-profils, pas seulement workstation;
 - utilisateur parametrable mais valeur par defaut `cedric`;
-- `~/manuel.sh` conserve et officialise;
+- `~/manuel.sh` reduit progressivement, sans l'officialiser comme interface nominale;
 - `etckeeper` remplace Mercurial direct;
 - `run` + `run_role.yml` + `*.list` ajoutes avant toute refonte de role;
 - `workstation.list` porte Syncthing, `dev.list` porte Claude et Codex;
