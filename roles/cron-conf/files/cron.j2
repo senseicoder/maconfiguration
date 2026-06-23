@@ -1,6 +1,21 @@
 MAILTO=cedric@daneel.net
+MAILFROM=infra@daneel.net
 
 #TODO check ici
 50 * * * * root sed -e '/auto_cleanup_system.sh/d' -i /etc/cron.d/epi-tous
 50 * * * * root sed -e '/verrue/d' -i /etc/cron.d/epi-frontal
-0 0 * * * cedric /home/cedric/bin/csync codestquiet
+0 0 * * * cedric /home/cedric/bin/csync codestquiet | mail -Es "$(hostname) csync codestquiet" -a "From: $MAILFROM" $MAILTO
+
+#* * * * *	root	bash -x /usr/local/bin/norme.d//apt_security.sh | mail -Es "$(hostname) debug" -a "From: $MAILFROM" $MAILTO
+#* * * * *	root	sudo -u nobody aptitude search '~ahold' | mail -Es "$(hostname) debug" -a "From: $MAILFROM" $MAILTO
+
+#/home/cedric/bin/2chat mnementh6 perso
+
+#* * * * *	cedric	{ { php -r 'echo "cool\n"; $a = $b;' ; } >> /home/cedric/cron.log ; } 2>&1 | tee -a /home/cedric/cron.log | mail -Es "$(hostname) test cron" -a "From: $MAILFROM" $MAILTO
+#php -r 'echo "cool\n"; $a = $b;' >> /home/cedric/cron.log 2>&1 | mail -Es "$(hostname) test cron" -a "From: $MAILFROM" $MAILTO
+
+#* * * * *	cedric	php /home/cedric/setenv.php 2>&1 | mail -Es "$(echo $?) $(if [ $? -ne 0 ]; then echo '[erreur]'; fi) one" -a "From: $MAILFROM" $MAILTO
+#* * * * *	cedric	value="$(php /home/cedric/setenv.php 2>&1)"; rc=$?; echo "$value" | mail -Es "$(echo $rc) $(if [ $rc -ne 0 ]; then echo '[erreur]'; fi) two" -a "From: $MAILFROM" $MAILTO
+
+
+#EOF
