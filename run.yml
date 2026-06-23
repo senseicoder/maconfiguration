@@ -48,6 +48,7 @@
     #faut prendre un paquet plus récent- { role: rambox-install, tags: ['rambox-install'] }
     - { role: syncthing-install, tags: ['syncthing-install'] }
     - { role: claude-init, tags: ['claude-init'] }
+    - { role: codex-init, tags: ['codex-init'] }
     #obsolete - { role: keepassx-install, tags: ['keepassx-install'] }
     #obsolete - { role: kpcli-install, tags: ['kpcli-install'] }
     #- { role: spotify-install, tags: ['spotify-install'] }
