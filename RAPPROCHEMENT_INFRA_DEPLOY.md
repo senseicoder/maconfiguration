@@ -210,9 +210,9 @@ Risque moyen : le controle `/etc` touche le systeme. A faire d'abord sur une mac
 
 Deplacer vers variables :
 
-- nom utilisateur et home;
-- devices Syncthing;
-- cle API Syncthing ou chemin de lecture;
+- nom utilisateur et home — commence via `group_vars/all.yml`;
+- devices Syncthing — commence via `roles/syncthing-install/defaults/main.yml`;
+- cle API Syncthing ou chemin de lecture — commence via `syncthing_api_key_file`;
 - chemins `/home/nas`, `/home/freebox`, `/home/epiconcept`;
 - depots Git/SVN a preparer;
 - liste de paquets par profil.
@@ -229,9 +229,9 @@ Priorites :
 - rendre les downloads idempotents et versionnes;
 - remplacer Docker Compose v1 par le plugin Compose si c'est le choix actuel;
 - corriger les espaces insécables dans `cps-install` et `sublimtext-install`;
-- remplacer `push.default matching`;
+- surveiller la configuration Git globale maintenant geree par `community.general.git_config`;
 - revoir `UseRoaming no`;
-- isoler les paquets LAMP/dev/desktop en listes distinctes.
+- valider les listes delta sur machines reelles.
 
 Risque variable selon les roles. A faire role par role avec dry-run et execution ciblee.
 

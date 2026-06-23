@@ -10,7 +10,7 @@ Ces questions ne bloquent pas la documentation actuelle. Elles bloquent en revan
 
 ## Profils de machines
 
-4. Les profils actuellement versionnes (`base`, `workstation`, `dev`, `home`, `vps`, `serveur`, `legacy`) suffisent-ils, ou faut-il ajouter `laptop`, `desktop`, `minimal` ?
+4. Les profils actuellement versionnes (`base`, `workstation`, `raspi`, `dev`, `home`, `vps`, `serveur`, `legacy`) suffisent-ils, ou faut-il ajouter `laptop`, `desktop`, `minimal` ?
 5. Quelles machines actuelles doivent servir de reference pour chaque profil ?
 6. Les chemins `/home/nas`, `/home/freebox`, `/home/epiconcept` sont-ils toujours a creer sur tous les postes, ou seulement sur les machines maison ?
 

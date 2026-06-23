@@ -171,11 +171,18 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 
 1. Garder `play.sh`/`run.yml` comme compatibilite legacy.
 2. Utiliser `run`/`run_role.yml` pour les evolutions role par role.
-3. Sortir les variables dans `group_vars`/`host_vars`.
+3. Continuer a sortir les chemins durs vers `group_vars`/`host_vars`/defaults.
 4. Ajouter `defaults/main.yml` aux roles actifs.
 5. Remplacer ou isoler les roles obsoletes.
 6. Moderniser les modules et depots APT.
 7. Renommer les roles seulement quand le flux d'exploitation est stable.
+
+## Etat de reprise
+
+- Branche de travail : `vers-deploy-et-audela`.
+- Dernier axe traite : profils delta, Syncthing sur `workstation.list` et `raspi.list`, `cron-conf` parametre.
+- Commits recents utiles : `d228fd6` (`bin-init` SVN), `82b7825` (`git-deploy` direct), `c320b0d` (`manuel.sh` hors chemin nominal), `e732087` (`group_vars/all.yml`), `f925937` (`raspi.list` + Syncthing), `ecfb3c7` (`cron-conf`).
+- Reprise probable : continuer les chemins durs dans les roles actifs, en particulier `bash-init`/`bash-completion`, puis ajouter des defaults aux roles actifs qui n'en ont pas.
 
 ## Tests raisonnables
 

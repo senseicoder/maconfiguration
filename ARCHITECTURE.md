@@ -63,7 +63,7 @@ Les variables globales sont dans `group_vars/all.yml` :
 - `basedir: /home/{{ compte }}`
 - `module_lang: fr_FR.UTF-8`
 
-Quelques roles ont un `defaults/main.yml` : `bash-init`, `claude-init`, `keepassx-install`, `rambox-install`, `spotify-install`, `sublimtext-install`, `teamviewer-install`, `terraform-install`. La majorite des roles n'ont pas de defaults, donc les variables attendues ne sont pas documentees localement au role.
+Quelques roles ont un `defaults/main.yml` : `bash-init`, `bin-init`, `claude-init`, `keepassx-install`, `rambox-install`, `spotify-install`, `sublimtext-install`, `syncthing-install`, `teamviewer-install`, `terraform-install`. La majorite des roles n'ont pas encore de defaults, donc les variables attendues ne sont pas documentees localement au role.
 
 ## Roles par domaine
 
@@ -158,8 +158,8 @@ Ils doivent rester lisibles, mais ne devraient pas peser sur le chemin nominal t
 
 ## Fragilites techniques
 
-- L'utilisateur `cedric` et `/home/cedric` apparaissent encore directement dans certains roles ou commentaires historiques; les roles actifs doivent continuer a migrer vers `compte` et `basedir`.
-- Il n'y a pas de profils explicites : poste complet, poste minimal, serveur maison, laptop, VM, etc.
+- L'utilisateur `cedric` et `/home/cedric` apparaissent encore directement dans certains roles, templates ou commentaires historiques; les roles actifs doivent continuer a migrer vers `compte` et `basedir`.
+- Les profils principaux existent, avec `base.list` comme socle et les autres listes comme deltas. Il reste a valider leur composition sur des machines reelles.
 - Beaucoup de roles n'ont pas de `defaults/main.yml`, donc leurs contrats sont implicites.
 - Les modules sont souvent appeles sous leur nom court (`apt`, `file`, `shell`) et les styles YAML sont heterogenes.
 - `apt_key` et les depots avec cle globale sont des patterns vieillissants.
@@ -167,8 +167,8 @@ Ils doivent rester lisibles, mais ne devraient pas peser sur le chemin nominal t
 - Toute tache doit reporter un changement quand cela a du sens, y compris en check mode. Les taches de collecte d'etat doivent expliciter `changed_when: false` et, si necessaire, `check_mode: false`. Les taches `shell`/`command` qui feraient une modification doivent avoir une modelisation claire du `changed` en check mode.
 - Les handlers sont absents; les redemarrages sont faits inline ou pas formalises.
 - La gestion `/etc` reste repartie entre `etc-init` et `etc-commit`, mais elle utilise maintenant etckeeper/Git.
-- `play.sh` execute directement; il n'y a pas de dry-run par defaut ni de lanceur par role comparable a `infra-deploy`.
-- Certains roles contiennent des bugs probables ou de la dette syntaxique : espaces insécables dans des variables (`{{ item }}` dans `cps-install`, `{{ subl_path }}` dans `sublimtext-install`), `docker-compose` v1, `push.default matching`, `UseRoaming`, versions figees anciennes.
+- `play.sh` execute encore directement le legacy; le chemin recommande est maintenant `run`, qui fournit le dry-run par defaut et le lancement par role.
+- Certains roles contiennent des bugs probables ou de la dette syntaxique : espaces insécables dans des variables (`{{ item }}` dans `cps-install`, `{{ subl_path }}` dans `sublimtext-install`), `docker-compose` v1 dans l'ancien role local, `UseRoaming`, versions figees anciennes.
 
 ## Architecture cible recommandee
 
@@ -189,13 +189,14 @@ Sans changer le fond personnel du projet, la cible la plus utile est :
 
 La migration doit rester progressive. Le premier gain n'est pas de renommer tous les roles, mais de rendre l'exploitation plus previsible :
 
-1. extraire les variables globales hors de `run.yml` et `run_role.yml`;
-2. enrichir `run_role.yml` avec log et controle `/etc`;
-3. stabiliser les listes de roles (`base.list` comme socle, puis `workstation.list`, `raspi.list`, `dev.list`, `home.list`, `vps.list`, `serveur.list`, `legacy.list` comme deltas);
-4. sortir `~/manuel.sh` du chemin nominal et documenter les derniers cas historiques;
-5. finaliser et valider l'import de l'historique Mercurial `/etc` vers etckeeper/Git;
-6. ajouter `defaults/main.yml` a tous les roles actifs;
-7. seulement ensuite, renommer ou decouper les roles.
+1. extraire les variables globales hors de `run.yml` et `run_role.yml` — fait;
+2. stabiliser les listes de roles (`base.list` comme socle, puis `workstation.list`, `raspi.list`, `dev.list`, `home.list`, `vps.list`, `serveur.list`, `legacy.list` comme deltas) — premiere passe faite;
+3. sortir `~/manuel.sh` du chemin nominal et documenter les derniers cas historiques — fait;
+4. finaliser les chemins durs actifs (`bash-init`, `bash-completion`, roles workstation/dev restants);
+5. ajouter `defaults/main.yml` a tous les roles actifs;
+6. enrichir `run_role.yml` avec log et controle `/etc`;
+7. valider l'import de l'historique Mercurial `/etc` vers etckeeper/Git sur une autre machine;
+8. seulement ensuite, renommer ou decouper les roles.
 
 ## Decision d'architecture principale
 
@@ -214,6 +215,6 @@ Cela rapproche le projet d'`infra-deploy` sans importer son vocabulaire employeu
 
 ## Validation locale actuelle
 
-Les syntax-checks des listes `base.list`, `workstation.list` et `dev.list` passent avec le wrapper.
+Les syntax-checks de toutes les listes `*.list` passent avec le wrapper.
 
-Les checks locaux avec `ANSIBLE_INVENTORY=localhost, ./run list ... -c local` sont bien lances en check mode (`-C -D`). Sur le poste courant, ils sont partiellement bloques par `sudo: a password is required` pour les roles avec `become`. Les roles utilisateur s'executent et produisent des diffs en check mode, par exemple `bash-init`; `codex-init` annonce correctement un `changed` lorsque Codex serait installe.
+Les checks locaux avec `ANSIBLE_INVENTORY=localhost, ./run list ... -c local` sont bien lances en check mode (`-C -D`). Sur le poste courant, ils sont partiellement bloques par `sudo: a password is required` pour les roles avec `become`. Les roles utilisateur s'executent et produisent des diffs en check mode. Les validations ciblees recentes couvrent notamment `bin-init`, `git-deploy`, `cron-conf`, `syncthing-install`, `base.list`, `workstation.list`, `dev.list`, `raspi.list`, `serveur.list` et `vps.list`.
