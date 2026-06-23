@@ -148,6 +148,7 @@ TODO
   * Installer certains trucs que sur certains machines
   * Séparer dev du reste 
   * Appel qui joue tout
+  * Tenter de faire disparaître ``~/manuel.sh`` : automatiser proprement les actions restantes ou les remplacer par des sorties explicites de fin de run.
   * Shell sur oxalide, Sophie,,, 
   * Supershell sur faranth, conf m5
   * Conf thunderbird et ff
