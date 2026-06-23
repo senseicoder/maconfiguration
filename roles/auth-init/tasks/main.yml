@@ -1,21 +1,19 @@
---- 
+---
+- name: créer le dossier ssh utilisateur
+  ansible.builtin.file:
+    path: "{{ basedir }}/.ssh"
+    state: directory
+    owner: "{{ compte }}"
+    group: "{{ compte }}"
+    mode: "0700"
 
-#le module know_hosts n'a pas voulu fonctionner à l'instant
-#- name: clef serveur CSoft
-#  shell: cat files/resin.csoft.net.pubkey >> ~/.ssh/known_hosts
-
-- name: clef serveur CSoft
-  lineinfile: 
-    name: ~/.ssh/known_hosts
-    create: yes
+- name: clefs serveur CSoft
+  ansible.builtin.known_hosts:
+    path: "{{ basedir }}/.ssh/known_hosts"
+    name: resin.csoft.net
+    key: "resin.csoft.net {{ lookup('file', item).split(' ', 1)[1] }}"
+    hash_host: true
     state: present
-    line: "{{ lookup('file', item) }}"
-  with_items: 
+  loop:
     - resin.csoft.net.1.pubkey
     - resin.csoft.net.2.pubkey
-    - resin.csoft.net.3.pubkey
-
-#  known_hosts:
-#    path: "{{ basedir }}/.ssh/known_hosts"
-#    name: csoft
-#    key: "{{ lookup('file', 'files/') }}"
