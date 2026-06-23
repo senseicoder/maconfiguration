@@ -1,0 +1,8 @@
+# Outils de developpement autonomes.
+svn-install
+git-install
+docker_dockerce_setup
+docker_dockercompose_setup
+lamp-install
+awscli-install
+claude-init

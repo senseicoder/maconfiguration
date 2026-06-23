@@ -1,0 +1,12 @@
+# Serveur personnel avec socle VPS et conteneurs Docker.
+etc-init
+apt-init
+bash-init
+bash-completion
+cron-conf
+auth-init
+git-install
+linux-security
+docker_dockerce_setup
+docker_dockercompose_setup
+etc-commit
