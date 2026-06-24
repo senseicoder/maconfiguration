@@ -85,6 +85,24 @@
       Appuyez sur Entrée une fois l'authentification terminée.
   when: not claude_bin.stat.exists
 
+- name: vérifier si le compte Pro est déjà authentifié
+  stat:
+    path: "{{ basedir }}/.claude-pro/.credentials.json"
+  register: claude_pro_credentials
+
+- name: pause - authentification compte Pro requise
+  pause:
+    prompt: |
+
+      Le compte Pro/Team n'est pas encore authentifié sur ce poste.
+
+      Avant de continuer, authentifiez-vous avec le compte Pro :
+
+          CLAUDE_CONFIG_DIR={{ basedir }}/.claude-pro {{ basedir }}/.local/bin/claude /login
+
+      Appuyez sur Entrée une fois l'authentification terminée.
+  when: not claude_pro_credentials.stat.exists
+
 # ============================================================
 # CONFIGURATION : symlinks vers Syncthing
 # ============================================================
@@ -106,6 +124,49 @@
   file:
     src: "{{ basedir }}/Sync/Central/Dossiers/skills"
     dest: "{{ basedir }}/.claude/skills"
+    state: link
+
+- name: symlink ~/.claude/settings.local.json
+  file:
+    src: "{{ basedir }}/Sync/Central/Dossiers/claude/settings.local.json"
+    dest: "{{ basedir }}/.claude/settings.local.json"
+    state: link
+    force: yes
+
+# ============================================================
+# CONFIGURATION : symlinks ~/.claude-pro (compte Pro/Team)
+# ============================================================
+
+- name: créer ~/.claude-pro
+  file:
+    path: "{{ basedir }}/.claude-pro"
+    state: directory
+    mode: '0775'
+
+- name: symlink ~/.claude-pro/settings.json
+  file:
+    src: "{{ basedir }}/Sync/Central/Dossiers/claude/settings.json"
+    dest: "{{ basedir }}/.claude-pro/settings.json"
+    state: link
+    force: yes
+
+- name: symlink ~/.claude-pro/settings.local.json
+  file:
+    src: "{{ basedir }}/Sync/Central/Dossiers/claude/settings.local.json"
+    dest: "{{ basedir }}/.claude-pro/settings.local.json"
+    state: link
+    force: yes
+
+- name: symlink ~/.claude-pro/skills
+  file:
+    src: "{{ basedir }}/Sync/Central/Dossiers/skills"
+    dest: "{{ basedir }}/.claude-pro/skills"
+    state: link
+
+- name: symlink ~/.claude-pro/projects → ~/.claude/projects
+  file:
+    src: "{{ basedir }}/.claude/projects"
+    dest: "{{ basedir }}/.claude-pro/projects"
     state: link
 
 # ============================================================

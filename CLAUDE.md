@@ -127,7 +127,13 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 - `svn-install` : installation/configuration du client SVN. `bin-init` l'utilise comme dependance pour gerer directement le checkout SVN de `~/bin`.
 - `git-install` / `git-deploy` : configuration Git et clone/update directs des depots parametres.
 - `syncthing-install` : installation et configuration API Syncthing.
-- `claude-init` : installation Claude Code et liens vers Syncthing.
+- `claude-init` : installation Claude Code, symlinks vers Syncthing, et configuration du compte Pro. Gère :
+  - `~/.claude/settings.json` → `~/Sync/Central/Dossiers/claude/settings.json`
+  - `~/.claude/settings.local.json` → `~/Sync/Central/Dossiers/claude/settings.local.json`
+  - `~/.claude/skills/` → `~/Sync/Central/Dossiers/skills/`
+  - `~/.claude-pro/` : mêmes symlinks + `projects` → `~/.claude/projects` (partage de l'historique de sessions)
+  - Pauses d'authentification pour les deux comptes (compte perso + compte Pro via `CLAUDE_CONFIG_DIR`)
+  - Synchronisation des dossiers `memory/` par projet (Passe 1 : local → Sync + symlink ; Passe 2 : Sync → projet local manquant)
 - `codex-init` : installation Codex, avec annonce de changement correcte en check mode.
 - `docker_dockerce_setup` / `docker_dockercompose_setup` : roles Docker externes venant d'`infra-deploy`, utilises par `dev.list` et `serveur.list`.
 - `docker-install`, `lamp-install`, `awscli-install`, `mysql-shell-config`, `cps-install` : outils de travail. `docker-install` est maintenant legacy pour les profils.
