@@ -1,10 +1,20 @@
---- 
+---
+
+- name: verifier la presence git
+  ansible.builtin.command: git --version
+  register: git_install_version
+  failed_when: false
+  changed_when: false
+  check_mode: false
 
 - name: installation git
   become: true
-  package: name=git state=latest
+  ansible.builtin.package:
+    name: git
+    state: present
+  when: git_install_version.rc != 0
 
-- set_fact: 
+- set_fact:
     dirconf: "{{ basedir }}/.config/git"
 
 - name: fichier de configuration git
@@ -16,10 +26,15 @@
 - name: configuration git (ignore 2)
   lineinfile: dest="{{ dirconf }}/ignore" line="**/*.retry" owner={{ compte }} group={{ compte }} create=yes state=present
 
-- name: configuration git
-  shell: "{{ item }}"
-  with_items:
-    - git config --global user.email "c.girard@epiconcept.fr"
-    - git config --global user.name "Cédric Girard"
-    - git config --global push.default matching
-  changed_when: false
+- name: configuration git globale
+  community.general.git_config:
+    name: "{{ item.name }}"
+    scope: global
+    value: "{{ item.value }}"
+  loop:
+    - name: user.email
+      value: c.girard@epiconcept.fr
+    - name: user.name
+      value: Cédric Girard
+    - name: push.default
+      value: simple

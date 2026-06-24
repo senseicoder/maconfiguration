@@ -8,33 +8,23 @@
 #    state: present
 
 - name: installation paquets
-  become: True
-  apt:
-    name: '{{ item }}'
-  with_items: [ 
-    #libs
-    ibus, ibus-gtk, 
-    #obsolète 20.04 : ibus-qt4,
-    #outils
-    vim, tree, glances, apt-transport-https, pwgen, sshfs, colordiff, iotop, htop, sharutils, subversion, python3-dev, guake, rlwrap,
-    #communication
-    chromium-browser,
-    #réseau
-    gufw, ssmtp, openssh-server, wakeonlan, cifs-utils, curl,
-    #graphismes
-    gimp,
-    #internet
-    nfs-common, lynx, traceroute, whois,
-    #ebooks et docs
-    calibre, pandoc, texlive,
-    #video
-    mplayer, mencoder, totem, handbrake,mkvtoolnix,
-    #lamp
-    mysql-client, mysql-server, apache2, php, php-curl,
-    #gnome
-    chrome-gnome-shell,
-    #data
-    jq, vym,
-    #dev
-    subversion, git
-    ]
+  become: true
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - colordiff
+      - curl
+      - glances
+      - htop
+      - iotop
+      - jq
+      - lynx
+      - openssh-server
+      - pwgen
+      - sharutils
+      - traceroute
+      - tree
+      - vim
+      - wakeonlan
+      - whois
+    state: present

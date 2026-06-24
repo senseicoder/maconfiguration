@@ -1,6 +1,45 @@
 TODO
 ####
 
+Reprise migration vers deploy
+=============================
+
+Etat actuel de la branche ``vers-deploy-et-audela``
+---------------------------------------------------
+
+* Fait :
+
+  * ``run`` et ``run_role.yml`` sont le chemin recommande, en check mode par defaut.
+  * ``group_vars/all.yml`` porte ``compte``, ``basedir`` et ``module_lang``.
+  * Les listes sont stabilisees en deux niveaux : jouer ``base.list`` puis une ou plusieurs listes delta.
+  * ``workstation.list`` et ``raspi.list`` portent ``syncthing-install``.
+  * ``dev.list`` porte Claude, Codex, LAMP/dev et Docker via les roles externes ``infra-deploy``.
+  * ``serveur.list`` ne contient plus que le delta Docker.
+  * ``vps.list`` est vide hors commentaire : jouer seulement ``base.list`` pour un VPS minimal.
+  * ``~/manuel.sh`` est sorti du chemin nominal.
+  * ``bin-init`` gere directement le checkout SVN de ``~/bin``.
+  * ``git-deploy`` gere directement les clones/updates Git et signale les depots en retard en check mode.
+  * ``etc-init`` utilise etckeeper/Git et archive l'ancien Mercurial apres import.
+  * ``cron-conf`` est parametre par ``compte`` et ``basedir``.
+
+* Validations faites :
+
+  * syntax-check de toutes les listes ``*.list``.
+  * checks cibles de ``bin-init``, ``git-deploy``, ``syncthing-install`` et ``cron-conf``.
+  * rendu de ``cron-conf`` identique au fichier actuel avec les valeurs par defaut.
+
+* A reprendre en priorite :
+
+  * continuer la suppression des chemins durs ``/home/cedric`` dans les roles actifs, notamment ``bash-init`` et ``bash-completion``.
+  * ajouter des ``defaults/main.yml`` aux roles actifs qui n'en ont pas encore.
+  * rendre ``apt-init`` plus moderne : keyring dedie et ``signed-by`` au lieu des patterns apt historiques.
+  * revoir les roles workstation/dev encore fragiles : ``cps-install``, ``sublimtext-install``, ``awscli-install``, ``lamp-install``.
+  * tester un run reel avec sudo sur le poste courant pour corriger les metadonnees de ``/etc/cron.d/cedric``.
+  * tester ``base.list`` + ``raspi.list`` sur un Raspberry.
+  * valider la migration etckeeper sur une autre machine ayant encore un ancien ``/etc/.hg``.
+  * decider si ``play.sh`` et ``run.yml`` restent durablement en compatibilite legacy ou deviennent deprecies.
+  * encadrer les runs avec log global lisible et eventuel controle ``/etc`` autour de chaque role.
+
 * urgent
 
   * storage.size=512 dans $HOME/.config/spotify/prefs
@@ -133,7 +172,7 @@ TODO
   * apt light-locker
   * rescuetime, installer l'application et activer l'extension ff ensuite
   * cd ~/bin && composer up
-  * export des /etc en mercurial
+  * finaliser la migration de l'historique /etc Mercurial vers etckeeper/Git
   * update-apt-xapian-index à virer
   * apt install mediainfo
   * go https://tecadmin.net/install-go-on-ubuntu/
@@ -148,6 +187,7 @@ TODO
   * Installer certains trucs que sur certains machines
   * Séparer dev du reste 
   * Appel qui joue tout
+  * Tenter de faire disparaître ``~/manuel.sh`` : automatiser proprement les actions restantes ou les remplacer par des sorties explicites de fin de run.
   * Shell sur oxalide, Sophie,,, 
   * Supershell sur faranth, conf m5
   * Conf thunderbird et ff

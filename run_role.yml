@@ -1,0 +1,33 @@
+---
+- hosts: all
+  gather_facts: true
+
+  handlers:
+    - name: ssh_restart
+      ansible.builtin.service:
+        name: ssh
+        state: restarted
+      become: true
+
+    - name: docker_restart
+      ansible.builtin.service:
+        name: docker
+        daemon_reload: true
+        state: restarted
+      become: true
+
+    - name: syncthing_restart
+      ansible.builtin.systemd:
+        name: "syncthing@{{ compte }}"
+        daemon_reload: true
+        state: restarted
+      become: true
+
+    - name: cron_reload
+      ansible.builtin.service:
+        name: cron
+        state: reloaded
+      become: true
+
+  roles:
+    - role: "{{ role | basename }}"

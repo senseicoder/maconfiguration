@@ -1,18 +1,9 @@
 ---
 
-- name: création dossier à inclure
-  file: 
-    path: "{{ bashinclude_path }}"
-    state: directory
-
-- name: conf bash d'inclusion
-  template:
+- name: Installer la configuration bash utilisateur
+  ansible.builtin.template:
     src: bash_aliases.j2
-    dest: "{{ bashinclude_file }}"
-
-- name: fichiers bash de conf spécifiques
-  template:
-    src: "{{ item }}"
-    dest: "{{ bashinclude_path }}"
-  with_fileglob: 
-    - ./templates/confd_*
+    dest: "{{ bash_aliases_file }}"
+    owner: "{{ compte }}"
+    group: "{{ compte }}"
+    mode: "0644"

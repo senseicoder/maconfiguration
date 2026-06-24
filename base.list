@@ -1,0 +1,11 @@
+# Socle commun minimal, hors applications graphiques lourdes.
+etc-init
+apt-init
+apt-paquets
+bash-init
+bash-completion
+cron-conf
+auth-init
+git-install
+bin-init
+etc-commit

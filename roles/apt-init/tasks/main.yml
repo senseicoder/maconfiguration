@@ -5,8 +5,11 @@
   package: name=aptitude state=latest
 
 - name: repo epiconcept
-  lineinfile: dest=/etc/apt/sources.list.d/epiconcept.list line="deb [trusted=yes] http://apt.epiconcept.fr/prep {{ ansible_distribution_release }} main" state=present create=yes
-  become: True
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64,all] https://apt.epiconcept.fr/prep/ {{ ansible_distribution_release }} main"
+    filename: epiconcept
+    state: present
+  become: true
 
 - name: apt update/upgrade
   become: yes

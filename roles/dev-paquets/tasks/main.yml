@@ -1,0 +1,15 @@
+---
+- name: installation paquets dev et lamp
+  become: true
+  ansible.builtin.apt:
+    name:
+      - apache2
+      - git
+      - mysql-client
+      - mysql-server
+      - php
+      - php-curl
+      - python3-dev
+      - rlwrap
+      - subversion
+    state: present

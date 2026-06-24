@@ -1,8 +1,67 @@
-#!/bin/bash
+alias cic='mv comptes.xlsm Sync/Dossiers/Archives/$(date +%Y%m%d)_CIC.xslm'
 
-dir={{ bashinclude_path }}
+alias vcenter='vpn up; xdg-open https://epiconcept.infra.pa3-vcenter-01.adm/ui; cmdp show epiconcept/vcenter/c.girard@vsphere.local | grep login; cmdp show -c epiconcept/vcenter/c.girard@vsphere.local'
+export INV='-i ~/bin/list_new_servers.txt'
+
+function waitfor()
+{
+	local indice=$1
+
+	zenity --warning --text "fin opération $indice"
+}
+
+alias pp=presspap
+
+alias fvirgule="sed -E 's/[[:space:]]+/,/g'"
+alias fquote="sed -Ee \"s/(^|$)/'/g\""
+#alias fdoublequote="sed -Ee 's/(^|$)/\"/g'"
+alias fadmin2="sed -e 's/,/.admin2,/g' -e 's/$/.admin2/'"
+alias ftrim='sed -E -e "s/^[ \t\r]+//" -e "s/[ \t\r]+$//"'
+alias fcronlog=' grep -ve setter_voo3e4n.sh -e watchdog -e backupninja -e sessionclean -e check_process.sh -e anacron | sed -e 's#VOO4_APPBOOTSTRAPPER.*/usr/bin/php#/usr/bin/php#' '
+alias fsrvho='grep -Ef bin/epiconcept/servers_patterns_upgrade.txt'
+alias fsrvhno='grep -vEf bin/epiconcept/servers_patterns_upgrade.txt'
+
+alias hnonodes="jq '.[] | select(.state==\"TODO\") | .node ' -r"
+
+function col()
+{
+	cat | awk '{print $'$1'}'
+}
+
+function concat()
+{
+	cat | tr '\n' "$1" |sed "s/$1\$//"
+}
+
+alias aptproxy_debian="screen -c ~/bin/screen.d/aptproxy_debian.screen"
+alias aptproxy_ubuntu="screen -c ~/bin/screen.d/aptproxy_ubuntu.screen"
+#alias veille="sudo systemctl suspend"
+
+function guaketitle() {
+    if [ -x "/usr/bin/guake" ]; then
+       guake -r "$1"
+    fi
+}
+
+function ssh() {
+    guaketitle "ssh $@"
+    /usr/bin/ssh $@
+    guaketitle "$(pwd)"
+}
+
+#function vi() {
+#    guaketitle "vi $@"
+#    /usr/bin/vi $@
+#    guaketitle "$(pwd)"
+#}
+
+function vim() {
+    vi "$@"
+}
+
+dir=/home/cedric/bin/bash_aliases.d
 if [ -d "$dir" ]; then
-	for file in $dir/*; do
-		. $file
-	done
+        for file in $dir/*; do
+                . $file
+        done
 fi

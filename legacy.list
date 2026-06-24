@@ -1,0 +1,14 @@
+# Roles conserves hors chemin nominal.
+keepassx-install
+kpcli-install
+docker-install
+mercurial-install
+linux-security
+openfortissl-install
+ocsinventory-install
+rambox-install
+spotify-install
+ssh
+ssh-auth
+teamviewer-install
+terraform-install

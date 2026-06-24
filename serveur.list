@@ -1,0 +1,4 @@
+# Delta serveur personnel avec conteneurs Docker.
+# Jouer base.list avant ce profil.
+docker_dockerce_setup
+docker_dockercompose_setup

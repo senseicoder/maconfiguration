@@ -1,0 +1,3 @@
+# Donnees et configurations synchronisees hors profil applicatif.
+# Syncthing est porte par workstation.list et raspi.list.
+# Claude et Codex sont portes par dev.list.

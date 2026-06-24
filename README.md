@@ -6,9 +6,11 @@ The goal is to deploy all useful packages and configuration files to help me to 
 ## todo
 
 * conf awscli
-* svn co svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash /home/cedric/bin doit être fait à la main avant, l'automatique ne marche pas (auth par clef ne marche pas?)
+* `~/bin` est gere par le role `bin-init` depuis le depot SVN `ScriptsBash`.
 * mytop plus trouvé
-* passer à etckeeper
+* etckeeper remplace le controle historique de /etc par Mercurial
+* basculer l'envoi mail local de `ssmtp` vers `msmtp`/`msmtp-mta` pour remplacer le MTA `sendmail` et corriger les erreurs SMTP des cron
+* intégrer la configuration mail csoft avec expéditeur forcé `cedricg@cedricg.csoft.net` (`ssmtp.conf`/`revaliases`, puis équivalent `msmtp`) après validation avec csoft
 
 ## Contraintes particulières
 

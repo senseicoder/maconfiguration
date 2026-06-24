@@ -1,0 +1,3 @@
+---
+bin_svn_source: svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash
+bin_svn_dest: "{{ basedir }}/bin"

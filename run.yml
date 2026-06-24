@@ -4,12 +4,7 @@
 #* faut que Sync/Central soit présent (conf partiellement manuelle)
 
 - hosts: all
-  vars:
-    compte: cedric
-    basedir: "/home/{{ compte }}"
-    module_lang: fr_FR.UTF-8
   roles:
-    - { role: manuel-install, tags: ['always'] }
     - { role: mercurial-install, tags: ['mercurial-install'] }
 
     - { role: etc-init, tags: ['etc-init'] }
@@ -23,8 +18,6 @@
     - { role: linux-security, tags: ['linux-security'] }
 
     - { role: svn-install, tags: ['svn-install', 'svn'] }
-    - { role: svn-deploy, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/ScriptsBash", 
-            vcsdestdir: "{{ basedir }}/bin", tags: ['svn-deploy', 'svn'] }
 #    - { role: svn-deploy, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/outilsDev/envdev", 
 #            vcsdestdir: "{{ basedir }}/www", tags: ['svn-deploy', 'svn'] }
 #    - { role: svn-deploy, vcssource: "svn+ssh://cedricg@resin.csoft.net/home/cedricg/cedric/Ecritures", 
