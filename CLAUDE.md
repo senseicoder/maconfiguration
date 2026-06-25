@@ -134,10 +134,10 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
   - `~/.claude-pro/` : mêmes symlinks + `projects` → `~/.claude/projects` (partage de l'historique de sessions)
   - Pauses d'authentification pour les deux comptes (compte perso + compte Pro via `CLAUDE_CONFIG_DIR`)
   - Synchronisation des dossiers `memory/` par projet (Passe 1 : local → Sync + symlink ; Passe 2 : Sync → projet local manquant)
-- `codex-init` : installation Codex, avec annonce de changement correcte en check mode.
 - `docker_dockerce_setup` / `docker_dockercompose_setup` : roles Docker externes venant d'`infra-deploy`, utilises par `dev.list` et `serveur.list`.
 - `docker-install`, `lamp-install`, `awscli-install`, `mysql-shell-config`, `cps-install` : outils de travail. `docker-install` est maintenant legacy pour les profils.
 - `linux-security` : role historique `UseRoaming no`, conserve en legacy.
+- `codex-init` : installation Codex, conserve en legacy. Execute un script distant seulement hors check mode; en check mode annonce l'installation prevue si `codex` est absent.
 
 ## Profils actuels
 
@@ -145,7 +145,7 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 - Les autres listes sont des deltas a jouer apres `base.list`.
 - `workstation.list` : poste graphique, avec paquets desktop/media/docs et `syncthing-install`.
 - `raspi.list` : Raspberry Pi sans poste graphique, avec `syncthing-install`.
-- `dev.list` : outils dev et LAMP, avec Docker via `infra-deploy`, `claude-init` et `codex-init`.
+- `dev.list` : outils dev et LAMP, avec Docker via `infra-deploy` et `claude-init`.
 - `home.list` : specificites maison.
 - `vps.list` : delta VPS minimal, actuellement vide.
 - `serveur.list` : serveur avec Docker.
@@ -167,7 +167,6 @@ Actions recommandees : `_setup`, `_conf`, `_install`, `_deploy`.
 - Ne pas casser le bootstrap d'un poste vierge : Git, SVN, SSH, Syncthing et Claude ont des dependances circulaires partielles.
 - `syncthing-install` contient une liste de devices personnelle et lit sa cle API depuis `syncthing_api_key_file`.
 - `claude-init` depend de `~/Sync/Central/.stfolder` et de dossiers synchronises.
-- `codex-init` execute un script distant seulement hors check mode; en check mode il doit annoncer l'installation prevue si `codex` est absent.
 - Les roles Docker des profils `dev.list` et `serveur.list` viennent d'`infra-deploy`; corriger la source externe si leur semantique Ansible est insuffisante.
 - `git-deploy` deploie directement les depots Git parametres par `vcssource` et `vcsdestdir`. `svn-deploy` reste l'ancien mecanisme generique vers `~/manuel.sh`; `bin-init` fait exception pour `~/bin`, qu'il checkout/update directement depuis SVN.
 - `etc-init` garde le nom historique mais utilise etckeeper/Git; l'import Mercurial doit rester prudent et ne pas supprimer `/etc/.hg`.
