@@ -12,3 +12,4 @@ ssh
 ssh-auth
 teamviewer-install
 terraform-install
+codex-init

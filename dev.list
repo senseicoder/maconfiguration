@@ -6,4 +6,3 @@ docker_dockercompose_setup
 lamp-install
 awscli-install
 claude-init
-codex-init

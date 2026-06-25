@@ -107,61 +107,33 @@
 # CONFIGURATION : symlinks vers Syncthing
 # ============================================================
 
-- name: créer ~/.claude
+- name: créer les répertoires de config Claude
   file:
-    path: "{{ basedir }}/.claude"
+    path: "{{ basedir }}/{{ item }}"
     state: directory
     mode: '0775'
+  loop:
+    - .claude
+    - .claude-pro
 
-- name: symlink ~/.claude/settings.json
+- name: symlinks Sync/claude → .claude et .claude-pro
   file:
-    src: "{{ basedir }}/Sync/Central/Dossiers/claude/settings.json"
-    dest: "{{ basedir }}/.claude/settings.json"
+    src: "{{ basedir }}/Sync/Central/Dossiers/claude/{{ item[1] }}"
+    dest: "{{ basedir }}/{{ item[0] }}/{{ item[1] }}"
     state: link
     force: yes
+  loop: "{{ ['.claude', '.claude-pro'] | product(['settings.json', 'settings.local.json', 'CLAUDE.md']) | list }}"
+  loop_control:
+    label: "{{ item[0] }}/{{ item[1] }}"
 
-- name: symlink ~/.claude/skills
+- name: symlink skills → .claude et .claude-pro
   file:
     src: "{{ basedir }}/Sync/Central/Dossiers/skills"
-    dest: "{{ basedir }}/.claude/skills"
+    dest: "{{ basedir }}/{{ item }}/skills"
     state: link
-
-- name: symlink ~/.claude/settings.local.json
-  file:
-    src: "{{ basedir }}/Sync/Central/Dossiers/claude/settings.local.json"
-    dest: "{{ basedir }}/.claude/settings.local.json"
-    state: link
-    force: yes
-
-# ============================================================
-# CONFIGURATION : symlinks ~/.claude-pro (compte Pro/Team)
-# ============================================================
-
-- name: créer ~/.claude-pro
-  file:
-    path: "{{ basedir }}/.claude-pro"
-    state: directory
-    mode: '0775'
-
-- name: symlink ~/.claude-pro/settings.json
-  file:
-    src: "{{ basedir }}/Sync/Central/Dossiers/claude/settings.json"
-    dest: "{{ basedir }}/.claude-pro/settings.json"
-    state: link
-    force: yes
-
-- name: symlink ~/.claude-pro/settings.local.json
-  file:
-    src: "{{ basedir }}/Sync/Central/Dossiers/claude/settings.local.json"
-    dest: "{{ basedir }}/.claude-pro/settings.local.json"
-    state: link
-    force: yes
-
-- name: symlink ~/.claude-pro/skills
-  file:
-    src: "{{ basedir }}/Sync/Central/Dossiers/skills"
-    dest: "{{ basedir }}/.claude-pro/skills"
-    state: link
+  loop:
+    - .claude
+    - .claude-pro
 
 - name: symlink ~/.claude-pro/projects → ~/.claude/projects
   file:
