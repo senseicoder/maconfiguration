@@ -1,0 +1,95 @@
+---
+# ============================================================
+# DÉTECTION DE LA VERSION ACTUELLE
+# ============================================================
+
+- name: vérifier la version actuelle de jira-cli
+  command: "{{ jiracli_bin_dir }}/jira version"
+  register: jiracli_current_version
+  changed_when: false
+  failed_when: false
+  check_mode: false
+
+- name: détecter si jira-cli doit être installé ou mis à jour
+  set_fact:
+    jiracli_needs_update: >-
+      {{ jiracli_current_version.rc != 0 or
+         ('Version="' + jiracli_version + '"') not in jiracli_current_version.stdout }}
+
+- name: extraire la version installée de jira-cli
+  set_fact:
+    jiracli_installed_version: >-
+      {{ jiracli_current_version.stdout.split('Version="')[1].split('"')[0] }}
+  when: jiracli_current_version.rc == 0
+
+- name: marquer jira-cli comme absent
+  set_fact:
+    jiracli_installed_version: "absente"
+  when: jiracli_current_version.rc != 0
+
+# ============================================================
+# CHECK MODE : annoncer le changement sans agir
+# ============================================================
+
+- name: annoncer l'installation/mise à jour de jira-cli
+  debug:
+    msg: >-
+      jira-cli {{ jiracli_version }} serait installé dans {{ jiracli_bin_dir }}/jira
+      (version actuelle : {{ jiracli_installed_version }})
+  changed_when: true
+  when:
+    - jiracli_needs_update | bool
+    - ansible_check_mode
+
+# ============================================================
+# INSTALLATION / MISE À JOUR
+# ============================================================
+
+- name: créer le répertoire d'extraction
+  file:
+    path: "{{ jiracli_extract_dir }}"
+    state: directory
+    mode: '0755'
+  when:
+    - jiracli_needs_update | bool
+    - not ansible_check_mode
+
+- name: télécharger jira-cli {{ jiracli_version }}
+  get_url:
+    url: "{{ jiracli_url }}"
+    dest: "{{ jiracli_extract_dir }}/jira_{{ jiracli_version }}_linux_x86_64.tar.gz"
+    mode: '0644'
+  when:
+    - jiracli_needs_update | bool
+    - not ansible_check_mode
+
+- name: extraire jira-cli {{ jiracli_version }}
+  unarchive:
+    src: "{{ jiracli_extract_dir }}/jira_{{ jiracli_version }}_linux_x86_64.tar.gz"
+    dest: "{{ jiracli_extract_dir }}"
+    remote_src: yes
+    creates: "{{ jiracli_extract_dir }}/jira_{{ jiracli_version }}_linux_x86_64/bin/jira"
+  when:
+    - jiracli_needs_update | bool
+    - not ansible_check_mode
+
+- name: sauvegarder l'ancien binaire jira-cli
+  copy:
+    src: "{{ jiracli_bin_dir }}/jira"
+    dest: "{{ jiracli_bin_dir }}/jira.v{{ jiracli_installed_version }}.backup"
+    remote_src: yes
+    mode: '0755'
+  when:
+    - jiracli_needs_update | bool
+    - not ansible_check_mode
+    - jiracli_current_version.rc == 0
+
+- name: installer le binaire jira-cli {{ jiracli_version }}
+  copy:
+    src: "{{ jiracli_extract_dir }}/jira_{{ jiracli_version }}_linux_x86_64/bin/jira"
+    dest: "{{ jiracli_bin_dir }}/jira"
+    remote_src: yes
+    mode: '0755'
+  when:
+    - jiracli_needs_update | bool
+    - not ansible_check_mode

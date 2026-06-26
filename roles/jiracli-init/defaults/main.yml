@@ -1,0 +1,5 @@
+---
+jiracli_version: "1.7.0"
+jiracli_url: "https://github.com/ankitpokhrel/jira-cli/releases/download/v{{ jiracli_version }}/jira_{{ jiracli_version }}_linux_x86_64.tar.gz"
+jiracli_bin_dir: "{{ basedir }}/bin"
+jiracli_extract_dir: "{{ basedir }}/.local/share/jira-cli"

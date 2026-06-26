@@ -6,3 +6,4 @@ docker_dockercompose_setup
 lamp-install
 awscli-install
 claude-init
+jiracli-init
