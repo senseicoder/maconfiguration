@@ -1,8 +1,8 @@
 ---
 
 - name: Déployer la configuration netplan
-  ansible.builtin.copy:
-    src: 01-network-manager-all.yaml
+  ansible.builtin.template:
+    src: 01-network-manager-all.yaml.j2
     dest: /etc/netplan/01-network-manager-all.yaml
     owner: root
     group: root
@@ -11,11 +11,6 @@
   register: netplan_file
 
 - name: Appliquer les routes via M7 (netplan apply cassé sur Ubuntu 18.04)
-  ansible.builtin.command: "ip route replace {{ item }} via 192.168.100.177"
+  ansible.builtin.command: "ip route replace {{ item }} via {{ m6network_gateway }}"
   become: true
-  loop:
-    - 10.68.7.0/24
-    - 10.40.9.0/24
-    - 10.50.5.0/24
-    - 10.40.5.0/24
-    - 10.49.180.0/24
+  loop: "{{ m6network_routes }}"
