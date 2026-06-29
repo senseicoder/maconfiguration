@@ -1,0 +1,16 @@
+---
+
+- name: Déployer la configuration netplan
+  ansible.builtin.copy:
+    src: 01-network-manager-all.yaml
+    dest: /etc/netplan/01-network-manager-all.yaml
+    owner: root
+    group: root
+    mode: "0600"
+  become: true
+  register: netplan_file
+
+- name: Appliquer netplan si changement
+  ansible.builtin.command: netplan apply
+  become: true
+  when: netplan_file.changed
