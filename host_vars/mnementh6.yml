@@ -1,0 +1,4 @@
+---
+# M6 — OS trop vieux (Ubuntu 18.04) pour installer MindWTR nativement.
+# Le rôle mindwtr-init configure un tunnel SSH persistant vers M7 à la place.
+mindwtr_tunnel_only: true

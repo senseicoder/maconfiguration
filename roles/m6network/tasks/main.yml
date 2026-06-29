@@ -10,7 +10,11 @@
   become: true
   register: netplan_file
 
-- name: Appliquer netplan si changement
-  ansible.builtin.command: netplan apply
+- name: Appliquer les routes via M7 (netplan apply cassé sur Ubuntu 18.04)
+  ansible.builtin.command: "ip route replace {{ item }} via 192.168.100.177"
   become: true
-  when: netplan_file.changed
+  loop:
+    - 10.68.7.0/24
+    - 10.40.9.0/24
+    - 10.50.5.0/24
+    - 10.40.5.0/24

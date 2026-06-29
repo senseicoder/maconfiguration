@@ -1,0 +1,20 @@
+[Unit]
+Description=Tunnel SSH MindWTR vers M7 ({{ mindwtr_m7_host }})
+Documentation=man:ssh(1)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/ssh \
+    -N \
+    -o ExitOnForwardFailure=yes \
+    -o ServerAliveInterval=60 \
+    -o ServerAliveCountMax=3 \
+    -o StrictHostKeyChecking=accept-new \
+    -L {{ mindwtr_tunnel_port }}:127.0.0.1:{{ mindwtr_tunnel_port }} \
+    {{ compte }}@{{ mindwtr_m7_host }}
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,37 @@
+---
+# Tunnel SSH persistant vers M7 (192.168.100.177:3456) pour les postes
+# dont l'OS est trop vieux pour installer MindWTR nativement (ex. M6).
+# Un service systemd user maintient le tunnel actif et le relance après coupure.
+
+- name: créer le répertoire services systemd user
+  ansible.builtin.file:
+    path: "{{ basedir }}/.config/systemd/user"
+    state: directory
+    owner: "{{ compte }}"
+    group: "{{ compte }}"
+    mode: "0755"
+
+- name: déployer le service systemd user mindwtr-tunnel
+  ansible.builtin.template:
+    src: mindwtr-tunnel.service.j2
+    dest: "{{ basedir }}/.config/systemd/user/mindwtr-tunnel.service"
+    owner: "{{ compte }}"
+    group: "{{ compte }}"
+    mode: "0644"
+  register: tunnel_service_file
+
+- name: recharger systemd user après modification du service
+  ansible.builtin.systemd:
+    scope: user
+    daemon_reload: true
+  become: false
+  when: tunnel_service_file.changed and not ansible_check_mode
+
+- name: activer et démarrer le service mindwtr-tunnel
+  ansible.builtin.systemd:
+    name: mindwtr-tunnel
+    scope: user
+    enabled: true
+    state: started
+  become: false
+  when: not ansible_check_mode

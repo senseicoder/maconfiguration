@@ -1,0 +1,34 @@
+---
+# Installation de MindWTR via dépôt APT officiel.
+# Reproduit l'installation existante sur M7.
+
+- name: déployer le keyring GPG MindWTR
+  ansible.builtin.copy:
+    src: mindwtr-archive-keyring.gpg
+    dest: /usr/share/keyrings/mindwtr-archive-keyring.gpg
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+
+- name: ajouter le dépôt APT MindWTR
+  ansible.builtin.copy:
+    content: "deb [signed-by=/usr/share/keyrings/mindwtr-archive-keyring.gpg] https://dongdongbh.github.io/Mindwtr/deb ./\n"
+    dest: /etc/apt/sources.list.d/mindwtr.list
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  register: mindwtr_apt_repo
+
+- name: mettre à jour le cache APT après ajout du dépôt
+  ansible.builtin.apt:
+    update_cache: true
+  become: true
+  when: mindwtr_apt_repo.changed
+
+- name: installer le paquet mindwtr
+  ansible.builtin.apt:
+    name: mindwtr
+    state: present
+  become: true

@@ -1,0 +1,12 @@
+---
+# Sur M6 (OS trop vieux pour MindWTR natif) : configurer un tunnel SSH persistant vers M7.
+# Sur tout autre poste : installer MindWTR directement via APT (dépôt GitHub Pages dongdongbh).
+mindwtr_tunnel_only: false
+
+mindwtr_scripts_src: "{{ basedir }}/Sync/Central/Dossiers/claude/script/mindwtr"
+mindwtr_bin_dir: "{{ basedir }}/bin"
+
+mindwtr_m7_host: "192.168.100.177"
+mindwtr_tunnel_port: 3456
+
+mindwtr_ssh_config: "{{ basedir }}/.ssh/config"

@@ -1,0 +1,95 @@
+---
+# ============================================================
+# PRÉREQUIS
+# ============================================================
+
+- name: vérifier que ~/Sync/Central est présent et synchronisé
+  stat:
+    path: "{{ basedir }}/Sync/Central/.stfolder"
+  register: sync_central_stfolder
+  changed_when: false
+
+- name: assert ~/Sync/Central synchronisé
+  assert:
+    that: sync_central_stfolder.stat.exists
+    fail_msg: >
+      {{ basedir }}/Sync/Central n'est pas encore synchronisé par Syncthing
+      (marqueur .stfolder absent). Attendre la fin de la synchronisation initiale.
+
+- name: vérifier que les scripts MindWTR sont présents dans Sync
+  stat:
+    path: "{{ mindwtr_scripts_src }}/mw-tasks.sh"
+  register: mindwtr_scripts_present
+  changed_when: false
+
+- name: assert scripts MindWTR présents
+  assert:
+    that: mindwtr_scripts_present.stat.exists
+    fail_msg: >
+      Les scripts MindWTR sont absents de {{ mindwtr_scripts_src }}.
+      Vérifier que la synchronisation Syncthing est complète.
+
+# ============================================================
+# M6 — TUNNEL SSH PERSISTANT VERS M7
+# ============================================================
+
+- name: configurer le tunnel SSH persistant (poste sans MindWTR natif)
+  include_tasks: tunnel.yml
+  when: mindwtr_tunnel_only | bool
+
+# ============================================================
+# AUTRES POSTES — INSTALLATION MINDWTR
+# ============================================================
+
+- name: installer MindWTR (poste compatible)
+  include_tasks: install.yml
+  when: not (mindwtr_tunnel_only | bool)
+
+# ============================================================
+# COMMUN — ENTRÉE SSH CONFIG
+# ============================================================
+
+- name: vérifier que ~/.ssh/config existe
+  stat:
+    path: "{{ mindwtr_ssh_config }}"
+  register: ssh_config_stat
+  changed_when: false
+
+- name: ajouter entrée SSH mnementh7-mindwtr dans ~/.ssh/config
+  ansible.builtin.blockinfile:
+    path: "{{ mindwtr_ssh_config }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK mindwtr-tunnel"
+    block: |
+      Host mnementh7-mindwtr
+          HostName {{ mindwtr_m7_host }}
+          User {{ compte }}
+          LocalForward {{ mindwtr_tunnel_port }} 127.0.0.1:{{ mindwtr_tunnel_port }}
+          ServerAliveInterval 60
+          ServerAliveCountMax 3
+  when: ssh_config_stat.stat.exists
+
+# ============================================================
+# COMMUN — SYMLINKS SCRIPTS
+# ============================================================
+
+- name: vérifier que ~/bin existe
+  stat:
+    path: "{{ mindwtr_bin_dir }}"
+  register: bin_dir_stat
+  changed_when: false
+
+- name: créer les symlinks des scripts mw-* dans ~/bin
+  ansible.builtin.file:
+    src: "{{ mindwtr_scripts_src }}/{{ item }}.sh"
+    dest: "{{ mindwtr_bin_dir }}/{{ item }}"
+    state: link
+    owner: "{{ compte }}"
+    group: "{{ compte }}"
+  loop:
+    - mw-tasks
+    - mw-projects
+    - mw-task-get
+    - mw-task-create
+    - mw-task-update
+    - mw-task-done
+  when: bin_dir_stat.stat.exists and bin_dir_stat.stat.isdir
