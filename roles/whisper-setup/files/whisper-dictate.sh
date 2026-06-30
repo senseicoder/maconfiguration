@@ -21,7 +21,6 @@ TEXT=$("$WHISPER_BIN" \
   -l fr \
   --prompt "$WHISPER_PROMPT" \
   -nt \
-  -np \
   -f "$TMP" 2>/dev/null \
   | sed 's/^[[:space:]]*//' | sed '/^$/d' | tr '\n' ' ' | sed 's/[[:space:]]*$//')
 
