@@ -1,0 +1,119 @@
+---
+# ============================================================
+# PRÉREQUIS SYSTÈME
+# ============================================================
+
+- name: installer les paquets requis
+  apt:
+    name:
+      - libopenblas-dev
+      - sox
+      - xdotool
+    state: present
+  become: true
+
+# ============================================================
+# CLONER WHISPER.CPP
+# ============================================================
+
+- name: vérifier si /space est disponible
+  stat:
+    path: /space
+  register: whisper_space_mount
+  check_mode: false
+
+- name: assert /space disponible
+  assert:
+    that: whisper_space_mount.stat.exists and whisper_space_mount.stat.isdir
+    fail_msg: "/space n'est pas disponible"
+
+- name: créer /space/Work si absent
+  file:
+    path: /space/Work
+    state: directory
+    mode: '0755'
+
+- name: corriger le propriétaire de {{ whisper_install_dir }} si owned root
+  file:
+    path: "{{ whisper_install_dir }}"
+    owner: "{{ compte }}"
+    group: "{{ compte }}"
+    recurse: true
+  become: true
+  failed_when: false
+
+- name: vérifier si whisper.cpp est déjà cloné
+  stat:
+    path: "{{ whisper_install_dir }}/.git"
+  register: whisper_git
+  check_mode: false
+
+- name: cloner whisper.cpp {{ whisper_version }}
+  git:
+    repo: "{{ whisper_repo_url }}"
+    dest: "{{ whisper_install_dir }}"
+    version: "{{ whisper_version }}"
+    depth: 1
+    force: true
+    recursive: false
+  when: not whisper_git.stat.exists
+
+- name: s'assurer que la version {{ whisper_version }} est bien extraite
+  git:
+    repo: "{{ whisper_repo_url }}"
+    dest: "{{ whisper_install_dir }}"
+    version: "{{ whisper_version }}"
+    depth: 1
+    force: true
+    recursive: false
+  when: whisper_git.stat.exists
+
+# ============================================================
+# COMPILER WHISPER.CPP
+# ============================================================
+
+- name: vérifier si whisper est déjà compilé
+  stat:
+    path: "{{ whisper_install_dir }}/main"
+  register: whisper_bin
+  check_mode: false
+
+- name: compiler whisper.cpp avec OpenBLAS (Makefile)
+  command: make WHISPER_OPENBLAS=1 -j4
+  args:
+    chdir: "{{ whisper_install_dir }}"
+  when: not whisper_bin.stat.exists
+  changed_when: true
+
+# ============================================================
+# TÉLÉCHARGER LE MODÈLE
+# ============================================================
+
+- name: vérifier si le modèle {{ whisper_model }} est présent
+  stat:
+    path: "{{ whisper_model_file }}"
+  register: whisper_model_stat
+  check_mode: false
+
+- name: télécharger le modèle {{ whisper_model }} (~1.5 Go)
+  command: bash ./models/download-ggml-model.sh {{ whisper_model }}
+  args:
+    chdir: "{{ whisper_install_dir }}"
+  when: not whisper_model_stat.stat.exists
+  changed_when: true
+
+# ============================================================
+# DÉPLOYER LE SCRIPT DE DICTÉE
+# ============================================================
+
+- name: créer ~/bin si absent
+  file:
+    path: "{{ basedir }}/bin"
+    state: directory
+    mode: '0755'
+
+- name: déployer whisper-dictate.sh
+  copy:
+    src: whisper-dictate.sh
+    dest: "{{ whisper_script_dest }}"
+    mode: '0755'

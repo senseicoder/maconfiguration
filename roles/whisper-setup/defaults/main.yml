@@ -1,0 +1,8 @@
+---
+whisper_install_dir: /space/Work/whisper.cpp
+whisper_version: v1.5.4
+whisper_model: medium
+whisper_bin: "{{ whisper_install_dir }}/main"
+whisper_model_file: "{{ whisper_install_dir }}/models/ggml-{{ whisper_model }}.bin"
+whisper_repo_url: https://github.com/ggerganov/whisper.cpp
+whisper_script_dest: "{{ basedir }}/bin/whisper-dictate.sh"
