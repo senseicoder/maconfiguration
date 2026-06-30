@@ -9,6 +9,8 @@
       - libopenblas-dev
       - sox
       - xdotool
+      - curl
+      - jq
     state: present
   become: true
 
@@ -117,6 +119,31 @@
     src: whisper-dictate.sh
     dest: "{{ whisper_script_dest }}"
     mode: '0755'
+
+# ============================================================
+# SERVICE SYSTEMD UTILISATEUR — WHISPER SERVER
+# ============================================================
+
+- name: créer ~/.config/systemd/user/ si absent
+  file:
+    path: "{{ basedir }}/.config/systemd/user"
+    state: directory
+    mode: '0755'
+
+- name: déployer whisper-server.service
+  template:
+    src: whisper-server.service.j2
+    dest: "{{ basedir }}/.config/systemd/user/whisper-server.service"
+    mode: '0644'
+  notify: recharger systemd user
+
+- name: activer et démarrer whisper-server
+  systemd:
+    name: whisper-server
+    state: started
+    enabled: true
+    scope: user
+  become: false
 
 # ============================================================
 # RACCOURCI CLAVIER GNOME

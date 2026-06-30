@@ -1,0 +1,16 @@
+[Unit]
+Description=Whisper.cpp STT server (modèle {{ whisper_model }} en mémoire)
+After=default.target
+
+[Service]
+ExecStart={{ whisper_install_dir }}/server \
+  -m {{ whisper_model_file }} \
+  -l fr \
+  --prompt "{{ whisper_server_prompt }}" \
+  --host 127.0.0.1 \
+  --port {{ whisper_server_port }}
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

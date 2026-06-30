@@ -1,0 +1,6 @@
+---
+- name: recharger systemd user
+  systemd:
+    daemon_reload: true
+    scope: user
+  become: false

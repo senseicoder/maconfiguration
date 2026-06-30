@@ -1,13 +1,14 @@
 #!/bin/bash
-# Transcription vocale via whisper.cpp → injection dans le terminal actif.
+# Transcription vocale via whisper.cpp server → injection dans le terminal actif.
 # Usage : whisper-dictate.sh [durée_secondes]  (défaut : 5)
 
 set -e
 
-WHISPER_DIR=/space/Work/whisper.cpp
-WHISPER_BIN="$WHISPER_DIR/main"
-WHISPER_MODEL="$WHISPER_DIR/models/ggml-medium.bin"
-WHISPER_PROMPT="Epiconcept, Ansible, INFRADESK, ADR, Architecture Decision Record, mnementh6, mnementh7, infra-deploy, Claude Code, logrotate, MariaDB, Docker, satcom1, profntd1"
+# Un seul enregistrement à la fois — sortie silencieuse si déjà actif
+exec 9>/tmp/whisper-dictate.lock
+flock -n 9 || exit 0
+
+WHISPER_SERVER="http://127.0.0.1:8765"
 DURATION="${1:-5}"
 TMP="$(mktemp /tmp/whisper-XXXXXX.wav)"
 
@@ -16,13 +17,13 @@ trap cleanup EXIT
 
 rec -q -r 16000 -c 1 "$TMP" trim 0 "$DURATION" 2>/dev/null
 
-TEXT=$("$WHISPER_BIN" \
-  -m "$WHISPER_MODEL" \
-  -l fr \
-  --prompt "$WHISPER_PROMPT" \
-  -nt \
-  -f "$TMP" 2>/dev/null \
-  | sed 's/^[[:space:]]*//' | sed '/^$/d' | tr '\n' ' ' | sed 's/[[:space:]]*$//')
+TEXT=$(curl -sf "$WHISPER_SERVER/inference" \
+  -F "file=@$TMP" \
+  -F "temperature=0" \
+  -F "response_format=json" \
+  -F "language=fr" \
+  | jq -r '.text // empty' \
+  | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')
 
 if [ -n "$TEXT" ]; then
   xdotool type --clearmodifiers --delay 30 -- "$TEXT"
