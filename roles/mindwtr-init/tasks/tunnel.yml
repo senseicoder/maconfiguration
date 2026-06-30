@@ -27,6 +27,15 @@
   become: false
   when: tunnel_service_file.changed and not ansible_check_mode
 
+- name: déployer le script launcher mindwtr dans /usr/local/bin
+  ansible.builtin.template:
+    src: mindwtr-launcher.j2
+    dest: /usr/local/bin/mindwtr
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+
 - name: activer et démarrer le service mindwtr-tunnel
   ansible.builtin.systemd:
     name: mindwtr-tunnel

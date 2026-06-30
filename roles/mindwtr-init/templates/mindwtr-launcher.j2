@@ -1,0 +1,3 @@
+#!/bin/bash
+ss -tlnp | grep -q ':{{ mindwtr_tunnel_port }}' || ssh -fN mnementh7-mindwtr
+ssh -f -X {{ compte }}@{{ mindwtr_m7_host }} 'mindwtr &>/dev/null'

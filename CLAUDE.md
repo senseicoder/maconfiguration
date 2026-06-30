@@ -196,9 +196,9 @@ Avant une modification de role :
 ```bash
 ansible-playbook -i hosts run.yml --syntax-check
 ansible-playbook -i hosts run.yml --list-tags
-ansible-playbook -i hosts run.yml --tags <tag> --check --diff
-ANSIBLE_INVENTORY=localhost, ./run list base.list -c local
-ANSIBLE_INVENTORY=localhost, ./run list workstation.list -c local
+./run role <role> -K -l mnementh6
+./run list base.list -K -l mnementh6
+./run list workstation.list -K -l mnementh6
 ```
 
-Le wrapper `run` applique deja un dry-run par defaut comme dans `infra-deploy`. Les tests locaux avec `become` demandent un mot de passe sudo ou une configuration sudo adaptee; sans cela, les roles systeme echouent avec `sudo: a password is required`.
+Le wrapper `run` applique deja un dry-run par defaut comme dans `infra-deploy`. Toujours passer `-l mnementh6` pour limiter l'execution au poste local — sans cela, tout l'inventaire est cible. `-K` demande le mot de passe sudo pour les roles avec `become`.
