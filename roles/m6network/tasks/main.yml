@@ -1,5 +1,12 @@
 ---
 
+- name: Corriger bug PyYAML 3.12/netplan 0.99 — CSafeLoader absent sur Ubuntu 18.04
+  ansible.builtin.replace:
+    path: /usr/share/netplan/netplan/configmanager.py
+    regexp: 'yaml\.CSafeLoader'
+    replace: 'yaml.SafeLoader'
+  become: true
+
 - name: Déployer la configuration netplan
   ansible.builtin.template:
     src: 01-network-manager-all.yaml.j2
@@ -10,7 +17,7 @@
   become: true
   register: netplan_file
 
-- name: Appliquer les routes via M7 (netplan apply cassé sur Ubuntu 18.04)
-  ansible.builtin.command: "ip route replace {{ item }} via {{ m6network_gateway }}"
+- name: Appliquer netplan (NM reprend eno1 et installe les routes)
+  ansible.builtin.command: netplan apply
   become: true
-  loop: "{{ m6network_routes }}"
+  when: netplan_file is changed

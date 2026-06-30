@@ -1,6 +1,7 @@
 # Let NetworkManager manage all devices on this system
 network:
   version: 2
+  renderer: NetworkManager
   ethernets:
     {{ m6network_interface }}:
       dhcp4: true
