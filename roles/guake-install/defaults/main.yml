@@ -1,0 +1,4 @@
+---
+# Version à partir de laquelle Guake gère les couleurs d'onglets nativement via dconf.
+# En dessous : on déploie gtk.css. Au-dessus : message d'alerte pour revoir la config.
+guake_tabcolor_min_version: "3.7.0"

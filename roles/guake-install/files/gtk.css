@@ -1,0 +1,70 @@
+#guake-terminal {
+  font-size: 20px;
+}
+
+#guake-terminal header box button,
+#guake-terminal header box button:hover,
+#guake-terminal header box button:hover:backdrop {
+    margin-bottom: -100px; /*this is the line that makes buttons disappear.*/
+    background: inherit;
+    border: inherit;
+    padding: inherit;
+}
+
+#guake-terminal header tabs tab {
+    padding: 0 10px 0 10px;
+    margin: 0 0 0 0;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+}
+
+#guake-terminal box box scrolledwindow viewport widget {
+  padding: 0px;
+  margin: 0px;
+  font-size: 20px;
+}
+
+#guake-terminal box box scrolledwindow viewport widget box.horizontal button {
+  padding: 0px;
+  margin: 2px 0px;
+  border: 0px;
+  border-radius: 0px;
+  background-image: none;
+}
+
+#guake-terminal box box scrolledwindow viewport widget box.horizontal button label {
+  padding: 0px 8px;
+  background-color: black;
+  margin: 0px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  color: white;
+}
+
+#guake-terminal box box scrolledwindow viewport widget box.horizontal button:hover label {
+  padding: 0px 8px;
+  background-color: #ffcccb;
+  margin: 0px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  border-top-color: #666;
+  border-right-color: #666;
+  border-bottom-color: #555;
+  border-left-color: #555;
+  color: black;
+}
+
+#guake-terminal box box scrolledwindow viewport widget box.horizontal button:checked label {
+  padding: 0px 8px;
+  background-color: red;
+  margin: 0px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  border-top-color: #555;
+  border-right-color: #555;
+  border-bottom-color: #444;
+  border-left-color: #444;
+  color: white;
+}

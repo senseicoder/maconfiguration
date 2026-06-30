@@ -1,4 +1,4 @@
---- 
+---
 
 - name: installation paquet
   become: true
@@ -10,3 +10,43 @@
     dest: "/etc/xdg/autostart/guake.desktop"
     state: link
   become: true
+
+- name: récupérer la version guake installée
+  command: guake --version
+  register: guake_ver_out
+  changed_when: false
+  failed_when: false
+  check_mode: false
+
+- name: extraire la version guake
+  set_fact:
+    guake_version: "{{ guake_ver_out.stdout | regex_search('[0-9][0-9.]*') }}"
+  when: guake_ver_out.rc == 0
+
+- name: créer ~/.config/gtk-3.0
+  file:
+    path: "{{ basedir }}/.config/gtk-3.0"
+    state: directory
+    mode: "0755"
+  when:
+    - guake_version is defined
+    - guake_version is version(guake_tabcolor_min_version, '<')
+
+- name: déployer gtk.css (couleurs d'onglets via CSS GTK)
+  copy:
+    src: gtk.css
+    dest: "{{ basedir }}/.config/gtk-3.0/gtk.css"
+    mode: "0644"
+  when:
+    - guake_version is defined
+    - guake_version is version(guake_tabcolor_min_version, '<')
+
+- name: "NOTICE — guake >= {{ guake_tabcolor_min_version }} : couleurs d'onglets disponibles nativement"
+  debug:
+    msg: >-
+      Guake {{ guake_version }} supporte les couleurs d'onglets via dconf
+      (/apps/guake/tabs). Revoir la configuration et supprimer
+      {{ basedir }}/.config/gtk-3.0/gtk.css si elle ne sert plus.
+  when:
+    - guake_version is defined
+    - guake_version is version(guake_tabcolor_min_version, '>=')
