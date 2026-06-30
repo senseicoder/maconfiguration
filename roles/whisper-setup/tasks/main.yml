@@ -117,3 +117,59 @@
     src: whisper-dictate.sh
     dest: "{{ whisper_script_dest }}"
     mode: '0755'
+
+# ============================================================
+# RACCOURCI CLAVIER GNOME
+# ============================================================
+
+- name: configurer le raccourci GNOME whisper (nom, commande, binding)
+  shell: |
+    SCHEMA="org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/{{ whisper_gnome_shortcut_id }}/"
+    CHANGED=0
+
+    CUR_NAME=$(gsettings get "$SCHEMA" name 2>/dev/null || echo "")
+    WANT_NAME="'Whisper dictée'"
+    if [ "$CUR_NAME" != "$WANT_NAME" ]; then
+      gsettings set "$SCHEMA" name "Whisper dictée"
+      CHANGED=1
+    fi
+
+    CUR_CMD=$(gsettings get "$SCHEMA" command 2>/dev/null || echo "")
+    WANT_CMD="'{{ whisper_script_dest }} {{ whisper_gnome_duration }}'"
+    if [ "$CUR_CMD" != "$WANT_CMD" ]; then
+      gsettings set "$SCHEMA" command "{{ whisper_script_dest }} {{ whisper_gnome_duration }}"
+      CHANGED=1
+    fi
+
+    CUR_BIND=$(gsettings get "$SCHEMA" binding 2>/dev/null || echo "")
+    WANT_BIND="'{{ whisper_gnome_binding }}'"
+    if [ "$CUR_BIND" != "$WANT_BIND" ]; then
+      gsettings set "$SCHEMA" binding "{{ whisper_gnome_binding }}"
+      CHANGED=1
+    fi
+
+    echo "$CHANGED"
+  register: whisper_shortcut_conf
+  changed_when: "'1' in whisper_shortcut_conf.stdout"
+  become: false
+
+- name: ajouter le raccourci whisper à la liste des raccourcis personnalisés GNOME
+  shell: |
+    SCHEMA="org.gnome.settings-daemon.plugins.media-keys"
+    KEY="custom-keybindings"
+    ENTRY="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/{{ whisper_gnome_shortcut_id }}/"
+    CURRENT=$(gsettings get "$SCHEMA" "$KEY")
+    if echo "$CURRENT" | grep -qF "$ENTRY"; then
+      echo "unchanged"
+    else
+      if [ "$CURRENT" = "@as []" ]; then
+        NEW="['$ENTRY']"
+      else
+        NEW=$(echo "$CURRENT" | sed "s|]$|, '$ENTRY']|")
+      fi
+      gsettings set "$SCHEMA" "$KEY" "$NEW"
+      echo "changed"
+    fi
+  register: whisper_keybinding_list
+  changed_when: "'changed' in whisper_keybinding_list.stdout"
+  become: false

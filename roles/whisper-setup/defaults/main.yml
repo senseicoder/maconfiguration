@@ -6,3 +6,6 @@ whisper_bin: "{{ whisper_install_dir }}/main"
 whisper_model_file: "{{ whisper_install_dir }}/models/ggml-{{ whisper_model }}.bin"
 whisper_repo_url: https://github.com/ggerganov/whisper.cpp
 whisper_script_dest: "{{ basedir }}/bin/whisper-dictate.sh"
+whisper_gnome_shortcut_id: custom2
+whisper_gnome_binding: "<Primary><Alt>v"
+whisper_gnome_duration: 5
